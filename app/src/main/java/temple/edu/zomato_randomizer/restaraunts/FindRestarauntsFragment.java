@@ -1,7 +1,6 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +9,19 @@ import temple.edu.zomato_randomizer.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UserRestarauntsFragment#newInstance} factory method to
+ * Use the {@link FindRestarauntsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserRestarauntsFragment extends Fragment {
+public class FindRestarauntsFragment extends Fragment {
 
-    TextView findTextView;
-
-    public UserRestarauntsFragment() {
+    public FindRestarauntsFragment() {
         // Required empty public constructor
     }
 
-    public static UserRestarauntsFragment newInstance() {
-        UserRestarauntsFragment fragment = new UserRestarauntsFragment();
-        Bundle args = new Bundle();
 
+    public static FindRestarauntsFragment newInstance() {
+        FindRestarauntsFragment fragment = new FindRestarauntsFragment();
+        Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,16 +30,14 @@ public class UserRestarauntsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.fragment_user_restaraunts, container, false);
-        findTextView = v.findViewById(R.id._prevTextView);
-
-        return v;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_find_restaraunts, container, false);
     }
 }
