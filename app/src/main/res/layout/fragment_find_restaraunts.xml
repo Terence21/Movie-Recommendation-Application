@@ -4,13 +4,11 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
                                                    tools:context=".restaraunts.FindRestarauntsFragment">
-    <TextView
-            android:text="find"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/_findTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="202dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="164dp" android:layout_marginEnd="188dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="510dp"/>
+    <ListView
+            android:layout_width="413dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="215dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="216dp"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/_optionsListView"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

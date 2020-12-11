@@ -1,6 +1,9 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import temple.edu.zomato_randomizer.R;
  */
 public class FindRestarauntsFragment extends Fragment {
 
+    ListView optionsListView;
     public FindRestarauntsFragment() {
         // Required empty public constructor
     }
@@ -38,6 +42,26 @@ public class FindRestarauntsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_find_restaraunts, container, false);
+        View view = inflater.inflate(R.layout.fragment_find_restaraunts, container, false);
+
+        optionsListView = view.findViewById(R.id._optionsListView);
+        optionsListView.setAdapter(new PromptAdapter(getContext()));
+        optionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                displayUser(i);
+            }
+        });
+
+        return view;
+    }
+
+    public void displayUser(int position){
+        if (position == 0){
+            Toast.makeText(getContext(), "random chosen", Toast.LENGTH_LONG).show();
+        }
+        else if (position == 1){
+            Toast.makeText(getContext(), "query chosen", Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -35,29 +35,33 @@ public class OptionsActivity extends AppCompatActivity {
         findRestaraunts = findViewById(R.id._tabFindRestaraunts);
 
         fm = getSupportFragmentManager();
-        //  userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentById(R.layout.fragment_find_restaraunts);
+        userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentById(R.layout.fragment_find_restaraunts);
         findRestarauntsFragment = (FindRestarauntsFragment) fm.findFragmentById(R.layout.fragment_find_restaraunts);
 
 
-        userRestarauntsFragment = UserRestarauntsFragment.newInstance();
-
+      /*  userRestarauntsFragment = UserRestarauntsFragment.newInstance(); //standard to have open
         fm.beginTransaction()
                 .add(R.id._frameLayout, userRestarauntsFragment)
-                .commit();
+                .commit();*/
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if (tab.getPosition() == 0){
-                    userRestarauntsFragment = UserRestarauntsFragment.newInstance();
+                if (tab.getPosition() == 0){ // my restaurant tab
+                    if (userRestarauntsFragment == null) {
+                        Log.i("isNull", "onTabSelected: null user frag");
+                        userRestarauntsFragment = UserRestarauntsFragment.newInstance();
+                    }
                     fm.beginTransaction()
                             .replace(R.id._frameLayout, userRestarauntsFragment)
                             .commit();
                 }
-                if (tab.getPosition() == 1){ // findRestaraunts tab
-                    Log.i("Selected:", "onTabSelected: selected");
-                    findRestarauntsFragment = FindRestarauntsFragment.newInstance();
+                if (tab.getPosition() == 1){ // find Restaurant tab
+                    if (findRestarauntsFragment == null) {
+                        Log.i("isNull", "onTabSelected: null find frag");
+                        findRestarauntsFragment = FindRestarauntsFragment.newInstance();
+                    }
                     fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment).commit();
                 }
             }
@@ -72,6 +76,8 @@ public class OptionsActivity extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 
