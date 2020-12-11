@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
             //  auto load options activity
         }
 
+        setContentView(R.layout.activity_login);
+
 
     }
 }
