@@ -1,5 +1,6 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
+import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,7 +26,7 @@ public class RestaurantsFinder {
 // Zomato api key: f8aa3518c1deaaeb0d6f8e54174e1356 (1000 calls per day)
     int choice;
     HashMap<String, String> selectors;
-    private final String BASE_YELP_URL = "https://api.yelp.com/v3/buisnesses/search";
+    private final String BASE_YELP_URL = "https://api.yelp.com/v3/businesses/search";
 
 
     public RestaurantsFinder(int option_choice, Map<String, String> selectors){
@@ -42,20 +43,47 @@ public class RestaurantsFinder {
             JsonObject object = element.getAsJsonObject();
             names.add(object.get("name").getAsString());
             System.out.println(object.get("name"));
-
         }
         return names;
     }
 
+    /**
+     * populate model class "Holder" with appropriate members
+     * @return
+     */
+    public ArrayList<Holder> getRandom(){
+        ArrayList<Holder> restaurants = new ArrayList<>();
+        String response = getQueriedResponse();
+        JsonObject businessObject = new JsonParser().parse(response).getAsJsonObject();
+        JsonArray array_json = businessObject.getAsJsonArray("businesses");
+        for (JsonElement element: array_json){
+            JsonObject object = element.getAsJsonObject();
+            String id = object.get("id").getAsString();
+            String name = object.get("name").getAsString();
+            String phone = object.get("phone").getAsString();
+            String image = object.get("image_url").getAsString();
+            JsonObject location_object = (JsonObject) object.get("location");
+            String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
+            restaurants.add(new Holder(id, name, phone, image, location));
+            // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
+        }
+        return restaurants;
+    }
+
+
+
     private String getQueriedResponse(){
         try {
             String finishedURL = getQueriedURL();
+            Log.i("URL: ", "getQueriedResponse: " + finishedURL);
             URL search_request = new URL(finishedURL);
             HttpURLConnection connection = (HttpURLConnection) search_request.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
 
             int responseCode = connection.getResponseCode();
+            System.out.println("ResponseCode: " + responseCode);
+            Log.i("ResponseCode:", "ResponseCode: " + responseCode);
             StringBuilder response = new StringBuilder();
             if (responseCode == 200){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -65,7 +93,7 @@ public class RestaurantsFinder {
                 }
                 reader.close();
             }
-
+            Log.i("RESPONSE: ", "getQueriedResponse: " + response);
             return response.toString();
 
         }catch (Exception e){

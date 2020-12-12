@@ -12,9 +12,10 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import temple.edu.zomato_randomizer.restaraunts.FindRestarauntsFragment;
+import temple.edu.zomato_randomizer.restaraunts.RandomRestaurantsFragment;
 import temple.edu.zomato_randomizer.restaraunts.UserRestarauntsFragment;
 
-public class OptionsActivity extends AppCompatActivity {
+public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser {
 
     FrameLayout frame;
     TabLayout tabLayout;
@@ -23,6 +24,7 @@ public class OptionsActivity extends AppCompatActivity {
 
     UserRestarauntsFragment userRestarauntsFragment;
     FindRestarauntsFragment findRestarauntsFragment;
+    RandomRestaurantsFragment randomRestaurantsFragment;
     FragmentManager fm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,5 +84,18 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void changeFragment() {
+        if (findRestarauntsFragment.getCurrentOptionPosition() == 0){ // if random selected
+            if (randomRestaurantsFragment == null){
+                randomRestaurantsFragment = RandomRestaurantsFragment.newInstance();
+            } else{
+                randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentById(R.layout.fragment_random_restaurants);
+            }
+            fm.beginTransaction().add(R.id._frameLayout, randomRestaurantsFragment).commit();
+        }
+        else if (findRestarauntsFragment.getCurrentOptionPosition() == 1){
+            // display random chooser
+        }
     }
+}

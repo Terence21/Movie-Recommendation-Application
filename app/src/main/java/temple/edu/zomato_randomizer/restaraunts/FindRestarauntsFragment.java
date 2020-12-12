@@ -1,9 +1,11 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ public class FindRestarauntsFragment extends Fragment {
 
     private ListView optionsListView;
     private int currentOptionPosition;
+    private FindRestaurantsChooser chooserInterface;
 
     public FindRestarauntsFragment() {
         // Required empty public constructor
@@ -52,7 +55,8 @@ public class FindRestarauntsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 currentOptionPosition = i; // if closed, this was last state selected
-                displayUser(i); // Restaurants
+                displayUser(i); // display option selected in toast
+                chooserInterface.changeFragment();
             }
         });
 
@@ -62,13 +66,30 @@ public class FindRestarauntsFragment extends Fragment {
     public void displayUser(int position){
         if (position == 0){ // bring up next fragment (random fragment)
             Toast.makeText(getContext(), "random chosen", Toast.LENGTH_LONG).show();
+            // inform calling activity to show randomRestaurantsFragment
         }
         else if (position == 1){ // bring up next fragment (query fragment)
             Toast.makeText(getContext(), "query chosen", Toast.LENGTH_LONG).show();
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof FindRestaurantsChooser){
+            chooserInterface = (FindRestaurantsChooser) context;
+        }else{
+            throw new RuntimeException("context must have an instance of FindRestaurantsChooser implemented");
+        }
+    }
+
     public int getCurrentOptionPosition(){
         return currentOptionPosition;
+    }
+
+    // which options is selected (feeling bold? let me choose)
+    public interface FindRestaurantsChooser{
+        public void changeFragment(); //display the fragment of the selected choice
     }
 }
