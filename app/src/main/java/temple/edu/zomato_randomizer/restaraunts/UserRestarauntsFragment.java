@@ -17,6 +17,7 @@ public class UserRestarauntsFragment extends Fragment {
 
     TextView findTextView;
 
+
     public UserRestarauntsFragment() {
         // Required empty public constructor
     }

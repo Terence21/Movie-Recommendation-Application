@@ -17,7 +17,9 @@ import temple.edu.zomato_randomizer.R;
  */
 public class FindRestarauntsFragment extends Fragment {
 
-    ListView optionsListView;
+    private ListView optionsListView;
+    private int currentOptionPosition;
+
     public FindRestarauntsFragment() {
         // Required empty public constructor
     }
@@ -49,7 +51,8 @@ public class FindRestarauntsFragment extends Fragment {
         optionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                displayUser(i);
+                currentOptionPosition = i; // if closed, this was last state selected
+                displayUser(i); // Restaurants
             }
         });
 
@@ -57,11 +60,15 @@ public class FindRestarauntsFragment extends Fragment {
     }
 
     public void displayUser(int position){
-        if (position == 0){
+        if (position == 0){ // bring up next fragment (random fragment)
             Toast.makeText(getContext(), "random chosen", Toast.LENGTH_LONG).show();
         }
-        else if (position == 1){
+        else if (position == 1){ // bring up next fragment (query fragment)
             Toast.makeText(getContext(), "query chosen", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public int getCurrentOptionPosition(){
+        return currentOptionPosition;
     }
 }
