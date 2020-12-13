@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import temple.edu.zomato_randomizer.OptionsActivity;
 import temple.edu.zomato_randomizer.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,21 +31,36 @@ public class LoginActivity extends AppCompatActivity {
         register.setTextColor(Color.BLUE);
         submitButton = findViewById(R.id._registerButton);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchOptions();
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchRegister();
+            }
+        });
     }
 
-    public void launchOptions() {
+    public void launchRegister() {
         Intent intent = new Intent(this, RegisterActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("Bundle", bundle);
         startActivity(intent);
-        // how to kill login activity
 
+        // how to kill login activity
+    }
+
+    public void launchOptions(){
+        Intent intent = new Intent(this, OptionsActivity.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("Bundle", bundle);
+        startActivity(intent); // find way to kill login activity after register
+        finishAffinity(); // kills both login and register... if registered
     }
 
 

@@ -15,6 +15,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     Button registerButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         intent.putExtra("Bundle", bundle);
         startActivity(intent); // find way to kill login activity after register
-        finish();
+        finishAffinity(); // kills both login and register... if registered
     }
 }
