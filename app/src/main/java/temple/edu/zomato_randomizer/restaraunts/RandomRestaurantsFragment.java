@@ -53,6 +53,7 @@ public class RandomRestaurantsFragment extends Fragment {
         selectors.put("longitude", "-75.087883");
         selectors.put("term", "restaurants+italian");
         selectors.put("radius", "16093");
+        selectors.put("limit","5");
         Thread thread = new Thread() {
             @Override
             public void run() {

@@ -17,7 +17,7 @@ public class RestaurantView extends ConstraintLayout {
 
     private final TextView textView;
     private final ImageView imageView;
-    private final ImageButton imageButton;
+
     Context context;
 
     public RestaurantView(Context context) {
@@ -28,7 +28,6 @@ public class RestaurantView extends ConstraintLayout {
 
         textView = findViewById(R.id._descriptiontextView);
         imageView = findViewById(R.id._imageView);
-        imageButton = findViewById(R.id._addImageButton);
 
 
     }
@@ -39,9 +38,5 @@ public class RestaurantView extends ConstraintLayout {
 
     public void setImageView(String image_uri){
         Picasso.with(context).load(image_uri).into(imageView);
-    }
-
-    public void setImageButton(String image_uri){
-        Picasso.with(context).load(image_uri).into(imageButton);
     }
 }

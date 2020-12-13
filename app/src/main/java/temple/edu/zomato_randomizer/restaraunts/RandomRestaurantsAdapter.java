@@ -48,13 +48,13 @@ public class RandomRestaurantsAdapter extends BaseAdapter {
             restaurantView = new RestaurantView(context);
 
         }
-        String text = "RestaurantName: " + restaurants.get(i).getName() + "\n" +
-                      "PhoneNumber: " + restaurants.get(i).getPhone() + "\n" +
-                      "Location: " + restaurants.get(i).getLocation();
+        String text = restaurants.get(i).getName() + "\n\n" +
+                      restaurants.get(i).getPhone() + "\n" +
+                       restaurants.get(i).getLocation();
         //textView.setText(text);
         restaurantView.setTextView(text);
         restaurantView.setImageView(restaurants.get(i).getImage());
-        restaurantView.setImageButton("https://lh3.googleusercontent.com/proxy/Pa10wXGse8T9gL4SnGuDj00vlRSJD_5P835sV4DGn-OBByF4_HEiULRZab0k_S3H15rRXUCn5ONO-LeK");
+
         return restaurantView;
     }
 

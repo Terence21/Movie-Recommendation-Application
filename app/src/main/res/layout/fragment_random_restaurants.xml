@@ -9,5 +9,5 @@
             android:layout_height="623dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="100dp" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/_restaurantsListView"/>
+            android:id="@+id/_restaurantsListView" android:layout_marginBottom="30dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
