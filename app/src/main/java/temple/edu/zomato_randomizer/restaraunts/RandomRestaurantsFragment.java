@@ -51,12 +51,22 @@ public class RandomRestaurantsFragment extends Fragment {
         selectors.put("longitude", "-75.087883");
         selectors.put("term", "restaurants+italian");
         selectors.put("radius", "16093");
-
-        RestaurantsFinder restaurantsFinder = new RestaurantsFinder(0, selectors);
-        restaurantsList = restaurantsFinder.getRandom();
-
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                RestaurantsFinder restaurantsFinder = new RestaurantsFinder(0, selectors);
+                restaurantsList = restaurantsFinder.getRandom();
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         listView_restaurants = (ListView) view.findViewById(R.id._restaurantsListView);
         listView_restaurants.setAdapter(new RandomRestaurantsAdapter(getContext(), restaurantsList));
+
 
         return view;
     }

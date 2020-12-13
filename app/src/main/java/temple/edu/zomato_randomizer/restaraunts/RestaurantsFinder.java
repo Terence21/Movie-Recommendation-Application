@@ -1,5 +1,6 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,7 +23,7 @@ import java.util.Map;
  * 3. get response as string from yelp
  * 4. return arraylist representation of select response values... change to Holder class
  */
-public class RestaurantsFinder {
+public class RestaurantsFinder{
 // Zomato api key: f8aa3518c1deaaeb0d6f8e54174e1356 (1000 calls per day)
     int choice;
     HashMap<String, String> selectors;
@@ -37,6 +38,7 @@ public class RestaurantsFinder {
     public ArrayList<String> getNames(){
         ArrayList<String> names = new ArrayList<>();
         String response = getQueriedResponse();
+
         JsonObject businesses_json= new JsonParser().parse(response).getAsJsonObject();
         JsonArray array_json = businesses_json.getAsJsonArray("businesses");
         for (JsonElement element : array_json){
@@ -54,18 +56,21 @@ public class RestaurantsFinder {
     public ArrayList<Holder> getRandom(){
         ArrayList<Holder> restaurants = new ArrayList<>();
         String response = getQueriedResponse();
-        JsonObject businessObject = new JsonParser().parse(response).getAsJsonObject();
-        JsonArray array_json = businessObject.getAsJsonArray("businesses");
-        for (JsonElement element: array_json){
-            JsonObject object = element.getAsJsonObject();
-            String id = object.get("id").getAsString();
-            String name = object.get("name").getAsString();
-            String phone = object.get("phone").getAsString();
-            String image = object.get("image_url").getAsString();
-            JsonObject location_object = (JsonObject) object.get("location");
-            String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-            restaurants.add(new Holder(id, name, phone, image, location));
-            // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
+        Log.i("RESPONSE: ", "getQueriedResponse: " + response);
+        if (response != null) {
+            JsonObject businessObject = new JsonParser().parse(response).getAsJsonObject();
+            JsonArray array_json = businessObject.getAsJsonArray("businesses");
+            for (JsonElement element : array_json) {
+                JsonObject object = element.getAsJsonObject();
+                String id = object.get("id").getAsString();
+                String name = object.get("name").getAsString();
+                String phone = object.get("phone").getAsString();
+                String image = object.get("image_url").getAsString();
+                JsonObject location_object = (JsonObject) object.get("location");
+                String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
+                restaurants.add(new Holder(id, name, phone, image, location));
+                // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
+            }
         }
         return restaurants;
     }
@@ -85,15 +90,17 @@ public class RestaurantsFinder {
             System.out.println("ResponseCode: " + responseCode);
             Log.i("ResponseCode:", "ResponseCode: " + responseCode);
             StringBuilder response = new StringBuilder();
+            Log.i("CODE: ", "getQueriedResponse: " + responseCode);
             if (responseCode == 200){
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null){
                     response.append(line);
-                }
+               }
                 reader.close();
+
             }
-            Log.i("RESPONSE: ", "getQueriedResponse: " + response);
+            Log.i("READER: ", "getQueriedResponse: " + response);
             return response.toString();
 
         }catch (Exception e){

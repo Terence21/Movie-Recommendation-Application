@@ -92,7 +92,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             } else{
                 randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentById(R.layout.fragment_random_restaurants);
             }
-            fm.beginTransaction().add(R.id._frameLayout, randomRestaurantsFragment).commit();
+            fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment).commit();
         }
         else if (findRestarauntsFragment.getCurrentOptionPosition() == 1){
             // display random chooser
