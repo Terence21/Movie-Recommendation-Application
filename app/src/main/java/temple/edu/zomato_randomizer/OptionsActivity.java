@@ -86,11 +86,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     @Override
     public void changeFragment() {
+
         if (findRestarauntsFragment.getCurrentOptionPosition() == 0){ // if random selected
-            if (randomRestaurantsFragment == null){
+            randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentById(R.layout.fragment_random_restaurants);
+            if (randomRestaurantsFragment == null) {
                 randomRestaurantsFragment = RandomRestaurantsFragment.newInstance();
-            } else{
-                randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentById(R.layout.fragment_random_restaurants);
             }
             fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment).commit();
         }

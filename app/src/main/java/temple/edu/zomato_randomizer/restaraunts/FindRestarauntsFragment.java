@@ -56,7 +56,7 @@ public class FindRestarauntsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 currentOptionPosition = i; // if closed, this was last state selected
                 displayUser(i); // display option selected in toast
-                chooserInterface.changeFragment();
+
             }
         });
 
@@ -65,6 +65,7 @@ public class FindRestarauntsFragment extends Fragment {
 
     public void displayUser(int position){
         if (position == 0){ // bring up next fragment (random fragment)
+            chooserInterface.changeFragment();
             Toast.makeText(getContext(), "random chosen", Toast.LENGTH_LONG).show();
             // inform calling activity to show randomRestaurantsFragment
         }

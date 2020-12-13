@@ -1,6 +1,7 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
 import android.content.Context;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import temple.edu.zomato_randomizer.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -60,11 +62,11 @@ public class RandomRestaurantsFragment extends Fragment {
         };
         thread.start();
         try {
-            thread.join();
+            thread.join(); // allow for list to be updated on main thread
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        listView_restaurants = (ListView) view.findViewById(R.id._restaurantsListView);
+        listView_restaurants = (ListView) view.findViewById(R.id._restaurantsListView); //cant have view operations outside of main thread
         listView_restaurants.setAdapter(new RandomRestaurantsAdapter(getContext(), restaurantsList));
 
 
