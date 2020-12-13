@@ -1,12 +1,15 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.zomato_randomizer.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,17 +18,18 @@ import temple.edu.zomato_randomizer.R;
  */
 public class UserRestarauntsFragment extends Fragment {
 
-    TextView findTextView;
+    ListView userRestaurantList;
+    ArrayList<Holder> savedRestaurants;
 
 
     public UserRestarauntsFragment() {
         // Required empty public constructor
     }
 
-    public static UserRestarauntsFragment newInstance() {
+    public static UserRestarauntsFragment newInstance(ArrayList<Holder> savedRestaurants) {
         UserRestarauntsFragment fragment = new UserRestarauntsFragment();
         Bundle args = new Bundle();
-
+        args.putParcelableArrayList("restaurants", savedRestaurants);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,6 +38,7 @@ public class UserRestarauntsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            savedRestaurants = getArguments().getParcelableArrayList("restaurants");
         }
     }
 
@@ -42,7 +47,10 @@ public class UserRestarauntsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_user_restaraunts, container, false);
-        findTextView = v.findViewById(R.id._prevTextView);
+        userRestaurantList = (ListView) v.findViewById(R.id._myRestaurantsListView);
+        userRestaurantList.setAdapter(new RandomRestaurantsAdapter(getContext(), savedRestaurants));
+
+
 
         return v;
     }

@@ -3,6 +3,7 @@ package temple.edu.zomato_randomizer;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -12,10 +13,13 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import temple.edu.zomato_randomizer.restaraunts.FindRestarauntsFragment;
+import temple.edu.zomato_randomizer.restaraunts.Holder;
 import temple.edu.zomato_randomizer.restaraunts.RandomRestaurantsFragment;
 import temple.edu.zomato_randomizer.restaraunts.UserRestarauntsFragment;
 
-public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser {
+import java.util.ArrayList;
+
+public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener {
 
     FrameLayout frame;
     TabLayout tabLayout;
@@ -26,10 +30,26 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     FindRestarauntsFragment findRestarauntsFragment;
     RandomRestaurantsFragment randomRestaurantsFragment;
     FragmentManager fm;
+
+    ArrayList<Holder> savedRestaurants;
+
+    /**
+     * TODO:
+     *      1. create logic for saving restaurants using the same bookmark logic
+     *      2. create logic for saving place in tabs
+     *      3. create logic for grabbing the correct coordinates
+     *      4. test application features extensively and clean up code
+     * @param savedInstanceState
+     */
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
+        savedRestaurants = new ArrayList<>();
 
         tabLayout = findViewById(R.id._tabLayout);
         frame = findViewById(R.id._frameLayout);
@@ -53,7 +73,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 if (tab.getPosition() == 0){ // my restaurant tab
                     if (userRestarauntsFragment == null) {
                         Log.i("isNull", "onTabSelected: null user frag");
-                        userRestarauntsFragment = UserRestarauntsFragment.newInstance();
+                        userRestarauntsFragment = UserRestarauntsFragment.newInstance(savedRestaurants);
                     }
                     fm.beginTransaction()
                             .replace(R.id._frameLayout, userRestarauntsFragment)
@@ -78,11 +98,19 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
             }
         });
-
-
-
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("savedRestaurants", savedRestaurants);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        savedInstanceState = savedInstanceState.getParcelable("savedRestaurants");
+    }
 
     @Override
     public void changeFragment() {
@@ -90,12 +118,17 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         if (findRestarauntsFragment.getCurrentOptionPosition() == 0){ // if random selected
             randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentById(R.layout.fragment_random_restaurants);
             if (randomRestaurantsFragment == null) {
-                randomRestaurantsFragment = RandomRestaurantsFragment.newInstance();
+                randomRestaurantsFragment = RandomRestaurantsFragment.newInstance(savedRestaurants);
             }
             fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment).commit();
         }
         else if (findRestarauntsFragment.getCurrentOptionPosition() == 1){
             // display random chooser
         }
+    }
+
+    @Override
+    public void updateSaveList() {
+        savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
     }
 }

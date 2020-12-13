@@ -1,11 +1,12 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
 import android.content.Context;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import temple.edu.zomato_randomizer.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -22,14 +22,17 @@ public class RandomRestaurantsFragment extends Fragment {
 
     ListView listView_restaurants;
     ArrayList<Holder> restaurantsList;
+    ArrayList<Holder> savedRestaurants;
+    SavedRestaurantListener listener;
 
     public RandomRestaurantsFragment() {
         // Required empty public constructor
     }
 
-    public static RandomRestaurantsFragment newInstance() {
+    public static RandomRestaurantsFragment newInstance(ArrayList<Holder> savedRestaurants) {
         RandomRestaurantsFragment fragment = new RandomRestaurantsFragment();
         Bundle args = new Bundle();
+        args.putParcelableArrayList("savedRestaurants", savedRestaurants);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +41,7 @@ public class RandomRestaurantsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            savedRestaurants = getArguments().getParcelableArrayList("savedRestaurants");
         }
     }
 
@@ -67,8 +70,15 @@ public class RandomRestaurantsFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        listView_restaurants = (ListView) view.findViewById(R.id._restaurantsListView); //cant have view operations outside of main thread
+        listView_restaurants = (ListView) view.findViewById(R.id._randomRestaurantsListView); //cant have view operations outside of main thread
         listView_restaurants.setAdapter(new RandomRestaurantsAdapter(getContext(), restaurantsList));
+        listView_restaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                savedRestaurants.add((Holder)listView_restaurants.getAdapter().getItem(i));
+                listener.updateSaveList();
+            }
+        });
 
 
         return view;
@@ -86,5 +96,25 @@ public class RandomRestaurantsFragment extends Fragment {
         response[0] = String.valueOf(location.getLatitude());
         response[1] =String.valueOf(location.getLongitude());
         return response;
+    }
+
+    public ArrayList<Holder> getSavedRestaurants(){
+        return savedRestaurants;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof SavedRestaurantListener){
+            listener = (SavedRestaurantListener) context;
+        }
+        else{
+            throw new RuntimeException("context not instance of SavedRestaurantListener.... calling activity must implement properly");
+        }
+    }
+
+    public interface SavedRestaurantListener{
+        public void updateSaveList();
     }
 }

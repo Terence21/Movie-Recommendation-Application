@@ -1,8 +1,11 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Holder {
+public class Holder implements Parcelable {
     private String id; // not accessible to user
     private String name; // name
     private String phone; // phone
@@ -16,6 +19,26 @@ public class Holder {
         this.image = image;
         this.location = location;
     }
+
+    protected Holder(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        phone = in.readString();
+        image = in.readString();
+        location = in.readString();
+    }
+
+    public static final Creator<Holder> CREATOR = new Creator<Holder>() {
+        @Override
+        public Holder createFromParcel(Parcel in) {
+            return new Holder(in);
+        }
+
+        @Override
+        public Holder[] newArray(int size) {
+            return new Holder[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -55,5 +78,19 @@ public class Holder {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(phone);
+        parcel.writeString(image);
+        parcel.writeString(location);
     }
 }
