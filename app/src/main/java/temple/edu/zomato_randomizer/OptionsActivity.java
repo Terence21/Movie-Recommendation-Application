@@ -92,7 +92,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                             Log.i("isNull", "onTabSelected: null find frag");
                             findRestarauntsFragment = FindRestarauntsFragment.newInstance();
                         }
-                            fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment,"frf").addToBackStack(null).commit();
+                            fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment,"frf").commit();
 
 
                     } else{
@@ -132,7 +132,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             case R.id._randomBackButton:
                 if (level == 1) {
                     level = 0;
-                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
+                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").commit();
                     invalidateOptionsMenu();
                 }
         }
@@ -166,7 +166,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 Log.i("RandomNull:", "changeFragment: random is null");
                 randomRestaurantsFragment = RandomRestaurantsFragment.newInstance(savedRestaurants);
             }
-            fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment,"rrf").addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment,"rrf").commit();
         }
         else if (findRestarauntsFragment.getCurrentOptionPosition() == 1){
             // display random chooser
