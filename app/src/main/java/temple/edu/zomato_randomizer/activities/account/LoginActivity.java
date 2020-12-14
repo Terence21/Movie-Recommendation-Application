@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.account;
+package temple.edu.zomato_randomizer.activities.account;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import temple.edu.zomato_randomizer.OptionsActivity;
+import temple.edu.zomato_randomizer.activities.OptionsActivity;
 import temple.edu.zomato_randomizer.R;
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,7 +1,8 @@
-package temple.edu.zomato_randomizer;
+package temple.edu.zomato_randomizer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import temple.edu.zomato_randomizer.R;
 
 public class MainActivity extends AppCompatActivity {
 

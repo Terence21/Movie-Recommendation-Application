@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.zomato_randomizer.fragments;
 
 import android.content.Context;
 import android.location.Location;
@@ -6,13 +6,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toolbar;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.zomato_randomizer.R;
+import temple.edu.zomato_randomizer.models.RestaurantHolder;
+import temple.edu.zomato_randomizer.restaraunts.RandomRestaurantsAdapter;
+import temple.edu.zomato_randomizer.restaraunts.RestaurantsFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +23,8 @@ import java.util.Map;
 public class RandomRestaurantsFragment extends Fragment {
 
     ListView listView_restaurants;
-    ArrayList<Holder> restaurantsList;
-    ArrayList<Holder> savedRestaurants;
+    ArrayList<RestaurantHolder> restaurantsList;
+    ArrayList<RestaurantHolder> savedRestaurants;
     SavedRestaurantListener listener;
 
 
@@ -31,7 +32,7 @@ public class RandomRestaurantsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RandomRestaurantsFragment newInstance(ArrayList<Holder> savedRestaurants) {
+    public static RandomRestaurantsFragment newInstance(ArrayList<RestaurantHolder> savedRestaurants) {
         RandomRestaurantsFragment fragment = new RandomRestaurantsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("savedRestaurants", savedRestaurants);
@@ -61,7 +62,7 @@ public class RandomRestaurantsFragment extends Fragment {
         listView_restaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                savedRestaurants.add((Holder)listView_restaurants.getAdapter().getItem(i));
+                savedRestaurants.add((RestaurantHolder)listView_restaurants.getAdapter().getItem(i));
                 listener.updateSaveList();
             }
         });
@@ -110,7 +111,7 @@ public class RandomRestaurantsFragment extends Fragment {
         return response;
     }
 
-    public ArrayList<Holder> getSavedRestaurants(){
+    public ArrayList<RestaurantHolder> getSavedRestaurants(){
         return savedRestaurants;
     }
 

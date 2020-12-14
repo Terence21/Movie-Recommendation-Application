@@ -1,18 +1,16 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.zomato_randomizer.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-
-public class Holder implements Parcelable {
+public class RestaurantHolder implements Parcelable {
     private String id; // not accessible to user
     private String name; // name
     private String phone; // phone
     private String image; // image_url
     private String location; // location has a JSON array
 
-    public Holder(String id, String name, String phone, String image, String location) {
+    public RestaurantHolder(String id, String name, String phone, String image, String location) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -20,7 +18,7 @@ public class Holder implements Parcelable {
         this.location = location;
     }
 
-    protected Holder(Parcel in) {
+    protected RestaurantHolder(Parcel in) {
         id = in.readString();
         name = in.readString();
         phone = in.readString();
@@ -28,15 +26,15 @@ public class Holder implements Parcelable {
         location = in.readString();
     }
 
-    public static final Creator<Holder> CREATOR = new Creator<Holder>() {
+    public static final Creator<RestaurantHolder> CREATOR = new Creator<RestaurantHolder>() {
         @Override
-        public Holder createFromParcel(Parcel in) {
-            return new Holder(in);
+        public RestaurantHolder createFromParcel(Parcel in) {
+            return new RestaurantHolder(in);
         }
 
         @Override
-        public Holder[] newArray(int size) {
-            return new Holder[size];
+        public RestaurantHolder[] newArray(int size) {
+            return new RestaurantHolder[size];
         }
     };
 

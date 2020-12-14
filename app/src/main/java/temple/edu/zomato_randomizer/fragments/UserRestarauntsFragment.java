@@ -1,13 +1,14 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.zomato_randomizer.fragments;
 
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.zomato_randomizer.R;
+import temple.edu.zomato_randomizer.models.RestaurantHolder;
+import temple.edu.zomato_randomizer.restaraunts.RandomRestaurantsAdapter;
 
 import java.util.ArrayList;
 
@@ -19,14 +20,14 @@ import java.util.ArrayList;
 public class UserRestarauntsFragment extends Fragment {
 
     ListView userRestaurantList;
-    ArrayList<Holder> savedRestaurants;
+    ArrayList<RestaurantHolder> savedRestaurants;
 
 
     public UserRestarauntsFragment() {
         // Required empty public constructor
     }
 
-    public static UserRestarauntsFragment newInstance(ArrayList<Holder> savedRestaurants) {
+    public static UserRestarauntsFragment newInstance(ArrayList<RestaurantHolder> savedRestaurants) {
         UserRestarauntsFragment fragment = new UserRestarauntsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("restaurants", savedRestaurants);

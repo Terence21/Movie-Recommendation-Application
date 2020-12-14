@@ -1,19 +1,17 @@
 package temple.edu.zomato_randomizer.restaraunts;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import temple.edu.zomato_randomizer.models.RestaurantHolder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,8 +51,8 @@ public class RestaurantsFinder{
      * populate model class "Holder" with appropriate members
      * @return
      */
-    public ArrayList<Holder> getRandom(){
-        ArrayList<Holder> restaurants = new ArrayList<>();
+    public ArrayList<RestaurantHolder> getRandom(){
+        ArrayList<RestaurantHolder> restaurants = new ArrayList<>();
         String response = getQueriedResponse();
         Log.i("RESPONSE: ", "getQueriedResponse: " + response);
         if (response != null) {
@@ -68,7 +66,7 @@ public class RestaurantsFinder{
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new Holder(id, name, phone, image, location));
+                restaurants.add(new RestaurantHolder(id, name, phone, image, location));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }

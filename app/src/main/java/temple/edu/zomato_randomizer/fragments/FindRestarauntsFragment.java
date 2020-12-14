@@ -1,16 +1,16 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.zomato_randomizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.zomato_randomizer.R;
+import temple.edu.zomato_randomizer.restaraunts.PromptAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

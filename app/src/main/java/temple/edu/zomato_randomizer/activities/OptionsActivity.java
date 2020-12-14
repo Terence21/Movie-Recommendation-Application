@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer;
+package temple.edu.zomato_randomizer.activities;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,7 +13,11 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import temple.edu.zomato_randomizer.restaraunts.*;
+import temple.edu.zomato_randomizer.R;
+import temple.edu.zomato_randomizer.fragments.FindRestarauntsFragment;
+import temple.edu.zomato_randomizer.fragments.RandomRestaurantsFragment;
+import temple.edu.zomato_randomizer.fragments.UserRestarauntsFragment;
+import temple.edu.zomato_randomizer.models.RestaurantHolder;
 
 import java.util.ArrayList;
 
@@ -31,7 +35,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     FragmentManager fm;
 
-    ArrayList<Holder> savedRestaurants;
+    ArrayList<RestaurantHolder> savedRestaurants;
 
     LocationManager locationManager;
     LocationListener locationListener;

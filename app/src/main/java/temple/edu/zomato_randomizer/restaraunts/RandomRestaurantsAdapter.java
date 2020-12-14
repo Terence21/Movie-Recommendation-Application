@@ -4,19 +4,18 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 import temple.edu.zomato_randomizer.View.RestaurantView;
+import temple.edu.zomato_randomizer.models.RestaurantHolder;
 
 
 import java.util.ArrayList;
 
 public class RandomRestaurantsAdapter extends BaseAdapter {
-    private ArrayList<Holder> restaurants;
+    private ArrayList<RestaurantHolder> restaurants;
     Context context;
 
-    public RandomRestaurantsAdapter(Context context, ArrayList<Holder> restaurants){
+    public RandomRestaurantsAdapter(Context context, ArrayList<RestaurantHolder> restaurants){
         this.restaurants = restaurants;
         this.context = context;
     }
