@@ -6,6 +6,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -72,8 +73,10 @@ public class RandomRestaurantsFragment extends Fragment {
     public void requestRandomYelpNetworkOperation(){
 
         Map<String, String> selectors = new HashMap<>();
-        selectors.put("latitude", "40.050900");
-        selectors.put("longitude", "-75.087883");
+       selectors.put("latitude", "40.050900");
+       selectors.put("longitude", "-75.087883");
+        //selectors.put("latitude",listener.getLatitude());
+       // selectors.put("longitude", listener.getLongitude());
         selectors.put("term", "restaurants+italian");
         selectors.put("radius", "16093");
         selectors.put("limit","5");
@@ -125,5 +128,7 @@ public class RandomRestaurantsFragment extends Fragment {
 
     public interface SavedRestaurantListener{
         public void updateSaveList();
+        public String getLatitude();
+        public String getLongitude();
     }
 }

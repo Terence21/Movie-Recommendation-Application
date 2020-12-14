@@ -1,22 +1,21 @@
 package temple.edu.zomato_randomizer;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import temple.edu.zomato_randomizer.restaraunts.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener {
 
@@ -25,12 +24,19 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     TabItem myRestaraunts;
     TabItem findRestaraunts;
 
+
     UserRestarauntsFragment userRestarauntsFragment;
     FindRestarauntsFragment findRestarauntsFragment;
     RandomRestaurantsFragment randomRestaurantsFragment;
+
     FragmentManager fm;
 
     ArrayList<Holder> savedRestaurants;
+
+    LocationManager locationManager;
+    LocationListener locationListener;
+    private double latitude;
+    private double longitude;
     int level;
 
     /**
@@ -62,6 +68,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         findRestarauntsFragment = (FindRestarauntsFragment) fm.findFragmentByTag("frf");
 
         level = 0;
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -118,20 +125,48 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         savedInstanceState = savedInstanceState.getParcelable("savedRestaurants");
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id._randomBackButton:
+                if (level == 1) {
+                    level = 0;
+                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
+                    invalidateOptionsMenu();
+                }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * when invalidateOptionsMenu() is called, prepareOptionsMenu is run... use this method to update the menu
+     * DO NOT have opnCreateOptionsMenu and onPrepareOptionsMenu as they will overlap and show duplicates
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (level > 0){
+            getMenuInflater().inflate(R.menu.multi_tabs_toolbar, menu);
+        }
+        else{
+            getMenuInflater().inflate(R.menu.regular_menu, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public void changeFragment() {
-
         if (findRestarauntsFragment.getCurrentOptionPosition() == 0){ // if random selected
             level = 1;
+            invalidateOptionsMenu();
             randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentByTag("rrf");
             if (randomRestaurantsFragment == null) {
                 Log.i("RandomNull:", "changeFragment: random is null");
                 randomRestaurantsFragment = RandomRestaurantsFragment.newInstance(savedRestaurants);
             }
             fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment,"rrf").addToBackStack(null).commit();
-
-
-
         }
         else if (findRestarauntsFragment.getCurrentOptionPosition() == 1){
             // display random chooser
@@ -141,6 +176,45 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public void updateSaveList() {
         savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
+    }
+
+    @Override
+    public String getLatitude(){
+        return String.valueOf(latitude);
+    }
+
+    @Override
+    public String getLongitude(){
+        return String.valueOf(longitude);
+    }
+
+    class UserLocationListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location location) {
+            if (location != null){
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(@NonNull String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(@NonNull String provider) {
+
+        }
+
+
+
     }
 
 }
