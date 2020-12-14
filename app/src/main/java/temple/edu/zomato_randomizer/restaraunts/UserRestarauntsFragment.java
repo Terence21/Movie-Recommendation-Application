@@ -50,8 +50,6 @@ public class UserRestarauntsFragment extends Fragment {
         userRestaurantList = (ListView) v.findViewById(R.id._myRestaurantsListView);
         userRestaurantList.setAdapter(new RandomRestaurantsAdapter(getContext(), savedRestaurants));
 
-
-
         return v;
     }
 }

@@ -25,6 +25,7 @@ public class RandomRestaurantsFragment extends Fragment {
     ArrayList<Holder> savedRestaurants;
     SavedRestaurantListener listener;
 
+
     public RandomRestaurantsFragment() {
         // Required empty public constructor
     }
@@ -42,7 +43,9 @@ public class RandomRestaurantsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             savedRestaurants = getArguments().getParcelableArrayList("savedRestaurants");
+            requestRandomYelpNetworkOperation();
         }
+
     }
 
     @Override
@@ -51,12 +54,30 @@ public class RandomRestaurantsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_random_restaurants, container, false);
         //String[] coordinate = getCoordinates();
+
+        listView_restaurants = (ListView) view.findViewById(R.id._randomRestaurantsListView); //cant have view operations outside of main thread
+        listView_restaurants.setAdapter(new RandomRestaurantsAdapter(getContext(), restaurantsList));
+        listView_restaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                savedRestaurants.add((Holder)listView_restaurants.getAdapter().getItem(i));
+                listener.updateSaveList();
+            }
+        });
+
+
+        return view;
+    }
+
+    public void requestRandomYelpNetworkOperation(){
+
         Map<String, String> selectors = new HashMap<>();
         selectors.put("latitude", "40.050900");
         selectors.put("longitude", "-75.087883");
         selectors.put("term", "restaurants+italian");
         selectors.put("radius", "16093");
         selectors.put("limit","5");
+
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -70,18 +91,6 @@ public class RandomRestaurantsFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        listView_restaurants = (ListView) view.findViewById(R.id._randomRestaurantsListView); //cant have view operations outside of main thread
-        listView_restaurants.setAdapter(new RandomRestaurantsAdapter(getContext(), restaurantsList));
-        listView_restaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                savedRestaurants.add((Holder)listView_restaurants.getAdapter().getItem(i));
-                listener.updateSaveList();
-            }
-        });
-
-
-        return view;
     }
 
     /**

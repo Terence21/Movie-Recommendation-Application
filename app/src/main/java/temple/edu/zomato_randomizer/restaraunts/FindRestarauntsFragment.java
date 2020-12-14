@@ -56,7 +56,6 @@ public class FindRestarauntsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 currentOptionPosition = i; // if closed, this was last state selected
                 displayUser(i); // display option selected in toast
-
             }
         });
 
