@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer;
+package temple.edu.yelp_randomizer;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

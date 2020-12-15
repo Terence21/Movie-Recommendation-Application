@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.yelp_randomizer.restaraunts;
 
 import android.content.Context;
 import android.graphics.Color;

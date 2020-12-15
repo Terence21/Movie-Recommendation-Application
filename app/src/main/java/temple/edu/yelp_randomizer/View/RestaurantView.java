@@ -1,17 +1,12 @@
-package temple.edu.zomato_randomizer.View;
+package temple.edu.yelp_randomizer.View;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.squareup.picasso.Picasso;
-import org.w3c.dom.Text;
-import temple.edu.zomato_randomizer.R;
+import temple.edu.yelp_randomizer.R;
 
 public class RestaurantView extends ConstraintLayout {
 

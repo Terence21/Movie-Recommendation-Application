@@ -1,11 +1,11 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.yelp_randomizer.restaraunts;
 
 import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import temple.edu.zomato_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantHolder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

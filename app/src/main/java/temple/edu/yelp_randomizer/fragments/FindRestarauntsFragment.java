@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.fragments;
+package temple.edu.yelp_randomizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import temple.edu.zomato_randomizer.R;
-import temple.edu.zomato_randomizer.restaraunts.PromptAdapter;
+import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.restaraunts.PromptAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +69,7 @@ public class FindRestarauntsFragment extends Fragment {
             // inform calling activity to show randomRestaurantsFragment
         }
         else if (position == 1){ // bring up next fragment (query fragment)
+            chooserInterface.changeFragment();
             Toast.makeText(getContext(), "query chosen", Toast.LENGTH_LONG).show();
         }
     }

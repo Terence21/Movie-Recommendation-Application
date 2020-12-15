@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.models;
+package temple.edu.yelp_randomizer.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

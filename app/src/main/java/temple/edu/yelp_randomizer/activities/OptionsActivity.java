@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.activities;
+package temple.edu.yelp_randomizer.activities;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,11 +13,12 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import temple.edu.zomato_randomizer.R;
-import temple.edu.zomato_randomizer.fragments.FindRestarauntsFragment;
-import temple.edu.zomato_randomizer.fragments.RandomRestaurantsFragment;
-import temple.edu.zomato_randomizer.fragments.UserRestarauntsFragment;
-import temple.edu.zomato_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.fragments.ChooseRestaurantsFormFragment;
+import temple.edu.yelp_randomizer.fragments.FindRestarauntsFragment;
+import temple.edu.yelp_randomizer.fragments.RandomRestaurantsFragment;
+import temple.edu.yelp_randomizer.fragments.UserRestarauntsFragment;
+import temple.edu.yelp_randomizer.models.RestaurantHolder;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     UserRestarauntsFragment userRestarauntsFragment;
     FindRestarauntsFragment findRestarauntsFragment;
     RandomRestaurantsFragment randomRestaurantsFragment;
+    ChooseRestaurantsFormFragment chooseRestaurantsFormFragment;
 
     FragmentManager fm;
 
@@ -45,11 +47,13 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     /**
      * TODO:
-     *      1. create logic for saving restaurants using the same bookmark logic (done for moment)
-     *      2. create logic for saving place in random tab (done for moment)
-     *      2a. avoid making multiple requests for findRestaurants
-     *      3. create logic for grabbing the correct coordinates
-     *      4. test application features extensively and clean up code
+     *      1a. write down what's learned so far
+     *      1b. make chooseRestaurantsFormFragment work properly
+     *      1c. make further fragments run properly
+     *      2. make onclick for each item in listview which displays more details and the ability to save the restaurant
+     *      3. document code extensively before going further
+     *      4. create logic for grabbing the correct coordinates (using service??)
+     *      5. test application features extensively and clean up code
      * @param savedInstanceState
      */
 
@@ -173,6 +177,13 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment,"rrf").commit();
         }
         else if (findRestarauntsFragment.getCurrentOptionPosition() == 1){
+            level = 1;
+            invalidateOptionsMenu();
+            chooseRestaurantsFormFragment = (ChooseRestaurantsFormFragment) fm.findFragmentByTag("crff");
+            if (chooseRestaurantsFormFragment == null){
+                chooseRestaurantsFormFragment = ChooseRestaurantsFormFragment.newInstance();
+            }
+            fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").commit();
             // display random chooser
         }
     }

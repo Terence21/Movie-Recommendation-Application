@@ -1,4 +1,4 @@
-package temple.edu.zomato_randomizer.fragments;
+package temple.edu.yelp_randomizer.fragments;
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import temple.edu.zomato_randomizer.R;
-import temple.edu.zomato_randomizer.models.RestaurantHolder;
-import temple.edu.zomato_randomizer.restaraunts.RandomRestaurantsAdapter;
+import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.restaraunts.RandomRestaurantsAdapter;
 
 import java.util.ArrayList;
 

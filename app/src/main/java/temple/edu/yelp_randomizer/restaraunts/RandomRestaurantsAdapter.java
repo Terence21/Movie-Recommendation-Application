@@ -1,12 +1,12 @@
-package temple.edu.zomato_randomizer.restaraunts;
+package temple.edu.yelp_randomizer.restaraunts;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import temple.edu.zomato_randomizer.View.RestaurantView;
-import temple.edu.zomato_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.View.RestaurantView;
+import temple.edu.yelp_randomizer.models.RestaurantHolder;
 
 
 import java.util.ArrayList;
