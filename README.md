@@ -1,1 +1,1 @@
-# Zomato-Randomizer
+# Yelp-Restaurant-Randomizer
