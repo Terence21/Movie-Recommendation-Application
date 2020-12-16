@@ -57,7 +57,7 @@ public class RandomRestaurantsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_random_restaurants, container, false);
         //String[] coordinate = getCoordinates();
 
-        listView_restaurants = (ListView) view.findViewById(R.id._randomRestaurantsListView); //cant have view operations outside of main thread
+        listView_restaurants = (ListView) view.findViewById(R.id._searchedRestaurantsListView); //cant have view operations outside of main thread
         listView_restaurants.setAdapter(new RandomRestaurantsAdapter(getContext(), restaurantsList));
         listView_restaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

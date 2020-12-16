@@ -1,10 +1,13 @@
 package temple.edu.yelp_randomizer.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,8 @@ import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.restaraunts.SearchFoodGridViewAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +31,6 @@ public class ChooseRestaurantsFormFragment extends Fragment {
      * qualifiers:
      *      - distance (miles)
      *      - price (slider)
-     *      - open (checkbox)
      *      - query (term)
      */
     TextView priceTextView;
@@ -35,8 +39,10 @@ public class ChooseRestaurantsFormFragment extends Fragment {
     ImageButton searchChooseRestaurantsButton;
     SeekBar priceSeekBar;
     GridView searchFoodGridView;
+
     ArrayList<String> queriedFoodTypes;
 
+    HashMap<String, String> selectors;
 
     LaunchChooseRestaurantsListener listener;
     public ChooseRestaurantsFormFragment() {
@@ -55,6 +61,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             queriedFoodTypes = new ArrayList<>();
+            selectors = new HashMap<>();
         }
     }
 
@@ -74,20 +81,40 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         View.OnClickListener imageButtonOCL = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view == addFoodButton){
-                    queriedFoodTypes.add(foodSearchText.getText().toString());
+                if (view.equals(addFoodButton)){
+                    if (queriedFoodTypes.size() == 0) {
+                        queriedFoodTypes.add(foodSearchText.getText().toString());
+                        selectors.put("term",foodSearchText.getText().toString());
+                    } else{
+                        queriedFoodTypes.remove(0);
+                        queriedFoodTypes.add(foodSearchText.getText().toString());
+                        selectors.remove("term");
+                        selectors.put("term",foodSearchText.getText().toString());
+                    }
+
+                    Log.i("gridview", "gridView: " + foodSearchText.getText().toString());
                     ((SearchFoodGridViewAdapter)searchFoodGridView.getAdapter()).notifyDataSetChanged();
                     // update grid view to use new arraylist.. notify dataset change
-                }else if (view == searchChooseRestaurantsButton){
-                    listener.searchChooseRestaurants(queriedFoodTypes, priceTextView.toString());
+                }else if (view.equals(searchChooseRestaurantsButton)){
+                    listener.searchChooseRestaurants(selectors);
+                    // send selectors to fragment
                 }
             }
         };
 
+        addFoodButton.setOnClickListener(imageButtonOCL);
+        searchChooseRestaurantsButton.setOnClickListener(imageButtonOCL);
+
         priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                priceTextView.setText(getDollarString(seekBar.getMax() , i));
+                String price = getDollarString(seekBar.getMax(), i);
+                priceTextView.setText(price);
+                if (priceTextView.getText().toString().contains("$")) {
+                    selectors.put("price", getDollarString(seekBar.getMax(), i));
+                } else{
+                    selectors.remove("price");
+                }
             }
 
             @Override
@@ -111,6 +138,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
             }
         });
 
+        searchFoodGridView.setColumnWidth(3);
         searchFoodGridView.setAdapter(new SearchFoodGridViewAdapter(getContext(), queriedFoodTypes));
 
 
@@ -126,11 +154,21 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         return sb.toString();
     }
 
+    public HashMap<String, String> getSelectors(){
+        return selectors;
+    }
 
-
-
+    @Override
+    public void onAttach( Context context) {
+        super.onAttach(context);
+        if (context instanceof LaunchChooseRestaurantsListener){
+            listener = (LaunchChooseRestaurantsListener) context;
+        }else {
+            throw new RuntimeException("Calling Activity must implement LaunchChooseRestaurantsListener");
+        }
+    }
 
     public interface LaunchChooseRestaurantsListener{
-        public void searchChooseRestaurants(ArrayList<String> selectors, String price);
+        public void searchChooseRestaurants(HashMap<String, String> selectors);
     }
 }

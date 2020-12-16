@@ -73,6 +73,28 @@ public class RestaurantsFinder{
         return restaurants;
     }
 
+    public ArrayList<RestaurantHolder> getQueried(){
+        ArrayList<RestaurantHolder> restaurants = new ArrayList<>();
+        String response = getQueriedResponse();
+        Log.i("RESPONSE: ", "getQueriedResponse: " + response);
+        if (response != null) {
+            JsonObject businessObject = new JsonParser().parse(response).getAsJsonObject();
+            JsonArray array_json = businessObject.getAsJsonArray("businesses");
+            for (JsonElement element : array_json) {
+                JsonObject object = element.getAsJsonObject();
+                String id = object.get("id").getAsString();
+                String name = object.get("name").getAsString();
+                String phone = object.get("phone").getAsString();
+                String image = object.get("image_url").getAsString();
+                JsonObject location_object = (JsonObject) object.get("location");
+                String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
+                restaurants.add(new RestaurantHolder(id, name, phone, image, location));
+                // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
+            }
+        }
+        return restaurants;
+    }
+
 
 
     private String getQueriedResponse(){
@@ -111,14 +133,15 @@ public class RestaurantsFinder{
         this.selectors = (HashMap<String, String>) selectors;
     }
 
-    private String getQueriedURL(){
+    private String getQueriedURL() {
+
         String url = BASE_YELP_URL;
         int count = 0;
-        for (Map.Entry<String, String> selector: selectors.entrySet()){
+        for (Map.Entry<String, String> selector : selectors.entrySet()) {
             if (count == 0) {
                 url = addQuery(true, url, selector.getKey(), selector.getValue());
                 count++;
-            }else{
+            } else {
                 url = addQuery(false, url, selector.getKey(), selector.getValue());
             }
         }
@@ -132,6 +155,8 @@ public class RestaurantsFinder{
             return before + "&" + key + "=" + value;
         }
     }
+
+
     public void populateQuery(){
 
     }

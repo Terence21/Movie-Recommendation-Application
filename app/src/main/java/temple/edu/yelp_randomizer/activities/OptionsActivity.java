@@ -14,15 +14,13 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
-import temple.edu.yelp_randomizer.fragments.ChooseRestaurantsFormFragment;
-import temple.edu.yelp_randomizer.fragments.FindRestarauntsFragment;
-import temple.edu.yelp_randomizer.fragments.RandomRestaurantsFragment;
-import temple.edu.yelp_randomizer.fragments.UserRestarauntsFragment;
+import temple.edu.yelp_randomizer.fragments.*;
 import temple.edu.yelp_randomizer.models.RestaurantHolder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener {
+public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener {
 
     FrameLayout frame;
     TabLayout tabLayout;
@@ -34,6 +32,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     FindRestarauntsFragment findRestarauntsFragment;
     RandomRestaurantsFragment randomRestaurantsFragment;
     ChooseRestaurantsFormFragment chooseRestaurantsFormFragment;
+    SearchedRestaurantsFragment searchedRestaurantsFragment;
 
     FragmentManager fm;
 
@@ -142,7 +141,10 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                     level = 0;
                     fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").commit();
                     invalidateOptionsMenu();
-                }
+                }if (level == 2){
+                    level = 1;
+                    fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").commit();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -189,6 +191,17 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     }
 
     @Override
+    public void searchChooseRestaurants(HashMap<String, String> selectors) {
+        level = 2;
+        searchedRestaurantsFragment = (SearchedRestaurantsFragment) fm.findFragmentByTag("srf");
+        if (searchedRestaurantsFragment == null){
+            Log.i("SearchNull","searchChooseFragment is null");
+            searchedRestaurantsFragment = SearchedRestaurantsFragment.newInstance(savedRestaurants, selectors);
+        }
+        fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").commit();
+    }
+
+    @Override
     public void updateSaveList() {
         savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
     }
@@ -201,6 +214,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public String getLongitude(){
         return String.valueOf(longitude);
+    }
+
+    @Override
+    public void updateSaveListChoose_() {
+        savedRestaurants = searchedRestaurantsFragment.getSavedRestaurants();
     }
 
     class UserLocationListener implements LocationListener {
