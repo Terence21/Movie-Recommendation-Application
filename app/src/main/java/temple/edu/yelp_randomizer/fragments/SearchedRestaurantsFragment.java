@@ -2,8 +2,10 @@ package temple.edu.yelp_randomizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,7 +31,8 @@ public class SearchedRestaurantsFragment extends Fragment {
     HashMap<String, String> selectors;
 
     ListView searchedRestaurantsListView;
-
+    TextView alertTextView;
+    boolean availableRestaurants;
     SavedChooseRestaurantListener listener;
 
     public SearchedRestaurantsFragment() {
@@ -53,6 +56,11 @@ public class SearchedRestaurantsFragment extends Fragment {
             savedRestaurants = getArguments().getParcelableArrayList("savedRestaurants");
             selectors = (HashMap<String, String>) getArguments().getSerializable("selectors");
             requestSearchedRestaurantOperation(selectors);
+            if (searchedRestaurants.size() == 0){
+                availableRestaurants = false;
+            } else{
+                availableRestaurants = true;
+            }
         }
     }
 
@@ -61,15 +69,21 @@ public class SearchedRestaurantsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_searched_restaurants, container, false);
-        searchedRestaurantsListView = v.findViewById(R.id._searchedRestaurantsListView);
-        searchedRestaurantsListView.setAdapter(new RandomRestaurantsAdapter(getContext(), searchedRestaurants));
-        searchedRestaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                savedRestaurants.add(((RestaurantHolder)searchedRestaurantsListView.getAdapter().getItem(i)));
-                listener.updateSaveListChoose_();
-            }
-        });
+        if (availableRestaurants) {
+            searchedRestaurantsListView = v.findViewById(R.id._searchedRestaurantsListView);
+            searchedRestaurantsListView.setAdapter(new RandomRestaurantsAdapter(getContext(), searchedRestaurants));
+            searchedRestaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    savedRestaurants.add(((RestaurantHolder) searchedRestaurantsListView.getAdapter().getItem(i)));
+                    listener.updateSaveListChoose_();
+                }
+            });
+        }else{
+            alertTextView = v.findViewById(R.id._alertUserTextVeiw);
+            alertTextView.setText("Restaurant Search Unsuccessful, Possibly Too Specific For Your Given Area\nTry A Different Search");
+            alertTextView.setGravity(Gravity.CENTER);
+        }
 
         return v;
     }
@@ -112,6 +126,7 @@ public class SearchedRestaurantsFragment extends Fragment {
 
     public interface SavedChooseRestaurantListener{
         public void updateSaveListChoose_();
+
     }
 
 

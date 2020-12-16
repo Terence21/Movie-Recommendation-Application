@@ -28,14 +28,12 @@ public class DataFinder {
                 ArrayList<String> categories = new ArrayList<>();
                 if (scanner.hasNextBoolean()) {
                     hasCategoriesWritten = scanner.nextBoolean();
-                    Log.i("hasCategoriesWritten", "hasCategories: " + hasCategoriesWritten);
                 }
 
                 if (hasCategoriesWritten) {
                     scanner.nextLine(); // because of boolean
                     while (scanner.hasNextLine()) {
                         String line = scanner.nextLine();
-                        Log.i("hasCategoriesWritten:", "getCategories2: " + line);
                         categories.add(line);
                     }
                     scanner.close();
@@ -49,7 +47,6 @@ public class DataFinder {
                 scanner.nextLine(); // because of boolean
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    Log.i("Line:", "getCategories: " + line);
                     categories.add(line);
                 }
                 scanner.close();

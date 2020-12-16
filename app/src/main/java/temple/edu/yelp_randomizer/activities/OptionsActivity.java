@@ -66,7 +66,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
      * TODO:
      *      1a. write down what's learned so far
      *      1b. solve for backstack making backButton open available for myRestaurants fragment (done for now??)
-     *      1c. solve for price query and add radius query
+     *      1c. prevent empty list
+     *      1d.
      *      1d. document code extensively
      *      1e. once done above start working on a different branch
      *      2. make onclick for each item in listview which displays more details, the ability to save the restaurant, and a webView to the restaurant link
@@ -282,6 +283,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
     }
 
+
+
     @Override
     public void updateSaveList() {
         savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
@@ -301,6 +304,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     public void updateSaveListChoose_() {
         savedRestaurants = searchedRestaurantsFragment.getSavedRestaurants();
     }
+
 
     class UserLocationListener implements LocationListener {
 

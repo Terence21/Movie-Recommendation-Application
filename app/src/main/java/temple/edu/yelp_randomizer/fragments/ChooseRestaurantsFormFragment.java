@@ -1,13 +1,10 @@
 package temple.edu.yelp_randomizer.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
+import android.widget.*;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +12,9 @@ import android.view.ViewGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.restaraunts.CategoriesAdapter;
-import temple.edu.yelp_randomizer.restaraunts.SearchFoodGridViewAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +34,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
     ImageButton addFoodButton;
     ImageButton searchChooseRestaurantsButton;
     SeekBar priceSeekBar;
-    GridView searchFoodGridView;
+    GridView categoriesGridView;
 
     ArrayList<String> queriedFoodTypes;
     ArrayList<String> categories;
@@ -79,7 +74,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         addFoodButton = v.findViewById(R.id._addFoodButton);
         searchChooseRestaurantsButton = v.findViewById(R.id._searchChooseRestaurantsButton);
         priceSeekBar = v.findViewById(R.id._priceSeekBar);
-        searchFoodGridView = v.findViewById(R.id._searchFoodGridView);
+        categoriesGridView = v.findViewById(R.id._categoriesGridView);
         priceTextView = v.findViewById(R.id._priceTextView);
 
         View.OnClickListener imageButtonOCL = new View.OnClickListener() {
@@ -88,18 +83,19 @@ public class ChooseRestaurantsFormFragment extends Fragment {
                 if (view.equals(addFoodButton)){
                     if (queriedFoodTypes.size() == 0) {
                         queriedFoodTypes.add(foodSearchText.getText().toString());
-                        selectors.put("term",foodSearchText.getText().toString());
+                        selectors.put("term","Restaurants " + foodSearchText.getText().toString());
                     } else{
                         queriedFoodTypes.remove(0);
                         queriedFoodTypes.add(foodSearchText.getText().toString());
                         selectors.remove("term");
-                        selectors.put("term",foodSearchText.getText().toString());
+                        selectors.put("term", "Restaurants " +foodSearchText.getText().toString());
                     }
 
                     Log.i("gridview", "gridView: " + foodSearchText.getText().toString());
-                    ((SearchFoodGridViewAdapter)searchFoodGridView.getAdapter()).notifyDataSetChanged();
+                    ((CategoriesAdapter)categoriesGridView.getAdapter()).notifyDataSetChanged();
                     // update grid view to use new arraylist.. notify dataset change
                 }else if (view.equals(searchChooseRestaurantsButton)){
+                    selectors.put("term", "Restaurants " + foodSearchText.getText());
                     listener.searchChooseRestaurants(selectors);
                     // send selectors to fragment
                 }
@@ -143,8 +139,15 @@ public class ChooseRestaurantsFormFragment extends Fragment {
             }
         });
 
-        searchFoodGridView.setColumnWidth(3);
-        searchFoodGridView.setAdapter(new CategoriesAdapter(getContext(), categories));
+        categoriesGridView.setColumnWidth(3);
+        categoriesGridView.setAdapter(new CategoriesAdapter(getContext(), categories));
+        categoriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                foodSearchText.setText(((TextView)view).getText().toString());
+                selectors.put("term", "Restaurants " + foodSearchText.getText());
+            }
+        });
 
 
         return v;
@@ -152,7 +155,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
 
     private String getDollarString(int max, int selected){
         StringBuilder sb = new StringBuilder();
-        int quotient = selected % max;
+        int quotient = selected % 10;
         if (quotient == 0){
             return "NO PRICE PREFERENCE";
         }

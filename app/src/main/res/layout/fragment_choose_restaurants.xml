@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/_addFoodButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="83dp" android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
-            android:id="@+id/_searchFoodGridView"/>
+            android:id="@+id/_categoriesGridView"/>
     <TextView
             android:text="No price preference"
             android:layout_width="wrap_content"

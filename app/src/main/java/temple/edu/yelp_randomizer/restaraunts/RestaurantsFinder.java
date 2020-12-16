@@ -192,7 +192,7 @@ public class RestaurantsFinder{
         return null;
     }
     public String getCategoriesResponse() {
-
+        Log.i("Categories:", "getCategoriesResponse: Fetching categories endpoint for en_us locale");
         try {
             String base_url = "https://api.yelp.com/v3/categories";
             URL url = new URL(base_url);
