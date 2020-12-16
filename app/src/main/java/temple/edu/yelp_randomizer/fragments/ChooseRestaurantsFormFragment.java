@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.restaraunts.CategoriesAdapter;
 import temple.edu.yelp_randomizer.restaraunts.SearchFoodGridViewAdapter;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
     GridView searchFoodGridView;
 
     ArrayList<String> queriedFoodTypes;
+    ArrayList<String> categories;
 
     HashMap<String, String> selectors;
 
@@ -49,9 +51,10 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ChooseRestaurantsFormFragment newInstance() {
+    public static ChooseRestaurantsFormFragment newInstance(ArrayList<String> categories) {
         ChooseRestaurantsFormFragment fragment = new ChooseRestaurantsFormFragment();
         Bundle args = new Bundle();
+        args.putStringArrayList("categories",categories);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,6 +65,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         if (getArguments() != null) {
             queriedFoodTypes = new ArrayList<>();
             selectors = new HashMap<>();
+            categories = getArguments().getStringArrayList("categories");
         }
     }
 
@@ -112,7 +116,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
                 String price = getDollarString(seekBar.getMax(), i);
                 priceTextView.setText(price);
                 if (priceTextView.getText().toString().contains("$")) {
-                    selectors.put("price", getDollarString(seekBar.getMax(), i));
+                    selectors.put("price", String.valueOf(i));
                 } else{
                     selectors.remove("price");
                 }
@@ -140,7 +144,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         });
 
         searchFoodGridView.setColumnWidth(3);
-        searchFoodGridView.setAdapter(new SearchFoodGridViewAdapter(getContext(), queriedFoodTypes));
+        searchFoodGridView.setAdapter(new CategoriesAdapter(getContext(), categories));
 
 
         return v;
@@ -148,7 +152,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
 
     private String getDollarString(int max, int selected){
         StringBuilder sb = new StringBuilder();
-        int quotient = selected % 5;
+        int quotient = selected % max;
         if (quotient == 0){
             return "NO PRICE PREFERENCE";
         }

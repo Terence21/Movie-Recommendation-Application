@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import temple.edu.yelp_randomizer.models.RestaurantHolder;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -33,6 +34,11 @@ public class RestaurantsFinder{
         this.selectors = (HashMap<String, String>) selectors;
     }
 
+    public RestaurantsFinder(){
+
+    }
+
+    // ---------------------------- SEARCH ENDPOINT ----------------------------
     public ArrayList<String> getNames(){
         ArrayList<String> names = new ArrayList<>();
         String response = getQueriedResponse();
@@ -156,9 +162,60 @@ public class RestaurantsFinder{
         }
     }
 
+    // ----------------------------- CATEGORIES ENDPOINT ---------------------------------------
+    public String getAll(){
+        String total = "";
+        ArrayList<String> categories = getCategoriesList();
+        for (String item: categories){
+            total += item + '\n';
+        }
+        return total;
+    }
 
-    public void populateQuery(){
+    public ArrayList<String> getCategoriesList(){
+        String response = getCategoriesResponse();
+        if (response != null) {
+            JsonObject categoryObject = new JsonParser().parse(response).getAsJsonObject();
+            JsonArray array_json = categoryObject.getAsJsonArray("categories");
+            ArrayList<String> categories = new ArrayList<>();
+            for (JsonElement element : array_json) {
+                JsonObject object = element.getAsJsonObject();
+                JsonArray parent_aliases = object.getAsJsonArray("parent_aliases");
+                if (parent_aliases.size() > 0){
+                    if (parent_aliases.get(0).getAsString().equals("restaurants")) {
+                        categories.add(object.get("alias").getAsString());
+                    }
+                }
+            }
+            return categories;
+        }
+        return null;
+    }
+    public String getCategoriesResponse() {
 
+        try {
+            String base_url = "https://api.yelp.com/v3/categories";
+            URL url = new URL(base_url);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+
+            int responseCode = connection.getResponseCode();
+            StringBuilder sb = new StringBuilder();
+            if (responseCode == HttpsURLConnection.HTTP_OK){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                if((line = reader.readLine()) != null){
+                    sb.append(line);
+                }
+                reader.close();
+                return sb.toString();
+            }
+        } catch (
+                Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

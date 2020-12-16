@@ -1,5 +1,6 @@
 package temple.edu.yelp_randomizer.activities;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.fragments.*;
 import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     FragmentManager fm;
 
     ArrayList<RestaurantHolder> savedRestaurants;
+    ArrayList<String> categories;
 
     LocationManager locationManager;
     LocationListener locationListener;
@@ -98,6 +101,22 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         showBackButton = false;
         randomLevel = false;
         chooseLevel = false;
+
+        Context context = this;
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                DataFinder dataFinder = new DataFinder(context);
+                categories = dataFinder.getCategories();
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -221,7 +240,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 invalidateOptionsMenu();
                 chooseRestaurantsFormFragment = (ChooseRestaurantsFormFragment) fm.findFragmentByTag("crff");
                 if (chooseRestaurantsFormFragment == null) {
-                    chooseRestaurantsFormFragment = ChooseRestaurantsFormFragment.newInstance();
+                    chooseRestaurantsFormFragment = ChooseRestaurantsFormFragment.newInstance(categories);
                 }
                 fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
                 // display random chooser
