@@ -105,6 +105,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         addFoodButton.setOnClickListener(imageButtonOCL);
         searchChooseRestaurantsButton.setOnClickListener(imageButtonOCL);
 
+        priceSeekBar.setMax(4);
         priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -124,7 +125,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { // https://stackoverflow.com/questions/13797807/android-how-to-add-intervals-texts-in-a-seekbar
-                int currentProgress = seekBar.getMax() / 5;
+               /* int currentProgress = seekBar.getProgress();
 
                 int lastSelected = Math.round(seekBar.getProgress() / currentProgress) * currentProgress;
                 int nextDot = lastSelected + currentProgress;
@@ -134,7 +135,7 @@ public class ChooseRestaurantsFormFragment extends Fragment {
                     seekBar.setProgress(nextDot);
                 }else{
                     seekBar.setProgress(lastSelected);
-                }
+                }*/
             }
         });
 
@@ -147,8 +148,11 @@ public class ChooseRestaurantsFormFragment extends Fragment {
 
     private String getDollarString(int max, int selected){
         StringBuilder sb = new StringBuilder();
-        int quotient = max / selected;
-        for (int i = 0; i<= quotient; i++){
+        int quotient = selected % 5;
+        if (quotient == 0){
+            return "NO PRICE PREFERENCE";
+        }
+        for (int i = 1; i<= quotient; i++){
             sb.append('$');
         }
         return sb.toString();

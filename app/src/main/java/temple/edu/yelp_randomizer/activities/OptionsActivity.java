@@ -62,12 +62,17 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     /**
      * TODO:
      *      1a. write down what's learned so far
-     *      1b. make chooseRestaurantsFormFragment work properly
-     *      1c. make further fragments run properly
-     *      2. make onclick for each item in listview which displays more details and the ability to save the restaurant
-     *      3. document code extensively before going further
+     *      1b. solve for backstack making backButton open available for myRestaurants fragment (done for now??)
+     *      1c. solve for price query and add radius query
+     *      1d. document code extensively
+     *      1e. once done above start working on a different branch
+     *      2. make onclick for each item in listview which displays more details, the ability to save the restaurant, and a webView to the restaurant link
+     *      3. add swipe to delete from saved menu
+     *      3a. look into swipe to add from any of the listviews
+     *      4. have grid view display possible queries using YELP api, have new way to display chosen one (highlight in grid view?)
      *      4. create logic for grabbing the correct coordinates (using service??)
-     *      5. test application features extensively and clean up code
+     *      5. rating system in savedRestaurants pages?
+     *      6. clean up code and finish styling
      * @param savedInstanceState
      */
 
@@ -187,6 +192,13 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             getMenuInflater().inflate(R.menu.regular_menu, menu);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+
     }
 
     @Override
