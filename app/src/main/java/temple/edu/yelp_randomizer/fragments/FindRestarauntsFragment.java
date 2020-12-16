@@ -64,12 +64,12 @@ public class FindRestarauntsFragment extends Fragment {
 
     public void displayUser(int position){
         if (position == 0){ // bring up next fragment (random fragment)
-            chooserInterface.changeFragment();
+            chooserInterface.findOptionFragment();
             Toast.makeText(getContext(), "random chosen", Toast.LENGTH_LONG).show();
             // inform calling activity to show randomRestaurantsFragment
         }
         else if (position == 1){ // bring up next fragment (query fragment)
-            chooserInterface.changeFragment();
+            chooserInterface.findOptionFragment();
             Toast.makeText(getContext(), "query chosen", Toast.LENGTH_LONG).show();
         }
     }
@@ -91,6 +91,6 @@ public class FindRestarauntsFragment extends Fragment {
 
     // which options is selected (feeling bold? let me choose)
     public interface FindRestaurantsChooser{
-        public void changeFragment(); //display the fragment of the selected choice
+        public void findOptionFragment(); //display the fragment of the selected choice
     }
 }

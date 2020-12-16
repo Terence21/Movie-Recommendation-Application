@@ -42,8 +42,22 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     LocationListener locationListener;
     private double latitude;
     private double longitude;
+
+    /**
+     * level 0: options menu (random or choose)
+     * level 1: random=> listView       choose=> form
+     * level 2: random=> page           choose=> listView
+     * level 3:                         choose=> page
+     */
     int level;
     boolean showBackButton;
+
+    /**
+     * randomLevel: is currently in random
+     * chooseLevel: is currently in choose
+     */
+    boolean randomLevel;
+    boolean chooseLevel;
 
     /**
      * TODO:
@@ -77,6 +91,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
         level = 0;
         showBackButton = false;
+        randomLevel = false;
+        chooseLevel = false;
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -97,19 +113,19 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
 
                 }
-                if (tab.getPosition() == 1){ // find Restaurant tab
+                if (tab.getPosition() == 1) { // find Restaurant tab
                     showBackButton = true;
+                    invalidateOptionsMenu();
                     if (level == 0) {
                         if (findRestarauntsFragment == null) {
                             Log.i("isNull", "onTabSelected: null find frag");
                             findRestarauntsFragment = FindRestarauntsFragment.newInstance();
                         }
-                            fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment,"frf").commit();
-                            level = 1;
-
-
-                    } else{
+                        fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
+                        level = 1;
+                    }else {
                         changeFragment();
+
                     }
                 }
             }
@@ -145,11 +161,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             case R.id._randomBackButton:
                 if (level == 1) {
                     level = 0;
-                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").commit();
+                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
                     invalidateOptionsMenu();
                 }if (level == 2){
                     level = 1;
-                    fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").commit();
+                    fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -173,45 +189,65 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     }
 
     @Override
-    public void changeFragment() {
-        if (level == 1) {
+    public void findOptionFragment() {
+
             if (findRestarauntsFragment.getCurrentOptionPosition() == 0) { // if random selected
                 level = 1;
+                randomLevel = true; chooseLevel = false;
                 invalidateOptionsMenu();
                 randomRestaurantsFragment = (RandomRestaurantsFragment) fm.findFragmentByTag("rrf");
                 if (randomRestaurantsFragment == null) {
                     Log.i("RandomNull:", "changeFragment: random is null");
                     randomRestaurantsFragment = RandomRestaurantsFragment.newInstance(savedRestaurants);
                 }
-                fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").commit();
-            } else if (findRestarauntsFragment.getCurrentOptionPosition() == 1) {
+                fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
+            } else if (findRestarauntsFragment.getCurrentOptionPosition() == 1) { // if choose selected
                 level = 1;
+                randomLevel = false;
+                chooseLevel = true;
                 invalidateOptionsMenu();
                 chooseRestaurantsFormFragment = (ChooseRestaurantsFormFragment) fm.findFragmentByTag("crff");
                 if (chooseRestaurantsFormFragment == null) {
                     chooseRestaurantsFormFragment = ChooseRestaurantsFormFragment.newInstance();
                 }
-                fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").commit();
+                fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
                 // display random chooser
             }
-        }
-        else if (level == 2){
-            invalidateOptionsMenu();
-            searchedRestaurantsFragment = (SearchedRestaurantsFragment) fm.findFragmentByTag("srf");
-            fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").commit();
+
+    }
+
+    /**
+     * change the current fragment in the find options menu
+     */
+    public void changeFragment(){
+        if (level == 1){
+            if (randomLevel){
+                fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
+            }else if (chooseLevel){
+                fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
+            }
+        } else if (level == 2){
+            if (randomLevel){
+                // show random pages fragment
+            } else if (chooseLevel){
+                fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
+            }
+
+        } else if (level == 3){
+            // show choose pages fragment
         }
     }
 
+    /**
+     * should never be null, is called every time a new search is pressed
+     * @param selectors
+     */
     @Override
     public void searchChooseRestaurants(HashMap<String, String> selectors) {
+        invalidateOptionsMenu();
         level = 2;
-        searchedRestaurantsFragment = (SearchedRestaurantsFragment) fm.findFragmentByTag("srf");
-        if (searchedRestaurantsFragment != null){
-            fm.beginTransaction().remove(searchedRestaurantsFragment);
-        }
         searchedRestaurantsFragment = SearchedRestaurantsFragment.newInstance(savedRestaurants, selectors);
-        fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").commit();
-
+        fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
     }
 
     @Override
