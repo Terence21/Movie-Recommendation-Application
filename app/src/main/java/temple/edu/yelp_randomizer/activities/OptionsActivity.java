@@ -102,6 +102,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 if (tab.getPosition() == 0){ // my restaurant tab
                     showBackButton = false;
                     invalidateOptionsMenu();
+                    userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentByTag("urf");
                     if (userRestarauntsFragment == null) {
                         Log.i("isNull", "onTabSelected: null user frag");
                         userRestarauntsFragment = UserRestarauntsFragment.newInstance(savedRestaurants);
@@ -117,12 +118,12 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                     showBackButton = true;
                     invalidateOptionsMenu();
                     if (level == 0) {
+                        findRestarauntsFragment = (FindRestarauntsFragment) fm.findFragmentByTag("frf");
                         if (findRestarauntsFragment == null) {
                             Log.i("isNull", "onTabSelected: null find frag");
                             findRestarauntsFragment = FindRestarauntsFragment.newInstance();
                         }
                         fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
-                        level = 1;
                     }else {
                         changeFragment();
 
