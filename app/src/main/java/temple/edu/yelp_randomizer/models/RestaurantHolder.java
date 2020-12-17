@@ -9,13 +9,15 @@ public class RestaurantHolder implements Parcelable {
     private String phone; // phone
     private String image; // image_url
     private String location; // location has a JSON array
+    private String url;
 
-    public RestaurantHolder(String id, String name, String phone, String image, String location) {
+    public RestaurantHolder(String id, String name, String phone, String image, String location, String url) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.image = image;
         this.location = location;
+        this.url = url;
     }
 
     protected RestaurantHolder(Parcel in) {
@@ -24,6 +26,7 @@ public class RestaurantHolder implements Parcelable {
         phone = in.readString();
         image = in.readString();
         location = in.readString();
+        url = in.readString();
     }
 
     public static final Creator<RestaurantHolder> CREATOR = new Creator<RestaurantHolder>() {
@@ -78,6 +81,14 @@ public class RestaurantHolder implements Parcelable {
         this.location = location;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,5 +101,6 @@ public class RestaurantHolder implements Parcelable {
         parcel.writeString(phone);
         parcel.writeString(image);
         parcel.writeString(location);
+        parcel.writeString(url);
     }
 }

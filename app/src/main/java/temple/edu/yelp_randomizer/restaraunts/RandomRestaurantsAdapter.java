@@ -44,7 +44,7 @@ public class RandomRestaurantsAdapter extends BaseAdapter {
             restaurantView = (RestaurantView) view;
         }else{
             //textView = new TextView(context);
-            restaurantView = new RestaurantView(context);
+            restaurantView = new RestaurantView(context, null);
 
         }
         String text = restaurants.get(i).getName() + "\n\n" +

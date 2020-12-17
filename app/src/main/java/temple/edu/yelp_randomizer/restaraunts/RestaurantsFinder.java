@@ -73,10 +73,11 @@ public class RestaurantsFinder{
                 String id = object.get("id").getAsString();
                 String name = object.get("name").getAsString();
                 String phone = object.get("phone").getAsString();
+                String url = object.get("url").getAsString();
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new RestaurantHolder(id, name, phone, image, location));
+                restaurants.add(new RestaurantHolder(id, name, phone, image, location, url));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }
@@ -95,10 +96,11 @@ public class RestaurantsFinder{
                 String id = object.get("id").getAsString();
                 String name = object.get("name").getAsString();
                 String phone = object.get("phone").getAsString();
+                String url = object.get("url").getAsString();
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new RestaurantHolder(id, name, phone, image, location));
+                restaurants.add(new RestaurantHolder(id, name, phone, image, location,url));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.View.RestaurantView;
 import temple.edu.yelp_randomizer.models.RestaurantHolder;
 import temple.edu.yelp_randomizer.restaraunts.RandomRestaurantsAdapter;
 import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
@@ -75,8 +76,8 @@ public class SearchedRestaurantsFragment extends Fragment {
             searchedRestaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    savedRestaurants.add(((RestaurantHolder) searchedRestaurantsListView.getAdapter().getItem(i)));
-                    listener.updateSaveListChoose_();
+                    listener.launchSearchedContent(searchedRestaurants.get(i));
+                  //  listener.updateSaveListChoose_();
                 }
             });
         }else{
@@ -134,6 +135,7 @@ public class SearchedRestaurantsFragment extends Fragment {
 
     public interface SavedChooseRestaurantListener{
         public void updateSaveListChoose_();
+        public void launchSearchedContent(RestaurantHolder restaurant);
 
     }
 
