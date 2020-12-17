@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
-import temple.edu.yelp_randomizer.View.RestaurantView;
 import temple.edu.yelp_randomizer.fragments.*;
 import temple.edu.yelp_randomizer.models.RestaurantHolder;
 import temple.edu.yelp_randomizer.storage.DataFinder;
@@ -189,7 +188,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id._randomBackButton:
+            case R.id._BackButton:
                 if (level == 1) {
                     level = 0;
                     fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();

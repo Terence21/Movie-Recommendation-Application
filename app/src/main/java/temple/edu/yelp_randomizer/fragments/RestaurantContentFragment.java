@@ -2,12 +2,12 @@ package temple.edu.yelp_randomizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,13 +64,9 @@ public class RestaurantContentFragment extends Fragment {
         contentRestaurantView.setTextView(text);
         contentRestaurantView.setImageView(restaurant.getImage());
 
-        restaurantWebView.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                restaurantWebView.loadUrl(restaurant.getUrl());
-                return true;
-            }
-        });
+        restaurantWebView.getSettings().setJavaScriptEnabled(true);
+        restaurantWebView.setWebViewClient(new WebViewClient());
+        restaurantWebView.loadUrl(restaurant.getUrl());
 
 
         saveRestaurantButton.setOnClickListener(new View.OnClickListener() {
