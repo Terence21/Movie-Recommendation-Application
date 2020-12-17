@@ -88,6 +88,11 @@ public class SearchedRestaurantsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * add fixed key value pairs to the selectors for request
+     * run network operation outside of main thread
+     * @param selectors
+     */
     public void requestSearchedRestaurantOperation(Map<String, String> selectors){
         selectors.put("latitude", "40.050900");
         selectors.put("longitude","-75.087883");
@@ -120,6 +125,9 @@ public class SearchedRestaurantsFragment extends Fragment {
         }
     }
 
+    /**
+     * @return current state of savedRestaurants list
+     */
     public ArrayList<RestaurantHolder> getSavedRestaurants(){
         return savedRestaurants;
     }

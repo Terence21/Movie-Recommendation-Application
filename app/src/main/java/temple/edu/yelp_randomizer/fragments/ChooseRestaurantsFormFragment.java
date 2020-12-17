@@ -153,6 +153,11 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         return v;
     }
 
+    /**
+     * @param max highest item value on scale
+     * @param selected the selected item on scale
+     * @return for number selected, return same amount in '$'
+     */
     private String getDollarString(int max, int selected){
         StringBuilder sb = new StringBuilder();
         int quotient = selected % 10;
@@ -165,9 +170,6 @@ public class ChooseRestaurantsFormFragment extends Fragment {
         return sb.toString();
     }
 
-    public HashMap<String, String> getSelectors(){
-        return selectors;
-    }
 
     @Override
     public void onAttach( Context context) {

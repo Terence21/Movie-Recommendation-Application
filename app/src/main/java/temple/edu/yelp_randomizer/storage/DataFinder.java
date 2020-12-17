@@ -18,6 +18,10 @@ public class DataFinder {
         this.context = context;
     }
 
+    /**
+     *
+     * @return list of categories as a String form file categories.txt
+     */
     public ArrayList<String> getCategories(){
         String path = context.getFilesDir() + "/categories.txt";
         try{
@@ -59,6 +63,9 @@ public class DataFinder {
         return null;
     }
 
+    /**
+     * write all categories to categories.txt in context file path
+     */
     public void writeCategories(){
         Log.i("writeFile", "writeCategories: writing file");
         String path = context.getFilesDir() + "/categories.txt";

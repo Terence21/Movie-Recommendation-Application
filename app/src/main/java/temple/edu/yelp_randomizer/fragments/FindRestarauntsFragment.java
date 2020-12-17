@@ -62,11 +62,14 @@ public class FindRestarauntsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * display the correct fragment based on otpion selected
+     * @param position position of option chosen in listView
+     */
     public void displayUser(int position){
         if (position == 0){ // bring up next fragment (random fragment)
             chooserInterface.findOptionFragment();
             Toast.makeText(getContext(), "random chosen", Toast.LENGTH_LONG).show();
-            // inform calling activity to show randomRestaurantsFragment
         }
         else if (position == 1){ // bring up next fragment (query fragment)
             chooserInterface.findOptionFragment();
@@ -85,6 +88,9 @@ public class FindRestarauntsFragment extends Fragment {
         }
     }
 
+    /**
+     * @return the current state of the option selected based on listView
+     */
     public int getCurrentOptionPosition(){
         return currentOptionPosition;
     }

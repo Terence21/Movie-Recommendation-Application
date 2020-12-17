@@ -32,6 +32,8 @@ public class RestaurantView extends ConstraintLayout {
     }
 
     public void setImageView(String image_uri){
-        Picasso.with(context).load(image_uri).into(imageView);
+        if (image_uri != null && image_uri.length() > 0) {
+            Picasso.with(context).load(image_uri).into(imageView);
+        }
     }
 }

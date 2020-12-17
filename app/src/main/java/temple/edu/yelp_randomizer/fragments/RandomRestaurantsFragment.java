@@ -71,6 +71,10 @@ public class RandomRestaurantsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * fixed key value pairs to find list of random restaurants
+     * run network operation away form main thread
+     */
     public void requestRandomYelpNetworkOperation(){
 
         Map<String, String> selectors = new HashMap<>();
@@ -111,6 +115,9 @@ public class RandomRestaurantsFragment extends Fragment {
         return response;
     }
 
+    /**
+     * @return current state of savedRestaurants
+     */
     public ArrayList<RestaurantHolder> getSavedRestaurants(){
         return savedRestaurants;
     }

@@ -39,6 +39,10 @@ public class RestaurantsFinder{
     }
 
     // ---------------------------- SEARCH ENDPOINT ----------------------------
+
+    /**
+     * @return names of restaurants as List
+     */
     public ArrayList<String> getNames(){
         ArrayList<String> names = new ArrayList<>();
         String response = getQueriedResponse();
@@ -55,7 +59,7 @@ public class RestaurantsFinder{
 
     /**
      * populate model class "Holder" with appropriate members
-     * @return
+     * @return RestaurantHolder list for randomFragment listView dataset
      */
     public ArrayList<RestaurantHolder> getRandom(){
         ArrayList<RestaurantHolder> restaurants = new ArrayList<>();
@@ -135,6 +139,10 @@ public class RestaurantsFinder{
         return null;
     }
 
+    /**
+     * update selectors
+     * @param selectors
+     */
     public void setSelectors(Map<String, String> selectors){
         this.selectors = (HashMap<String, String>) selectors;
     }
@@ -163,6 +171,11 @@ public class RestaurantsFinder{
     }
 
     // ----------------------------- CATEGORIES ENDPOINT ---------------------------------------
+
+    /**
+     * get String representation of all names of categories
+     * @return string of categories
+     */
     public String getAll(){
         String total = "";
         ArrayList<String> categories = getCategoriesList();
@@ -172,6 +185,9 @@ public class RestaurantsFinder{
         return total;
     }
 
+    /**
+     * @return list of all categories
+     */
     public ArrayList<String> getCategoriesList(){
         String response = getCategoriesResponse();
         if (response != null) {
@@ -191,6 +207,10 @@ public class RestaurantsFinder{
         }
         return null;
     }
+
+    /**
+     * @return response from yelp api category endpoint
+     */
     public String getCategoriesResponse() {
         Log.i("Categories:", "getCategoriesResponse: Fetching categories endpoint for en_us locale");
         try {

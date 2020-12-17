@@ -21,7 +21,17 @@ import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/**
+ * TODO:
+ *      1a. write down what's learned so far
+ *      2. make onclick for each item in listview which displays more details, the ability to save the restaurant, and a webView to the restaurant link
+ *      3. add swipe to delete from saved menu
+ *      3a. look into swipe to add from any of the listviews
+ *      4. have grid view display possible queries using YELP api, have new way to display chosen one (highlight in grid view?)
+ *      4. create logic for grabbing the correct coordinates (using service??)
+ *      5. rating system in savedRestaurants pages?
+ *      6. clean up code and finish styling
+ */
 public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener {
 
     FrameLayout frame;
@@ -63,25 +73,14 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     boolean chooseLevel;
 
     /**
-     * TODO:
-     *      1a. write down what's learned so far
-     *      1b. solve for backstack making backButton open available for myRestaurants fragment (done for now??)
-     *      1c. prevent empty list
-     *      1d.
-     *      1d. document code extensively
-     *      1e. once done above start working on a different branch
-     *      2. make onclick for each item in listview which displays more details, the ability to save the restaurant, and a webView to the restaurant link
-     *      3. add swipe to delete from saved menu
-     *      3a. look into swipe to add from any of the listviews
-     *      4. have grid view display possible queries using YELP api, have new way to display chosen one (highlight in grid view?)
-     *      4. create logic for grabbing the correct coordinates (using service??)
-     *      5. rating system in savedRestaurants pages?
-     *      6. clean up code and finish styling
+     * Initialize fields; fragments loaded from tab, define primitives for dictating level
+     * Pre load categories for ChooseRestaurantsFormFragment
+     * set level chang depending on tab clicked
+     *      => restore state of layout dependent on tab
+     * set backButton availability based on button clicked
+     *
      * @param savedInstanceState
      */
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +179,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         savedInstanceState = savedInstanceState.getParcelable("savedRestaurants");
     }
 
-
+    /**
+     * dependent on level of fragment, go back to the correct fragment
+     * @param item object that is pressed
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -200,6 +203,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     /**
      * when invalidateOptionsMenu() is called, prepareOptionsMenu is run... use this method to update the menu
      * DO NOT have opnCreateOptionsMenu and onPrepareOptionsMenu as they will overlap and show duplicates
+     *
+     * -- display the correct menu based on the fragment displayed (based on showBackButton) --
      * @param menu
      * @return
      */
@@ -221,6 +226,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     }
 
+    /**
+     * callback method that shows that loads level 1 fragments based on option selected
+     * level 1: random=> listView       choose=> form
+     * should be new instances if newly created, or loaded if already created
+     */
     @Override
     public void findOptionFragment() {
 
@@ -251,6 +261,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     /**
      * change the current fragment in the find options menu
+     * changeFragment only replaces current fragment, does not create new instance
+     * fragments already exist, and "level" ensures they do
      */
     public void changeFragment(){
         if (level == 1){
@@ -273,6 +285,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     /**
      * should never be null, is called every time a new search is pressed
+     * every time search button is presseed, create a new instance of fragment and replace the previous with the same tag
      * @param selectors
      */
     @Override
@@ -284,28 +297,42 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     }
 
 
-
+    /**
+     * callback method for randomRestaurantsFragment saveRestaurants button
+     */
     @Override
     public void updateSaveList() {
         savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
     }
 
-    @Override
-    public String getLatitude(){
-        return String.valueOf(latitude);
-    }
-
-    @Override
-    public String getLongitude(){
-        return String.valueOf(longitude);
-    }
-
+    /**
+     * callback method for searchRestaurantsFragment saveRestaurantsButton
+     */
     @Override
     public void updateSaveListChoose_() {
         savedRestaurants = searchedRestaurantsFragment.getSavedRestaurants();
     }
 
+    /**
+     * @return latitude as string
+     */
+    @Override
+    public String getLatitude(){
+        return String.valueOf(latitude);
+    }
 
+    /**
+     * @return longitude as String
+     */
+    @Override
+    public String getLongitude(){
+        return String.valueOf(longitude);
+    }
+
+
+    /**
+     * local class to retrieve current location from gps
+     */
     class UserLocationListener implements LocationListener {
 
         @Override

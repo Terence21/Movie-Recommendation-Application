@@ -31,7 +31,7 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/_foodSearchText" android:text="Italian" android:hint="Add Food Type:"/>
+                android:id="@+id/_foodSearchText" android:hint="Add Food Type:"/>
     </com.google.android.material.textfield.TextInputLayout>
     <SeekBar
             android:layout_width="261dp"

@@ -46,6 +46,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * if register is clicked, launch register activity
+     */
     public void launchRegister() {
         Intent intent = new Intent(this, RegisterActivity.class);
         Bundle bundle = new Bundle();
@@ -55,6 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         // how to kill login activity
     }
 
+    /**
+     * kill all activities loaded before opening OptionsActivity
+     */
     public void launchOptions(){
         Intent intent = new Intent(this, OptionsActivity.class);
         Bundle bundle = new Bundle();
