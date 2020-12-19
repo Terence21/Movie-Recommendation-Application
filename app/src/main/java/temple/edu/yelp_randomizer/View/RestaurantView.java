@@ -16,6 +16,11 @@ public class RestaurantView extends ConstraintLayout {
 
     Context context;
 
+    /**
+     * must implement context and attribute set in constructor to inflate view to layout
+     * @param context
+     * @param attributeSet
+     */
     public RestaurantView(Context context, AttributeSet  attributeSet) {
         super(context, attributeSet);
         this.context = context;

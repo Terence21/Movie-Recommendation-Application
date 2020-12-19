@@ -27,6 +27,7 @@ public class RestaurantsFinder{
     int choice;
     HashMap<String, String> selectors;
     private final String BASE_YELP_URL = "https://api.yelp.com/v3/businesses/search";
+    private String business_id;
 
 
     public RestaurantsFinder(int option_choice, Map<String, String> selectors){
@@ -35,7 +36,10 @@ public class RestaurantsFinder{
     }
 
     public RestaurantsFinder(){
+    }
 
+    public RestaurantsFinder(String business_id){
+        this.business_id = business_id;
     }
 
     // ---------------------------- SEARCH ENDPOINT ----------------------------
@@ -236,6 +240,36 @@ public class RestaurantsFinder{
         } catch (
                 Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    //  --------------------------------------- REVIEWS ENDPOINT ----------------------------------------------
+
+
+    public String getReviewsResponse(){
+        if (business_id != null) {
+            Log.i("Details", "getDetailsResponse: Fetching Details endpoint for restaurant");
+            try {
+                String base_url = "https://api.yelp.com/v3/businesses/" + business_id + "/reviews";
+                URL url = new URL(base_url);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK){
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while((line = reader.readLine())!= null){
+                        sb.append(line);
+                    }
+                    reader.close();
+                    connection.disconnect();
+                    return sb.toString();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
