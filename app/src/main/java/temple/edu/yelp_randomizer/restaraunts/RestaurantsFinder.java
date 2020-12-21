@@ -5,7 +5,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import com.squareup.picasso.Picasso;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
+import temple.edu.yelp_randomizer.models.ReviewsModel;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -65,8 +67,8 @@ public class RestaurantsFinder{
      * populate model class "Holder" with appropriate members
      * @return RestaurantHolder list for randomFragment listView dataset
      */
-    public ArrayList<RestaurantHolder> getRandom(){
-        ArrayList<RestaurantHolder> restaurants = new ArrayList<>();
+    public ArrayList<RestaurantModel> getRandom(){
+        ArrayList<RestaurantModel> restaurants = new ArrayList<>();
         String response = getQueriedResponse();
         Log.i("RESPONSE: ", "getQueriedResponse: " + response);
         if (response != null) {
@@ -81,15 +83,15 @@ public class RestaurantsFinder{
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new RestaurantHolder(id, name, phone, image, location, url));
+                restaurants.add(new RestaurantModel(id, name, phone, image, location, url));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }
         return restaurants;
     }
 
-    public ArrayList<RestaurantHolder> getQueried(){
-        ArrayList<RestaurantHolder> restaurants = new ArrayList<>();
+    public ArrayList<RestaurantModel> getQueried(){
+        ArrayList<RestaurantModel> restaurants = new ArrayList<>();
         String response = getQueriedResponse();
         Log.i("RESPONSE: ", "getQueriedResponse: " + response);
         if (response != null) {
@@ -104,7 +106,7 @@ public class RestaurantsFinder{
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new RestaurantHolder(id, name, phone, image, location,url));
+                restaurants.add(new RestaurantModel(id, name, phone, image, location,url));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }
@@ -247,6 +249,34 @@ public class RestaurantsFinder{
     //  --------------------------------------- REVIEWS ENDPOINT ----------------------------------------------
 
 
+    public ArrayList<ReviewsModel> getReviewsList(){
+        ArrayList<ReviewsModel> reviews = new ArrayList<>();
+        String response = getReviewsResponse();
+        if (response != null){
+            JsonObject reviewObject = new JsonParser().parse(response).getAsJsonObject();
+            JsonArray review_json = reviewObject.getAsJsonArray("reviews");
+            for (JsonElement element: review_json){
+                JsonObject object = element.getAsJsonObject();
+                int rating = object.get("rating").getAsInt();
+                String reviewText = object.get("text").getAsString();
+                Log.i("userReview:", "getReviewsList: " + reviewText);
+                JsonObject userObject = (JsonObject) object.get("user");
+                String userName = userObject.get("name").getAsString();
+                JsonElement imageElement = userObject.get("image_url");
+                String imageURL = null;
+                try {
+                    if (imageElement.getAsString() != null) {
+                        imageURL = imageElement.getAsString();
+                    }
+                }catch(Exception ignored){
+
+                }
+
+                reviews.add(new ReviewsModel(rating, reviewText, imageURL, userName));
+            }
+        }
+        return reviews;
+    }
     public String getReviewsResponse(){
         if (business_id != null) {
             Log.i("Details", "getDetailsResponse: Fetching Details endpoint for restaurant");
@@ -254,7 +284,9 @@ public class RestaurantsFinder{
                 String base_url = "https://api.yelp.com/v3/businesses/" + business_id + "/reviews";
                 URL url = new URL(base_url);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK){
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

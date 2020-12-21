@@ -3,7 +3,7 @@ package temple.edu.yelp_randomizer.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RestaurantHolder implements Parcelable {
+public class RestaurantModel implements Parcelable {
     private String id; // not accessible to user
     private String name; // name
     private String phone; // phone
@@ -11,7 +11,7 @@ public class RestaurantHolder implements Parcelable {
     private String location; // location has a JSON array
     private String url;
 
-    public RestaurantHolder(String id, String name, String phone, String image, String location, String url) {
+    public RestaurantModel(String id, String name, String phone, String image, String location, String url) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -20,7 +20,7 @@ public class RestaurantHolder implements Parcelable {
         this.url = url;
     }
 
-    protected RestaurantHolder(Parcel in) {
+    protected RestaurantModel(Parcel in) {
         id = in.readString();
         name = in.readString();
         phone = in.readString();
@@ -29,15 +29,15 @@ public class RestaurantHolder implements Parcelable {
         url = in.readString();
     }
 
-    public static final Creator<RestaurantHolder> CREATOR = new Creator<RestaurantHolder>() {
+    public static final Creator<RestaurantModel> CREATOR = new Creator<RestaurantModel>() {
         @Override
-        public RestaurantHolder createFromParcel(Parcel in) {
-            return new RestaurantHolder(in);
+        public RestaurantModel createFromParcel(Parcel in) {
+            return new RestaurantModel(in);
         }
 
         @Override
-        public RestaurantHolder[] newArray(int size) {
-            return new RestaurantHolder[size];
+        public RestaurantModel[] newArray(int size) {
+            return new RestaurantModel[size];
         }
     };
 

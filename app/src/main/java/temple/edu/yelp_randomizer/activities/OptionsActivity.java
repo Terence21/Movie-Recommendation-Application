@@ -16,7 +16,9 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.fragments.*;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
+import temple.edu.yelp_randomizer.models.ReviewsModel;
+import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
 import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     FragmentManager fm;
 
-    ArrayList<RestaurantHolder> savedRestaurants;
+    ArrayList<RestaurantModel> savedRestaurants;
     ArrayList<String> categories;
 
     LocationManager locationManager;
@@ -309,15 +311,45 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     }
 
     @Override
-    public void launchRandomContent(RestaurantHolder restaurant) {
+    public void launchRandomContent(RestaurantModel restaurant) {
         level = 2;
-        restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants);
+
+        try{
+            Thread thread = new Thread(){
+                @Override
+                public void run() {
+                    ArrayList<ReviewsModel> reviews = new ArrayList<>();
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    reviews = restaurantsFinder.getReviewsList();
+                    restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews);
+                }
+            };
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
     }
     @Override
-    public void launchSearchedContent(RestaurantHolder restaurant) {
+    public void launchSearchedContent(RestaurantModel restaurant) {
         level = 3;
-        restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants);
+        try{
+            final ArrayList<ReviewsModel>[] reviews = new ArrayList[]{new ArrayList<>()};
+            Thread thread = new Thread(){
+                @Override
+                public void run() {
+
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    reviews[0] = restaurantsFinder.getReviewsList();
+                }
+            };
+            thread.start();
+            thread.join();
+            restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
     }
 

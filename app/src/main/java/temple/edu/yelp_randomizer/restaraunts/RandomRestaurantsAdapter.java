@@ -6,16 +6,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import temple.edu.yelp_randomizer.View.RestaurantView;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
 
 
 import java.util.ArrayList;
 
 public class RandomRestaurantsAdapter extends BaseAdapter {
-    private ArrayList<RestaurantHolder> restaurants;
+    private ArrayList<RestaurantModel> restaurants;
     Context context;
 
-    public RandomRestaurantsAdapter(Context context, ArrayList<RestaurantHolder> restaurants){
+    public RandomRestaurantsAdapter(Context context, ArrayList<RestaurantModel> restaurants){
         this.restaurants = restaurants;
         this.context = context;
     }

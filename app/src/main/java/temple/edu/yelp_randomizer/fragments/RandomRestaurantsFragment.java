@@ -11,8 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.yelp_randomizer.R;
-import temple.edu.yelp_randomizer.View.RestaurantView;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.restaraunts.RandomRestaurantsAdapter;
 import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
 
@@ -24,8 +23,8 @@ import java.util.Map;
 public class RandomRestaurantsFragment extends Fragment {
 
     ListView listView_restaurants;
-    ArrayList<RestaurantHolder> restaurantsList;
-    ArrayList<RestaurantHolder> savedRestaurants;
+    ArrayList<RestaurantModel> restaurantsList;
+    ArrayList<RestaurantModel> savedRestaurants;
     SavedRestaurantListener listener;
 
 
@@ -33,7 +32,7 @@ public class RandomRestaurantsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RandomRestaurantsFragment newInstance(ArrayList<RestaurantHolder> savedRestaurants) {
+    public static RandomRestaurantsFragment newInstance(ArrayList<RestaurantModel> savedRestaurants) {
         RandomRestaurantsFragment fragment = new RandomRestaurantsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("savedRestaurants", savedRestaurants);
@@ -119,7 +118,7 @@ public class RandomRestaurantsFragment extends Fragment {
     /**
      * @return current state of savedRestaurants
      */
-    public ArrayList<RestaurantHolder> getSavedRestaurants(){
+    public ArrayList<RestaurantModel> getSavedRestaurants(){
         return savedRestaurants;
     }
 
@@ -137,7 +136,7 @@ public class RandomRestaurantsFragment extends Fragment {
 
     public interface SavedRestaurantListener{
         public void updateSaveList();
-        public void launchRandomContent(RestaurantHolder restaurant);
+        public void launchRandomContent(RestaurantModel restaurant);
         public String getLatitude();
         public String getLongitude();
     }

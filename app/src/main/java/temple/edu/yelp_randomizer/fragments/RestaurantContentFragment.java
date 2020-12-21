@@ -2,22 +2,17 @@ package temple.edu.yelp_randomizer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ImageButton;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.View.RestaurantView;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
+import temple.edu.yelp_randomizer.models.ReviewsModel;
+import temple.edu.yelp_randomizer.restaraunts.RecycleAdapter;
 
 import java.util.ArrayList;
 
@@ -28,21 +23,26 @@ public class RestaurantContentFragment extends Fragment {
     RecyclerView additionalImageRecycleView;
     RecyclerView reviewRecycleView;
 
-    RestaurantHolder restaurant;
-    ArrayList<RestaurantHolder> savedRestaurants;
+    RestaurantModel restaurant;
+    ArrayList<RestaurantModel> savedRestaurants;
     RestaurantContentListener listener;
 
     String restaurantUrl;
+
+
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<ReviewsModel> reviews;
 
     public RestaurantContentFragment() {
         // Required empty public constructor
     }
 
-    public static RestaurantContentFragment newInstance(RestaurantHolder restaurant, ArrayList<RestaurantHolder> savedRestaurants) {
+    public static RestaurantContentFragment newInstance(RestaurantModel restaurant, ArrayList<RestaurantModel> savedRestaurants, ArrayList<ReviewsModel> reviews) {
         RestaurantContentFragment fragment = new RestaurantContentFragment();
         Bundle args = new Bundle();
         args.putParcelable("restaurant", restaurant);
         args.putParcelableArrayList("savedRestaurants", savedRestaurants);
+        args.putParcelableArrayList("reviews", reviews);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +54,7 @@ public class RestaurantContentFragment extends Fragment {
             restaurant = getArguments().getParcelable("restaurant");
             savedRestaurants = getArguments().getParcelableArrayList("savedRestaurants");
             restaurantUrl = restaurant.getUrl().replace("biz", "menu");
+            reviews = getArguments().getParcelableArrayList("reviews");
             /*restaurantUrl = restaurant.getUrl().replace("www", "m");
             restaurantUrl = restaurant.getUrl().replace("adjust_", "utm_");*/
         }
@@ -73,12 +74,16 @@ public class RestaurantContentFragment extends Fragment {
         String text = restaurant.getName() + "\n\n" + restaurant.getLocation() + "\n" + restaurant.getPhone().replace("+","");
         contentRestaurantView.setTextView(text);
 
+        layoutManager = new LinearLayoutManager(getActivity()); // create a LinearLayout for recycle view
+        reviewRecycleView.setLayoutManager(layoutManager);
 
+        RecycleAdapter recycleAdapter = new RecycleAdapter(getContext(), reviews);
+        reviewRecycleView.setAdapter(recycleAdapter);
 
         return v;
     }
 
-    public ArrayList<RestaurantHolder> getSavedRestaurants(){
+    public ArrayList<RestaurantModel> getSavedRestaurants(){
         return savedRestaurants;
     }
 
