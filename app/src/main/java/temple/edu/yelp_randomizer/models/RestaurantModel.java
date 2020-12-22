@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RestaurantModel implements Parcelable {
+    private int rating;
     private String id; // not accessible to user
     private String name; // name
     private String phone; // phone
@@ -11,7 +12,8 @@ public class RestaurantModel implements Parcelable {
     private String location; // location has a JSON array
     private String url;
 
-    public RestaurantModel(String id, String name, String phone, String image, String location, String url) {
+    public RestaurantModel(int rating, String id, String name, String phone, String image, String location, String url) {
+        this.rating = rating;
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -40,6 +42,14 @@ public class RestaurantModel implements Parcelable {
             return new RestaurantModel[size];
         }
     };
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public String getId() {
         return id;

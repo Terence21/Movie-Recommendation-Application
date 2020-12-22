@@ -6,6 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
+import temple.edu.yelp_randomizer.View.DetailsView;
+import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.models.ReviewsModel;
 
@@ -76,6 +78,7 @@ public class RestaurantsFinder{
             JsonArray array_json = businessObject.getAsJsonArray("businesses");
             for (JsonElement element : array_json) {
                 JsonObject object = element.getAsJsonObject();
+                int rating = object.get("rating").getAsInt();
                 String id = object.get("id").getAsString();
                 String name = object.get("name").getAsString();
                 String phone = object.get("phone").getAsString();
@@ -83,7 +86,7 @@ public class RestaurantsFinder{
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new RestaurantModel(id, name, phone, image, location, url));
+                restaurants.add(new RestaurantModel(rating, id, name, phone, image, location, url));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }
@@ -99,6 +102,7 @@ public class RestaurantsFinder{
             JsonArray array_json = businessObject.getAsJsonArray("businesses");
             for (JsonElement element : array_json) {
                 JsonObject object = element.getAsJsonObject();
+                int rating = object.get("rating").getAsInt();
                 String id = object.get("id").getAsString();
                 String name = object.get("name").getAsString();
                 String phone = object.get("phone").getAsString();
@@ -106,7 +110,7 @@ public class RestaurantsFinder{
                 String image = object.get("image_url").getAsString();
                 JsonObject location_object = (JsonObject) object.get("location");
                 String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + " " + location_object.get("country").getAsString();
-                restaurants.add(new RestaurantModel(id, name, phone, image, location,url));
+                restaurants.add(new RestaurantModel(rating, id, name, phone, image, location,url));
                 // possible addition to add a web view to visit the restaurant from link? or intent action view to view link
             }
         }
@@ -279,7 +283,7 @@ public class RestaurantsFinder{
     }
     public String getReviewsResponse(){
         if (business_id != null) {
-            Log.i("Details", "getDetailsResponse: Fetching Details endpoint for restaurant");
+            Log.i("Reviews", "getReviewsResponse: Fetching Reviews endpoint for restaurant");
             try {
                 String base_url = "https://api.yelp.com/v3/businesses/" + business_id + "/reviews";
                 URL url = new URL(base_url);
@@ -293,6 +297,112 @@ public class RestaurantsFinder{
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while((line = reader.readLine())!= null){
+                        sb.append(line);
+                    }
+                    reader.close();
+                    connection.disconnect();
+                    return sb.toString();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    // --------------------------------------- DETAILS ENDPOINT ----------------------------------------------
+
+    public DetailsModel getDetails(){
+        String response = getDetailsResponse();
+        DetailsModel details = new DetailsModel();
+        if (response != null){
+            JsonObject detailsObject = new JsonParser().parse(response).getAsJsonObject();
+            JsonArray hours_array = detailsObject.getAsJsonArray("hours");
+            JsonArray photos_array = detailsObject.getAsJsonArray("photos");
+
+            String image1 = "";
+            String image2 = "";
+            String image3 = "";
+            if (photos_array.size() > 0) {
+                image1 = photos_array.get(0).getAsString();
+            }
+            if (photos_array.size() > 1){
+                image2 = photos_array.get(1).getAsString();
+            }
+            if (photos_array.size() > 3){
+                image3 = photos_array.get(2).getAsString();
+            }
+
+            details.set_1_imageURL(image1);
+            details.set_2_imageURL(image2);
+            details.set_3_imageURL(image3);
+
+            JsonElement businessDetail = hours_array.get(0);
+            JsonObject businessObject = businessDetail.getAsJsonObject();
+            JsonArray open_array = businessObject.getAsJsonArray("open");
+
+            if (open_array.size() > 0){
+                // set hours open for each day
+                for (JsonElement element: open_array){
+                    JsonObject index = element.getAsJsonObject();
+                    String start = index.get("start").getAsString();
+                    String end = index.get("end").getAsString();
+                    int day = index.get("day").getAsInt();
+
+                    HashMap<String, String> hours = new HashMap<>();
+                    hours.put("start",start); hours.put("end",end);
+                    setDetailsTime(details, day, hours);
+
+                }
+            }
+
+        }
+        return details;
+    }
+
+    private void setDetailsTime(DetailsModel details, int day, HashMap<String, String> hours){
+        switch (day){
+            case 0:
+                details.setSundayText(hours);
+                break;
+            case 1:
+                details.setMondayText(hours);
+                break;
+            case 2:
+                details.setTuesdayText(hours);
+                break;
+            case 3:
+                details.setWednesdayText(hours);
+                break;
+            case 4:
+                details.setThursdayText(hours);
+                break;
+            case 5:
+                details.setFridayText(hours);
+                break;
+            case 6:
+                details.setSaturdayText(hours);
+                break;
+        }
+    }
+
+    private String getDetailsResponse(){
+        if (business_id != null){
+            Log.i("Details", "getDetailsResponse: Fetching Details endpoint for restaurant");
+            try{
+                String base_url = "https://api.yelp.com/v3/businesses/" + business_id;
+                URL url  = new URL(base_url);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+
+                int responseCode = connection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK){
+                    StringBuilder sb = new StringBuilder();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null){
                         sb.append(line);
                     }
                     reader.close();

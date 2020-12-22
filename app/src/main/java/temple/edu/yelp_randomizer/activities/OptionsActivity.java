@@ -16,6 +16,7 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.fragments.*;
+import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.models.ReviewsModel;
 import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
@@ -315,17 +316,28 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         level = 2;
 
         try{
-            Thread thread = new Thread(){
+            final ArrayList<ReviewsModel>[] reviews = new ArrayList[]{new ArrayList<>()};
+            final DetailsModel[] details = {new DetailsModel()};
+            Thread review_thread = new Thread(){
                 @Override
                 public void run() {
-                    ArrayList<ReviewsModel> reviews = new ArrayList<>();
+
                     RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
-                    reviews = restaurantsFinder.getReviewsList();
-                    restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews);
+                    reviews[0] = restaurantsFinder.getReviewsList();
                 }
             };
-            thread.start();
-            thread.join();
+            review_thread.start();
+            Thread details_thread = new Thread(){
+                @Override
+                public void run() {
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    details[0] = restaurantsFinder.getDetails();
+                }
+            };
+            details_thread.start();
+            details_thread.join();
+            review_thread.join();
+            restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews[0], details[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -336,7 +348,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         level = 3;
         try{
             final ArrayList<ReviewsModel>[] reviews = new ArrayList[]{new ArrayList<>()};
-            Thread thread = new Thread(){
+            final DetailsModel[] details = {new DetailsModel()};
+            Thread review_thread = new Thread(){
                 @Override
                 public void run() {
 
@@ -344,9 +357,18 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                     reviews[0] = restaurantsFinder.getReviewsList();
                 }
             };
-            thread.start();
-            thread.join();
-            restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews[0]);
+            review_thread.start();
+            Thread details_thread = new Thread(){
+                @Override
+                public void run() {
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    details[0] = restaurantsFinder.getDetails();
+                }
+            };
+            details_thread.start();
+            details_thread.join();
+            review_thread.join();
+            restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews[0], details[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }

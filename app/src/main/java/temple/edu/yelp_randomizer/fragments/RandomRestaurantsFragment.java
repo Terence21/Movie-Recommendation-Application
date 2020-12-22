@@ -63,7 +63,7 @@ public class RandomRestaurantsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listener.launchRandomContent(restaurantsList.get(i));
-               // listener.updateSaveList();
+
             }
         });
 

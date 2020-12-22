@@ -32,7 +32,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<ReviewsView> {
     public void onBindViewHolder(ReviewsView holder, int position) {
         ReviewsModel currentModel = reviews.get(position);
         holder.getReviewTextTextView().setText(currentModel.getText());
-        holder.getReviewRatingTextView().setText(String.valueOf(currentModel.getRating()));
+        holder.getReviewRatingTextView().setText(convertRating(currentModel.getRating()));
         holder.getReviewNameTextView().setText(currentModel.getUserName());
         if (currentModel.getProfileImageURL() != null) {
             Picasso.with(context).load(currentModel.getProfileImageURL()).into(holder.getProfilePictureImageView());
@@ -44,5 +44,13 @@ public class RecycleAdapter extends RecyclerView.Adapter<ReviewsView> {
     @Override
     public int getItemCount() {
         return reviews.size();
+    }
+
+    private String convertRating(int rating){
+        String rating_stars = "";
+        for (int i = 0; i<= rating-1; i++){
+            rating_stars += '⭐';
+        }
+        return rating_stars;
     }
 }

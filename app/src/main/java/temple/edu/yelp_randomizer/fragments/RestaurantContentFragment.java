@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.View.DetailsView;
 import temple.edu.yelp_randomizer.View.RestaurantView;
+import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.models.ReviewsModel;
 import temple.edu.yelp_randomizer.restaraunts.RecycleAdapter;
@@ -20,10 +22,11 @@ import java.util.ArrayList;
 public class RestaurantContentFragment extends Fragment {
 
     RestaurantView contentRestaurantView;
-    RecyclerView additionalImageRecycleView;
+    DetailsView detailsView;
     RecyclerView reviewRecycleView;
 
     RestaurantModel restaurant;
+    DetailsModel details;
     ArrayList<RestaurantModel> savedRestaurants;
     RestaurantContentListener listener;
 
@@ -37,12 +40,13 @@ public class RestaurantContentFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RestaurantContentFragment newInstance(RestaurantModel restaurant, ArrayList<RestaurantModel> savedRestaurants, ArrayList<ReviewsModel> reviews) {
+    public static RestaurantContentFragment newInstance(RestaurantModel restaurant, ArrayList<RestaurantModel> savedRestaurants, ArrayList<ReviewsModel> reviews, DetailsModel details) {
         RestaurantContentFragment fragment = new RestaurantContentFragment();
         Bundle args = new Bundle();
         args.putParcelable("restaurant", restaurant);
         args.putParcelableArrayList("savedRestaurants", savedRestaurants);
         args.putParcelableArrayList("reviews", reviews);
+        args.putParcelable("details",details);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,6 +59,7 @@ public class RestaurantContentFragment extends Fragment {
             savedRestaurants = getArguments().getParcelableArrayList("savedRestaurants");
             restaurantUrl = restaurant.getUrl().replace("biz", "menu");
             reviews = getArguments().getParcelableArrayList("reviews");
+            details = getArguments().getParcelable("details");
             /*restaurantUrl = restaurant.getUrl().replace("www", "m");
             restaurantUrl = restaurant.getUrl().replace("adjust_", "utm_");*/
         }
@@ -67,7 +72,7 @@ public class RestaurantContentFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_restaurant_content, container, false);
 
         contentRestaurantView = v.findViewById(R.id._restaurantContentView);
-        additionalImageRecycleView = v.findViewById(R.id._additionalImageRecycleView);
+        detailsView = v.findViewById(R.id._restaurantContentDetailsview);
         reviewRecycleView = v.findViewById(R.id._reviewRecycleView);
 
         contentRestaurantView.setImageView(restaurant.getImage());
@@ -79,6 +84,18 @@ public class RestaurantContentFragment extends Fragment {
 
         RecycleAdapter recycleAdapter = new RecycleAdapter(getContext(), reviews);
         reviewRecycleView.setAdapter(recycleAdapter);
+
+        detailsView.setFirstImageView(details.get_1_imageURL());
+        detailsView.setSecondImageView(details.get_2_imageURL());
+        detailsView.setThirdImageView(details.get_3_imageURL());
+        detailsView.setSundayTextView(details.getSundayText());
+        detailsView.setMondayTextView(details.getMondayText());
+        detailsView.setTuesdayTextView(details.getTuesdayText());
+        detailsView.setWednesdayTextView(details.getWednesdayText());
+        detailsView.setThursdayTextView(details.getThursdayText());
+        detailsView.setFridayTextView(details.getFridayText());
+        detailsView.setSaturdayTextView(details.getSaturdayText());
+
 
         return v;
     }

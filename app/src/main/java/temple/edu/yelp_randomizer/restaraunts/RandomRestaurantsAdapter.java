@@ -36,25 +36,31 @@ public class RandomRestaurantsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        TextView textView;
         RestaurantView restaurantView;
 
         if (view != null){
-           // textView = (TextView) view;
             restaurantView = (RestaurantView) view;
         }else{
-            //textView = new TextView(context);
+
             restaurantView = new RestaurantView(context, null);
 
         }
-        String text = restaurants.get(i).getName() + "\n\n" +
-                      restaurants.get(i).getPhone() + "\n" +
+        String text = restaurants.get(i).getName() + "\n" +
+                      convertRating(restaurants.get(i).getRating()) + "\n\n" +
+                      restaurants.get(i).getPhone() + "\n\n" +
                        restaurants.get(i).getLocation();
-        //textView.setText(text);
         restaurantView.setTextView(text);
         restaurantView.setImageView(restaurants.get(i).getImage());
 
         return restaurantView;
+    }
+
+    private String convertRating(int rating){
+        String rating_stars = "";
+        for (int i = 0; i<= rating-1; i++){
+            rating_stars += '⭐';
+        }
+        return rating_stars;
     }
 
 
