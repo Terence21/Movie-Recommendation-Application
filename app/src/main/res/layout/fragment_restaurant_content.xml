@@ -4,26 +4,27 @@
                                                    android:layout_height="match_parent"
                                                    tools:context="temple.edu.yelp_randomizer.fragments.RestaurantContentFragment">
     <temple.edu.yelp_randomizer.View.RestaurantView
-            android:layout_width="388dp"
-            android:layout_height="210dp"
+            android:layout_width="387dp"
+            android:layout_height="207dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"
             android:id="@+id/_restaurantContentView" app:layout_constraintHorizontal_bias="0.0"/>
-    <temple.edu.yelp_randomizer.View.DetailsView android:layout_width="393dp" android:layout_height="174dp"
-                                                 android:layout_marginEnd="1dp"
-                                                 app:layout_constraintEnd_toEndOf="parent"
-                                                 app:layout_constraintStart_toStartOf="parent"
-                                                 android:layout_marginStart="1dp" android:layout_marginTop="10dp"
+    <temple.edu.yelp_randomizer.View.DetailsView android:layout_width="420dp" android:layout_height="258dp"
+                                                 android:id="@+id/_restaurantContentDetailsview"
+                                                 android:layout_marginTop="4dp"
                                                  app:layout_constraintTop_toBottomOf="@+id/_restaurantContentView"
-                                                 android:layout_marginBottom="10dp"
-                                                 app:layout_constraintBottom_toTopOf="@+id/_reviewRecycleView"
-                                                 android:id="@+id/_restaurantContentDetailsview"/>
+                                                 app:layout_constraintStart_toStartOf="parent"
+                                                 android:layout_marginStart="2dp"
+                                                 app:layout_constraintEnd_toEndOf="parent"
+                                                 app:layout_constraintHorizontal_bias="0.0"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="392dp"
-            android:layout_height="370dp"
+            android:layout_height="305dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="1dp" android:layout_marginEnd="1dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="5dp"
-            android:id="@+id/_reviewRecycleView"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="4dp"
+            android:id="@+id/_reviewRecycleView" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="21dp" app:layout_constraintTop_toBottomOf="@+id/_restaurantContentDetailsview"
+            app:layout_constraintVertical_bias="0.764"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

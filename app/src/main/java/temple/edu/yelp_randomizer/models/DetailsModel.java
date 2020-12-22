@@ -2,6 +2,7 @@ package temple.edu.yelp_randomizer.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -99,7 +100,7 @@ public class DetailsModel implements Parcelable {
     }
 
     public void setMondayText(HashMap<String, String> hours) {
-        String text = "SUNDAY\n\n";
+        String text = "MONDAY\n\n";
         String start = hours.get("start");
         String end = hours.get("end");
         if (start != null && end != null){
@@ -117,7 +118,7 @@ public class DetailsModel implements Parcelable {
     }
 
     public void setTuesdayText(HashMap<String, String> hours) {
-        String text = "SUNDAY\n\n";
+        String text = "TUESDAY\n\n";
         String start = hours.get("start");
         String end = hours.get("end");
         if (start != null && end != null){
@@ -135,7 +136,7 @@ public class DetailsModel implements Parcelable {
     }
 
     public void setWednesdayText(HashMap<String, String> hours) {
-        String text = "SUNDAY\n\n";
+        String text = "WEDNESDAY\n\n";
         String start = hours.get("start");
         String end = hours.get("end");
         if (start != null && end != null){
@@ -153,7 +154,7 @@ public class DetailsModel implements Parcelable {
     }
 
     public void setThursdayText(HashMap<String, String> hours) {
-        String text = "SUNDAY\n\n";
+        String text = "THURSDAY\n\n";
         String start = hours.get("start");
         String end = hours.get("end");
         if (start != null && end != null){
@@ -171,7 +172,7 @@ public class DetailsModel implements Parcelable {
     }
 
     public void setFridayText(HashMap<String, String> hours) {
-        String text = "SUNDAY\n\n";
+        String text = "FRIDAY\n\n";
         String start = hours.get("start");
         String end = hours.get("end");
         if (start != null && end != null){
@@ -189,7 +190,7 @@ public class DetailsModel implements Parcelable {
     }
 
     public void setSaturdayText(HashMap<String, String> hours) {
-        String text = "SUNDAY\n\n";
+        String text = "SATURDAY\n\n";
         String start = hours.get("start");
         String end = hours.get("end");
         if (start != null && end != null){
@@ -204,18 +205,29 @@ public class DetailsModel implements Parcelable {
 
     private String formatTime(String time) {
         String fixedTime = "";
-        int minutes = 60 - Integer.parseInt(time.substring(2, 3));
+        int minutes_int = 60 - Integer.parseInt(time.substring(2, 3));
+        String minutes = "";
+        if (minutes_int == 60){
+            minutes = "00";
+        }else{
+            minutes = String.valueOf(minutes_int);
+        }
+
         if (time.length() == 4) {
 
-            int hours = 24 - Integer.parseInt(time.substring(0, 1));
-            if (Integer.parseInt(time.substring(0, 1)) > 12) {
+
+            if (Integer.parseInt(time.substring(0, 1)) >= 12) {
+                int hours = 24 - Integer.parseInt(time.substring(0, 1));
                 fixedTime = hours + ":";
                 fixedTime += minutes + " pm";
-                return fixedTime;
+
             } else {
+                int hours = Integer.parseInt(time.substring(0,1));
                 fixedTime = hours + ":" + minutes + "am";
-                return fixedTime;
+
             }
+            Log.i("time", "formatTime: " + fixedTime);
+            return fixedTime;
         } else if (time.length() == 3) {
             fixedTime = Integer.parseInt(time.substring(0, 0)) + minutes + "am";
             return fixedTime;
