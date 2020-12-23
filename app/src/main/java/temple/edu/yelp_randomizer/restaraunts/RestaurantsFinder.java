@@ -339,26 +339,30 @@ public class RestaurantsFinder{
             details.set_2_imageURL(image2);
             details.set_3_imageURL(image3);
 
-            JsonElement businessDetail = hours_array.get(0);
-            JsonObject businessObject = businessDetail.getAsJsonObject();
-            JsonArray open_array = businessObject.getAsJsonArray("open");
+            int[] nonAvailableDays = new int[7];
+            if (hours_array != null) {
+                JsonElement businessDetail = hours_array.get(0);
+                JsonObject businessObject = businessDetail.getAsJsonObject();
+                JsonArray open_array = businessObject.getAsJsonArray("open");
 
-            if (open_array.size() > 0){
-                // set hours open for each day
-                int[] nonAvailableDays = new int[7];
-                for (JsonElement element: open_array){
-                    JsonObject index = element.getAsJsonObject();
-                    String start = index.get("start").getAsString();
-                    String end = index.get("end").getAsString();
-                    int day = index.get("day").getAsInt();
-                    nonAvailableDays[day] = 1;
-                    HashMap<String, String> hours = new HashMap<>();
-                    hours.put("start",start); hours.put("end",end);
-                    setDetailsTime(details, day, hours);
+                if (open_array.size() > 0) {
+                    // set hours open for each day
+
+                    for (JsonElement element : open_array) {
+                        JsonObject index = element.getAsJsonObject();
+                        String start = index.get("start").getAsString();
+                        String end = index.get("end").getAsString();
+                        int day = index.get("day").getAsInt();
+                        nonAvailableDays[day] = 1;
+                        HashMap<String, String> hours = new HashMap<>();
+                        hours.put("start", start);
+                        hours.put("end", end);
+                        setDetailsTime(details, day, hours);
+                    }
                 }
 
-                for (int i = 0; i<= nonAvailableDays.length-1; i++){
-                    if (nonAvailableDays[i] != 1){
+                for (int i = 0; i <= nonAvailableDays.length - 1; i++) {
+                    if (nonAvailableDays[i] != 1) {
                         setDetailsTime(details, i, new HashMap<>());
                     }
                 }

@@ -64,8 +64,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     /**
      * level 0: options menu (random or choose)
      * level 1: random=> listView       choose=> form
-     * level 2: random=> page           choose=> listView
-     * level 3:                         choose=> page
+     * level 2: random=> content        choose=> listView
+     * level 3:                         choose=> content
      */
     int level;
     boolean showBackButton;
@@ -208,6 +208,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                         fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
                     }
                 }else if (level == 3){
+                    level = 2;
                     fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
                 }
         }

@@ -218,7 +218,11 @@ public class DetailsModel implements Parcelable {
 
             if (Integer.parseInt(time.substring(0, 2)) >= 12) {
                 int hours = Integer.parseInt(time.substring(0, 2)) - 12;
-                fixedTime = hours + ":";
+                if (hours == 0){
+                    fixedTime = "12:";
+                } else {
+                    fixedTime = hours + ":";
+                }
                 fixedTime += minutes + " pm";
 
             } else {
