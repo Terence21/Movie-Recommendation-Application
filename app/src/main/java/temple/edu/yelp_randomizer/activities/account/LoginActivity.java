@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 launchOptions();
             }
         });
+        
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

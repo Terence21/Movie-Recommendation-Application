@@ -10,6 +10,7 @@ import temple.edu.yelp_randomizer.View.DetailsView;
 import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.models.ReviewsModel;
+import temple.edu.yelp_randomizer.storage.ApiKeyFinder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -32,6 +33,7 @@ public class RestaurantsFinder{
     HashMap<String, String> selectors;
     private final String BASE_YELP_URL = "https://api.yelp.com/v3/businesses/search";
     private String business_id;
+    private static final String API_KEY = ApiKeyFinder.API_KEY;
 
 
     public RestaurantsFinder(int option_choice, Map<String, String> selectors){
@@ -126,7 +128,7 @@ public class RestaurantsFinder{
             URL search_request = new URL(finishedURL);
             HttpURLConnection connection = (HttpURLConnection) search_request.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+            connection.setRequestProperty("Authorization", API_KEY);
 
             int responseCode = connection.getResponseCode();
             System.out.println("ResponseCode: " + responseCode);
@@ -230,7 +232,7 @@ public class RestaurantsFinder{
             URL url = new URL(base_url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+            connection.setRequestProperty("Authorization", API_KEY);
 
             int responseCode = connection.getResponseCode();
             StringBuilder sb = new StringBuilder();
@@ -289,7 +291,7 @@ public class RestaurantsFinder{
                 URL url = new URL(base_url);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+                connection.setRequestProperty("Authorization", API_KEY);
 
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK){
@@ -394,7 +396,7 @@ public class RestaurantsFinder{
                 URL url  = new URL(base_url);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("Authorization", "Bearer MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx");
+                connection.setRequestProperty("Authorization", API_KEY);
 
                 int responseCode = connection.getResponseCode();
 
