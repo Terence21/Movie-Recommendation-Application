@@ -86,7 +86,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         sundayText = text;
     }
@@ -108,7 +108,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         mondayText = text;
     }
@@ -126,7 +126,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         tuesdayText = text;
     }
@@ -144,7 +144,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         wednesdayText = text;
     }
@@ -162,7 +162,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         thursdayText = text;
     }
@@ -180,7 +180,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         fridayText = text;
     }
@@ -198,7 +198,7 @@ public class DetailsModel implements Parcelable {
             text += "close: " + formatTime(end);
         }
         else{
-            text += "N/A";
+            text += "open: N/A\nclose: N/A";
         }
         saturdayText = text;
     }
@@ -216,20 +216,20 @@ public class DetailsModel implements Parcelable {
         if (time.length() == 4) {
 
 
-            if (Integer.parseInt(time.substring(0, 1)) >= 12) {
-                int hours = 24 - Integer.parseInt(time.substring(0, 1));
+            if (Integer.parseInt(time.substring(0, 2)) >= 12) {
+                int hours = Integer.parseInt(time.substring(0, 2)) - 12;
                 fixedTime = hours + ":";
                 fixedTime += minutes + " pm";
 
             } else {
-                int hours = Integer.parseInt(time.substring(0,1));
+                int hours = Integer.parseInt(time.substring(0,2));
                 fixedTime = hours + ":" + minutes + "am";
 
             }
             Log.i("time", "formatTime: " + fixedTime);
             return fixedTime;
         } else if (time.length() == 3) {
-            fixedTime = Integer.parseInt(time.substring(0, 0)) + minutes + "am";
+            fixedTime = Integer.parseInt(time.substring(0, 1)) + minutes + "am";
             return fixedTime;
         }
 

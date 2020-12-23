@@ -345,16 +345,22 @@ public class RestaurantsFinder{
 
             if (open_array.size() > 0){
                 // set hours open for each day
+                int[] nonAvailableDays = new int[7];
                 for (JsonElement element: open_array){
                     JsonObject index = element.getAsJsonObject();
                     String start = index.get("start").getAsString();
                     String end = index.get("end").getAsString();
                     int day = index.get("day").getAsInt();
-
+                    nonAvailableDays[day] = 1;
                     HashMap<String, String> hours = new HashMap<>();
                     hours.put("start",start); hours.put("end",end);
                     setDetailsTime(details, day, hours);
+                }
 
+                for (int i = 0; i<= nonAvailableDays.length-1; i++){
+                    if (nonAvailableDays[i] != 1){
+                        setDetailsTime(details, i, new HashMap<>());
+                    }
                 }
             }
 
@@ -365,7 +371,7 @@ public class RestaurantsFinder{
     private void setDetailsTime(DetailsModel details, int day, HashMap<String, String> hours){
         switch (day){
             case 0:
-                details.setSundayText(  hours);
+                details.setSundayText(hours);
                 break;
             case 1:
                 details.setMondayText(hours);
