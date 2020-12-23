@@ -1,5 +1,6 @@
 package temple.edu.yelp_randomizer.activities;
 
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,14 @@ import temple.edu.yelp_randomizer.restaraunts.RecycleAdapter;
 
 import java.util.ArrayList;
 
+
+/**
+ * Learned:
+ *  adjust pan in activity windowSoftInputMode
+ *  styles... set parent
+ *  set view constraint smaller... will adjust must reset constraints
+ *  how to recyclerView
+ */
 public class ReviewsActivity extends AppCompatActivity {
 
     private ArrayList<ReviewsModel> reviews;
@@ -34,6 +43,7 @@ public class ReviewsActivity extends AppCompatActivity {
         reviewsRecyclerView.setAdapter(recycleAdapter);
 
         personalReviewEditText = findViewById(R.id._personalReviewEditText);
+
 
     }
 }

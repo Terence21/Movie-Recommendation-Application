@@ -17,7 +17,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ReviewsActivity">
+        <activity android:name=".activities.ReviewsActivity" android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".activities.OptionsActivity">
         </activity>
