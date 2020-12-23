@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.button.MaterialButton;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.View.DetailsView;
 import temple.edu.yelp_randomizer.View.RestaurantView;
@@ -23,7 +24,7 @@ public class RestaurantContentFragment extends Fragment {
 
     RestaurantView contentRestaurantView;
     DetailsView detailsView;
-    RecyclerView reviewRecycleView;
+    MaterialButton reviewButton;
 
     RestaurantModel restaurant;
     DetailsModel details;
@@ -60,6 +61,7 @@ public class RestaurantContentFragment extends Fragment {
             restaurantUrl = restaurant.getUrl().replace("biz", "menu");
             reviews = getArguments().getParcelableArrayList("reviews");
             details = getArguments().getParcelable("details");
+
             /*restaurantUrl = restaurant.getUrl().replace("www", "m");
             restaurantUrl = restaurant.getUrl().replace("adjust_", "utm_");*/
         }
@@ -73,17 +75,14 @@ public class RestaurantContentFragment extends Fragment {
 
         contentRestaurantView = v.findViewById(R.id._restaurantContentView);
         detailsView = v.findViewById(R.id._restaurantContentDetailsview);
-        reviewRecycleView = v.findViewById(R.id._reviewRecycleView);
+        reviewButton = v.findViewById(R.id._reviewsButton);
+     //   reviewRecycleView = v.findViewById(R.id._reviewRecycleView);
 
         contentRestaurantView.setImageView(restaurant.getImage());
         String text = restaurant.getName() + "\n\n" + restaurant.getLocation() + "\n" + restaurant.getPhone().replace("+","");
         contentRestaurantView.setTextView(text);
 
         layoutManager = new LinearLayoutManager(getActivity()); // create a LinearLayout for recycle view
-        reviewRecycleView.setLayoutManager(layoutManager);
-
-        RecycleAdapter recycleAdapter = new RecycleAdapter(getContext(), reviews);
-        reviewRecycleView.setAdapter(recycleAdapter);
 
         detailsView.setFirstImageView(details.get_1_imageURL());
         detailsView.setSecondImageView(details.get_2_imageURL());
@@ -96,6 +95,12 @@ public class RestaurantContentFragment extends Fragment {
         detailsView.setFridayTextView(details.getFridayText());
         detailsView.setSaturdayTextView(details.getSaturdayText());
 
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.launchReviewActivity(reviews);
+            }
+        });
 
         return v;
     }
@@ -115,6 +120,6 @@ public class RestaurantContentFragment extends Fragment {
     }
 
     public interface RestaurantContentListener{
-        public void updateContentSavedRestaurants();
+        public void launchReviewActivity(ArrayList<ReviewsModel> reviews);
     }
 }

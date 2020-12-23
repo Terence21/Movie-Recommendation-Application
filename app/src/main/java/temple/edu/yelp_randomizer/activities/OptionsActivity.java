@@ -1,6 +1,7 @@
 package temple.edu.yelp_randomizer.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -408,8 +409,10 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     }
 
     @Override
-    public void updateContentSavedRestaurants() {
-        savedRestaurants = restaurantContentFragment.getSavedRestaurants();
+    public void launchReviewActivity(ArrayList<ReviewsModel> reviews) {
+        Intent intent = new Intent(this, ReviewsActivity.class);
+        intent.putParcelableArrayListExtra("reviews", reviews);
+        startActivity(intent);
     }
 
 

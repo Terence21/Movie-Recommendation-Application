@@ -10,7 +10,7 @@
             android:layout_marginEnd="1dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"
             android:id="@+id/_restaurantContentView" app:layout_constraintHorizontal_bias="0.0"/>
-    <temple.edu.yelp_randomizer.View.DetailsView android:layout_width="420dp" android:layout_height="258dp"
+    <temple.edu.yelp_randomizer.View.DetailsView android:layout_width="392dp" android:layout_height="395dp"
                                                  android:id="@+id/_restaurantContentDetailsview"
                                                  android:layout_marginTop="4dp"
                                                  app:layout_constraintTop_toBottomOf="@+id/_restaurantContentView"
@@ -18,13 +18,16 @@
                                                  android:layout_marginStart="2dp"
                                                  app:layout_constraintEnd_toEndOf="parent"
                                                  app:layout_constraintHorizontal_bias="0.0"/>
-    <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="392dp"
-            android:layout_height="305dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="1dp" android:layout_marginEnd="1dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="4dp"
-            android:id="@+id/_reviewRecycleView" app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="21dp" app:layout_constraintTop_toBottomOf="@+id/_restaurantContentDetailsview"
-            app:layout_constraintVertical_bias="0.764"/>
+    <com.google.android.material.button.MaterialButton android:layout_width="120dp" android:layout_height="39dp"
+                                                       app:layout_constraintStart_toStartOf="parent"
+                                                       android:layout_marginStart="116dp"
+                                                       android:layout_marginEnd="157dp"
+                                                       app:layout_constraintEnd_toEndOf="parent"
+                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                       android:layout_marginBottom="39dp"
+                                                       android:layout_marginTop="35dp"
+                                                       app:layout_constraintTop_toBottomOf="@+id/_restaurantContentDetailsview"
+                                                       android:text="Reviews" app:layout_constraintHorizontal_bias="1.0"
+                                                       app:layout_constraintVertical_bias="0.0"
+                                                       android:id="@+id/_reviewsButton"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

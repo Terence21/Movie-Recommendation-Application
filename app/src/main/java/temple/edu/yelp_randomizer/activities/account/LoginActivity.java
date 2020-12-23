@@ -12,6 +12,7 @@ import android.os.Bundle;
 import temple.edu.yelp_randomizer.activities.OptionsActivity;
 import temple.edu.yelp_randomizer.R;
 
+// restore reviewRecycleView
 public class LoginActivity extends AppCompatActivity {
 
     EditText username;

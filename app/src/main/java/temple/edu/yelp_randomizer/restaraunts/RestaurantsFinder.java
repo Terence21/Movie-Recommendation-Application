@@ -363,7 +363,7 @@ public class RestaurantsFinder{
     private void setDetailsTime(DetailsModel details, int day, HashMap<String, String> hours){
         switch (day){
             case 0:
-                details.setSundayText(hours);
+                details.setSundayText(  hours);
                 break;
             case 1:
                 details.setMondayText(hours);
