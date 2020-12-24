@@ -6,13 +6,12 @@ import android.view.Gravity;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.yelp_randomizer.R;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.restaraunts.RandomRestaurantsAdapter;
 import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
 
@@ -26,21 +25,21 @@ import java.util.Map;
  */
 public class SearchedRestaurantsFragment extends Fragment {
 
-    ArrayList<RestaurantHolder> savedRestaurants;
-    ArrayList<RestaurantHolder> searchedRestaurants;
-    HashMap<String, String> selectors;
+    private ArrayList<RestaurantModel> savedRestaurants;
+    private ArrayList<RestaurantModel> searchedRestaurants;
+    private HashMap<String, String> selectors;
 
-    ListView searchedRestaurantsListView;
-    TextView alertTextView;
-    boolean availableRestaurants;
-    SavedChooseRestaurantListener listener;
+    private ListView searchedRestaurantsListView;
+    private TextView alertTextView;
+    private boolean availableRestaurants;
+    private SavedChooseRestaurantListener listener;
 
     public SearchedRestaurantsFragment() {
         // Required empty public constructor
     }
 
 
-    public static SearchedRestaurantsFragment newInstance(ArrayList<RestaurantHolder> savedRestaurants, HashMap<String, String> selectors) {
+    public static SearchedRestaurantsFragment newInstance(ArrayList<RestaurantModel> savedRestaurants, HashMap<String, String> selectors) {
         SearchedRestaurantsFragment fragment = new SearchedRestaurantsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("savedRestaurants", savedRestaurants);
@@ -75,8 +74,8 @@ public class SearchedRestaurantsFragment extends Fragment {
             searchedRestaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    savedRestaurants.add(((RestaurantHolder) searchedRestaurantsListView.getAdapter().getItem(i)));
-                    listener.updateSaveListChoose_();
+                    listener.launchSearchedContent(searchedRestaurants.get(i));
+                  //  listener.updateSaveListChoose_();
                 }
             });
         }else{
@@ -128,12 +127,13 @@ public class SearchedRestaurantsFragment extends Fragment {
     /**
      * @return current state of savedRestaurants list
      */
-    public ArrayList<RestaurantHolder> getSavedRestaurants(){
+    public ArrayList<RestaurantModel> getSavedRestaurants(){
         return savedRestaurants;
     }
 
     public interface SavedChooseRestaurantListener{
         public void updateSaveListChoose_();
+        public void launchSearchedContent(RestaurantModel restaurant);
 
     }
 

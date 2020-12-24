@@ -3,40 +3,53 @@ package temple.edu.yelp_randomizer.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RestaurantHolder implements Parcelable {
+public class RestaurantModel implements Parcelable {
+    private int rating;
     private String id; // not accessible to user
     private String name; // name
     private String phone; // phone
     private String image; // image_url
     private String location; // location has a JSON array
+    private String url;
 
-    public RestaurantHolder(String id, String name, String phone, String image, String location) {
+    public RestaurantModel(int rating, String id, String name, String phone, String image, String location, String url) {
+        this.rating = rating;
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.image = image;
         this.location = location;
+        this.url = url;
     }
 
-    protected RestaurantHolder(Parcel in) {
+    protected RestaurantModel(Parcel in) {
         id = in.readString();
         name = in.readString();
         phone = in.readString();
         image = in.readString();
         location = in.readString();
+        url = in.readString();
     }
 
-    public static final Creator<RestaurantHolder> CREATOR = new Creator<RestaurantHolder>() {
+    public static final Creator<RestaurantModel> CREATOR = new Creator<RestaurantModel>() {
         @Override
-        public RestaurantHolder createFromParcel(Parcel in) {
-            return new RestaurantHolder(in);
+        public RestaurantModel createFromParcel(Parcel in) {
+            return new RestaurantModel(in);
         }
 
         @Override
-        public RestaurantHolder[] newArray(int size) {
-            return new RestaurantHolder[size];
+        public RestaurantModel[] newArray(int size) {
+            return new RestaurantModel[size];
         }
     };
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public String getId() {
         return id;
@@ -78,6 +91,14 @@ public class RestaurantHolder implements Parcelable {
         this.location = location;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,5 +111,6 @@ public class RestaurantHolder implements Parcelable {
         parcel.writeString(phone);
         parcel.writeString(image);
         parcel.writeString(location);
+        parcel.writeString(url);
     }
 }

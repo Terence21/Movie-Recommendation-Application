@@ -1,6 +1,7 @@
 package temple.edu.yelp_randomizer.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,7 +17,10 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.fragments.*;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.DetailsModel;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
+import temple.edu.yelp_randomizer.models.ReviewsModel;
+import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
 import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
@@ -32,7 +36,7 @@ import java.util.HashMap;
  *      5. rating system in savedRestaurants pages?
  *      6. clean up code and finish styling
  */
-public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener {
+public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener, RestaurantContentFragment.RestaurantContentListener {
 
     FrameLayout frame;
     TabLayout tabLayout;
@@ -45,10 +49,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     RandomRestaurantsFragment randomRestaurantsFragment;
     ChooseRestaurantsFormFragment chooseRestaurantsFormFragment;
     SearchedRestaurantsFragment searchedRestaurantsFragment;
+    RestaurantContentFragment restaurantContentFragment;
 
     FragmentManager fm;
 
-    ArrayList<RestaurantHolder> savedRestaurants;
+    ArrayList<RestaurantModel> savedRestaurants;
     ArrayList<String> categories;
 
     LocationManager locationManager;
@@ -59,8 +64,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     /**
      * level 0: options menu (random or choose)
      * level 1: random=> listView       choose=> form
-     * level 2: random=> page           choose=> listView
-     * level 3:                         choose=> page
+     * level 2: random=> content        choose=> listView
+     * level 3:                         choose=> content
      */
     int level;
     boolean showBackButton;
@@ -187,15 +192,25 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id._randomBackButton:
+            case R.id._BackButton:
                 if (level == 1) {
                     level = 0;
                     fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
+                    randomLevel = false;
+                    chooseLevel = false;
                     invalidateOptionsMenu();
-                }if (level == 2){
+                }else if (level == 2) {
                     level = 1;
-                    fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
-            }
+                    if (randomLevel) {
+                        fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
+
+                    }else if (chooseLevel){
+                        fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
+                    }
+                }else if (level == 3){
+                    level = 2;
+                    fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
+                }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -274,12 +289,14 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         } else if (level == 2){
             if (randomLevel){
                 // show random pages fragment
+                fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
             } else if (chooseLevel){
                 fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
             }
 
         } else if (level == 3){
             // show choose pages fragment
+            fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
         }
     }
 
@@ -296,13 +313,68 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
     }
 
-
-    /**
-     * callback method for randomRestaurantsFragment saveRestaurants button
-     */
     @Override
-    public void updateSaveList() {
-        savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
+    public void launchRandomContent(RestaurantModel restaurant) {
+        level = 2;
+
+        try{
+            final ArrayList<ReviewsModel>[] reviews = new ArrayList[]{new ArrayList<>()};
+            final DetailsModel[] details = {new DetailsModel()};
+            Thread review_thread = new Thread(){
+                @Override
+                public void run() {
+
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    reviews[0] = restaurantsFinder.getReviewsList();
+                }
+            };
+            review_thread.start();
+            Thread details_thread = new Thread(){
+                @Override
+                public void run() {
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    details[0] = restaurantsFinder.getDetails();
+                }
+            };
+            details_thread.start();
+            details_thread.join();
+            review_thread.join();
+            restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews[0], details[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
+    }
+    @Override
+    public void launchSearchedContent(RestaurantModel restaurant) {
+        level = 3;
+        try{
+            final ArrayList<ReviewsModel>[] reviews = new ArrayList[]{new ArrayList<>()};
+            final DetailsModel[] details = {new DetailsModel()};
+            Thread review_thread = new Thread(){
+                @Override
+                public void run() {
+
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    reviews[0] = restaurantsFinder.getReviewsList();
+                }
+            };
+            review_thread.start();
+            Thread details_thread = new Thread(){
+                @Override
+                public void run() {
+                    RestaurantsFinder restaurantsFinder = new RestaurantsFinder(restaurant.getId());
+                    details[0] = restaurantsFinder.getDetails();
+                }
+            };
+            details_thread.start();
+            details_thread.join();
+            review_thread.join();
+            restaurantContentFragment = RestaurantContentFragment.newInstance(restaurant, savedRestaurants, reviews[0], details[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
     }
 
     /**
@@ -311,6 +383,14 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public void updateSaveListChoose_() {
         savedRestaurants = searchedRestaurantsFragment.getSavedRestaurants();
+    }
+
+    /**
+     * callback method for randomRestaurantsFragment saveRestaurants button
+     */
+    @Override
+    public void updateSaveList() {
+        savedRestaurants = randomRestaurantsFragment.getSavedRestaurants();
     }
 
     /**
@@ -327,6 +407,13 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public String getLongitude(){
         return String.valueOf(longitude);
+    }
+
+    @Override
+    public void launchReviewActivity(ArrayList<ReviewsModel> reviews) {
+        Intent intent = new Intent(this, ReviewsActivity.class);
+        intent.putParcelableArrayListExtra("reviews", reviews);
+        startActivity(intent);
     }
 
 

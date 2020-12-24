@@ -1,6 +1,7 @@
 package temple.edu.yelp_randomizer.View;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,8 +16,13 @@ public class RestaurantView extends ConstraintLayout {
 
     Context context;
 
-    public RestaurantView(Context context) {
-        super(context);
+    /**
+     * must implement context and attribute set in constructor to inflate view to layout
+     * @param context
+     * @param attributeSet
+     */
+    public RestaurantView(Context context, AttributeSet  attributeSet) {
+        super(context, attributeSet);
         this.context = context;
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.restaurant_view,this,true);

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import temple.edu.yelp_randomizer.R;
-import temple.edu.yelp_randomizer.models.RestaurantHolder;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.restaraunts.RandomRestaurantsAdapter;
 
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ import java.util.ArrayList;
 public class UserRestarauntsFragment extends Fragment {
 
     ListView userRestaurantList;
-    ArrayList<RestaurantHolder> savedRestaurants;
+    ArrayList<RestaurantModel> savedRestaurants;
 
 
     public UserRestarauntsFragment() {
         // Required empty public constructor
     }
 
-    public static UserRestarauntsFragment newInstance(ArrayList<RestaurantHolder> savedRestaurants) {
+    public static UserRestarauntsFragment newInstance(ArrayList<RestaurantModel> savedRestaurants) {
         UserRestarauntsFragment fragment = new UserRestarauntsFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("restaurants", savedRestaurants);
