@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -90,6 +91,9 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
+        Toolbar toolbar = findViewById(R.id._optionsToolbar);
+        setSupportActionBar(toolbar);
 
         savedRestaurants = new ArrayList<>();
 
@@ -192,22 +196,41 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id._BackButton:
+            /*case R.id._BackButton:
                 if (level == 1) {
                     level = 0;
                     fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
                     randomLevel = false;
                     chooseLevel = false;
                     invalidateOptionsMenu();
-                }else if (level == 2) {
+                } else if (level == 2) {
                     level = 1;
                     if (randomLevel) {
                         fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
 
-                    }else if (chooseLevel){
+                    } else if (chooseLevel) {
                         fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
                     }
-                }else if (level == 3){
+                } else if (level == 3) {
+                    level = 2;
+                    fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
+                }*/
+            case android.R.id.home:
+                if (level == 1) {
+                    level = 0;
+                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
+                    randomLevel = false;
+                    chooseLevel = false;
+                    invalidateOptionsMenu();
+                } else if (level == 2) {
+                    level = 1;
+                    if (randomLevel) {
+                        fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
+
+                    } else if (chooseLevel) {
+                        fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
+                    }
+                } else if (level == 3) {
                     level = 2;
                     fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
                 }
@@ -226,9 +249,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (level > 0 && showBackButton){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getMenuInflater().inflate(R.menu.multi_tabs_toolbar, menu);
         }
         else{
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getMenuInflater().inflate(R.menu.regular_menu, menu);
         }
         return super.onPrepareOptionsMenu(menu);
