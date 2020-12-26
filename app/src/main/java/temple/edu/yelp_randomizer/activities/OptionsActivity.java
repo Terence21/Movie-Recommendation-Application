@@ -138,6 +138,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
                 if (tab.getPosition() == 0){ // my restaurant tab
                     showBackButton = false;
+                    saveMenu = false;
+
                     invalidateOptionsMenu();
                     userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentByTag("urf");
                     if (userRestarauntsFragment == null) {
@@ -200,25 +202,6 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            /*case R.id._BackButton:
-                if (level == 1) {
-                    level = 0;
-                    fm.beginTransaction().replace(R.id._frameLayout, findRestarauntsFragment, "frf").addToBackStack(null).commit();
-                    randomLevel = false;
-                    chooseLevel = false;
-                    invalidateOptionsMenu();
-                } else if (level == 2) {
-                    level = 1;
-                    if (randomLevel) {
-                        fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
-
-                    } else if (chooseLevel) {
-                        fm.beginTransaction().replace(R.id._frameLayout, chooseRestaurantsFormFragment, "crff").addToBackStack(null).commit();
-                    }
-                } else if (level == 3) {
-                    level = 2;
-                    fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
-                }*/
             case android.R.id.home:
                 if (level == 1) {
                     level = 0;
@@ -239,6 +222,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                     fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
                 }
                 invalidateOptionsMenu();
+                saveMenu = false; // every time back is clicked saveMenu is not displayed
                 break;
             case R.id._saveMenuItem:
                 savedRestaurants.add(restaurantContentFragment.getCurrentRestaurant());
@@ -263,9 +247,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             Log.i("OptionsMenu", "level: " + level + "\t choose: " + chooseLevel + "\trandom: " + randomLevel + "\tsave: " + saveMenu);
             if (((level == 2 && randomLevel) || (level == 3 && chooseLevel)) && !saveMenu){
-
                 getMenuInflater().inflate(R.menu.save_menu, menu);
-
+                saveMenu = true;
             }
         }
         else{
@@ -392,20 +375,6 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
         invalidateOptionsMenu();
 
-        Thread thread = new Thread(){
-            @Override
-            public void run() {
-                saveMenu = true;
-            }
-        };
-        try {
-            thread.wait(100);
-            thread.start();
-            thread.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
 
 
@@ -442,22 +411,6 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         }
         fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
         invalidateOptionsMenu();
-
-        Thread thread = new Thread(){
-            @Override
-            public void run() {
-                saveMenu = true;
-            }
-        };
-        try {
-            thread.wait(100);
-            thread.start();
-            thread.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
 
     }
 
