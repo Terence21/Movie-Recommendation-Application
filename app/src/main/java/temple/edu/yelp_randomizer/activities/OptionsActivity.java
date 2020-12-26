@@ -26,6 +26,8 @@ import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.zip.Inflater;
+
 /**
  * TODO:
  *      1a. write down what's learned so far
@@ -70,6 +72,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
      */
     int level;
     boolean showBackButton;
+    boolean saveMenu;
 
     /**
      * randomLevel: is currently in random
@@ -110,6 +113,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         showBackButton = false;
         randomLevel = false;
         chooseLevel = false;
+        saveMenu = false;
 
         Context context = this;
         Thread thread = new Thread(){
@@ -235,6 +239,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                     fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
                 }
         }
+        invalidateOptionsMenu();
         return super.onOptionsItemSelected(item);
     }
 
@@ -249,12 +254,16 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (level > 0 && showBackButton){
+            getMenuInflater().inflate(R.menu.regular_menu, menu);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getMenuInflater().inflate(R.menu.multi_tabs_toolbar, menu);
+            Log.i("OptionsMenu", "level: " + level + "\t choose: " + chooseLevel + "\trandom: " + randomLevel);
+            if (((level == 2 && randomLevel) || (level == 3 && chooseLevel)) && !saveMenu){
+                getMenuInflater().inflate(R.menu.save_menu, menu);
+            }
         }
         else{
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getMenuInflater().inflate(R.menu.regular_menu, menu);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -315,6 +324,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             if (randomLevel){
                 // show random pages fragment
                 fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
+
             } else if (chooseLevel){
                 fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
             }
@@ -322,7 +332,9 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         } else if (level == 3){
             // show choose pages fragment
             fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
+
         }
+        invalidateOptionsMenu();
     }
 
     /**
@@ -336,6 +348,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         level = 2;
         searchedRestaurantsFragment = SearchedRestaurantsFragment.newInstance(savedRestaurants, selectors);
         fm.beginTransaction().replace(R.id._frameLayout, searchedRestaurantsFragment, "srf").addToBackStack(null).commit();
+        
     }
 
     @Override
@@ -369,6 +382,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             e.printStackTrace();
         }
         fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
+        invalidateOptionsMenu();
+
     }
     @Override
     public void launchSearchedContent(RestaurantModel restaurant) {
@@ -400,6 +415,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             e.printStackTrace();
         }
         fm.beginTransaction().replace(R.id._frameLayout, restaurantContentFragment, "rcf").addToBackStack(null).commit();
+        invalidateOptionsMenu();
     }
 
     /**
