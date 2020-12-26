@@ -245,6 +245,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 break;
 
             case R.id._visitMenuItem:
+                String location_string = restaurantContentFragment.getCurrentRestaurant().getLocation().replaceAll(" ", "+");
+                Uri location = Uri.parse("geo:0,0?q=" + location_string);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+                Intent mShareIntent = Intent.createChooser(mapIntent, null);
+                startActivity(mShareIntent);
                 break;
         }
 
