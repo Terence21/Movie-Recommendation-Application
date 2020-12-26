@@ -27,7 +27,6 @@ import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.zip.Inflater;
 
 /**
  * TODO:
@@ -271,7 +270,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             Log.i("OptionsMenu", "level: " + level + "\t choose: " + chooseLevel + "\trandom: " + randomLevel + "\tsave: " + saveMenu);
             if (((level == 2 && randomLevel) || (level == 3 && chooseLevel)) && !saveMenu){
-                getMenuInflater().inflate(R.menu.save_menu, menu);
+                getMenuInflater().inflate(R.menu.content_menu, menu);
                 saveMenu = true;
             }
         }
