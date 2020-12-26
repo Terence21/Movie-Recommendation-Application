@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -224,8 +225,26 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 invalidateOptionsMenu();
                 saveMenu = false; // every time back is clicked saveMenu is not displayed
                 break;
+
             case R.id._saveMenuItem:
                 savedRestaurants.add(restaurantContentFragment.getCurrentRestaurant());
+                break;
+
+            case R.id._launchMenuItem:
+                Uri webpage = Uri.parse(restaurantContentFragment.getCurrentRestaurant().getUrl());
+                Intent launchIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                Intent lShareIntent = Intent.createChooser(launchIntent, null);
+                startActivity(lShareIntent);
+                break;
+
+            case R.id._callMenuItem: // need tel: to use action_dial
+                Uri phoneNumber = Uri.parse("tel:" + restaurantContentFragment.getCurrentRestaurant().getPhone());
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, phoneNumber);
+                Intent cShareIntent = Intent.createChooser(callIntent, null);
+                startActivity(cShareIntent);
+                break;
+
+            case R.id._visitMenuItem:
                 break;
         }
 
