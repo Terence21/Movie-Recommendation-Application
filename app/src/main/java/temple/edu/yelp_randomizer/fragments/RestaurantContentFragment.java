@@ -105,6 +105,10 @@ public class RestaurantContentFragment extends Fragment {
         return v;
     }
 
+    public RestaurantModel getCurrentRestaurant(){
+        return restaurant;
+    }
+
     public ArrayList<RestaurantModel> getSavedRestaurants(){
         return savedRestaurants;
     }

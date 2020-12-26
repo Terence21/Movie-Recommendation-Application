@@ -317,7 +317,7 @@ public class RestaurantsFinder{
     public DetailsModel getDetails(){
         String response = getDetailsResponse();
         DetailsModel details = new DetailsModel();
-        if (response != null){
+        if (response != null) {
             JsonObject detailsObject = new JsonParser().parse(response).getAsJsonObject();
             JsonArray hours_array = detailsObject.getAsJsonArray("hours");
             JsonArray photos_array = detailsObject.getAsJsonArray("photos");
@@ -328,10 +328,10 @@ public class RestaurantsFinder{
             if (photos_array.size() > 0) {
                 image1 = photos_array.get(0).getAsString();
             }
-            if (photos_array.size() > 1){
+            if (photos_array.size() > 1) {
                 image2 = photos_array.get(1).getAsString();
             }
-            if (photos_array.size() > 3){
+            if (photos_array.size() > 3) {
                 image3 = photos_array.get(2).getAsString();
             }
 
@@ -360,13 +360,14 @@ public class RestaurantsFinder{
                         setDetailsTime(details, day, hours);
                     }
                 }
+            }
 
-                for (int i = 0; i <= nonAvailableDays.length - 1; i++) {
-                    if (nonAvailableDays[i] != 1) {
-                        setDetailsTime(details, i, new HashMap<>());
-                    }
+            for (int i = 0; i <= nonAvailableDays.length - 1; i++) {
+                if (nonAvailableDays[i] != 1) {
+                    setDetailsTime(details, i, new HashMap<>());
                 }
             }
+
 
         }
         return details;
