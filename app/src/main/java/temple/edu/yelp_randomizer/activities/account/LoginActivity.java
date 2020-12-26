@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Button; 
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import temple.edu.yelp_randomizer.activities.OptionsActivity;
 import temple.edu.yelp_randomizer.R;
 
+// restore reviewRecycleView
 public class LoginActivity extends AppCompatActivity {
 
     EditText username;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                 launchOptions();
             }
         });
+        
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

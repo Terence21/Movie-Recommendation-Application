@@ -11,4 +11,4 @@
 /build
 /captures
 .externalNativeBuild
-.cxx
+/app/src/main/java/temple/edu/yelp_randomizer/storage/ApiKeyFinder.java
