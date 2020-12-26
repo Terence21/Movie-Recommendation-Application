@@ -30,14 +30,11 @@ import java.util.HashMap;
 
 /**
  * TODO:
- *      1a. write down what's learned so far
- *      2. make onclick for each item in listview which displays more details, the ability to save the restaurant, and a webView to the restaurant link
- *      3. add swipe to delete from saved menu
- *      3a. look into swipe to add from any of the listviews
- *      4. have grid view display possible queries using YELP api, have new way to display chosen one (highlight in grid view?)
- *      4. create logic for grabbing the correct coordinates (using service??)
- *      5. rating system in savedRestaurants pages?
- *      6. clean up code and finish styling
+ *      1. implement logic to properly randomize restaurants shown
+ *      2. create a refresh menu item to refresh the random restaurants
+ *      3. firebase for login, also google login auth
+ *      4. save restaurants information into database to have restaurants loaded (only unique restaurants)
+ *      5. save review button in review activity
  */
 public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener, RestaurantContentFragment.RestaurantContentListener {
 
