@@ -251,6 +251,10 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 Intent mShareIntent = Intent.createChooser(mapIntent, null);
                 startActivity(mShareIntent);
                 break;
+
+            case R.id._refreshMenuItem:
+                randomRestaurantsFragment = RandomRestaurantsFragment.newInstance(savedRestaurants);
+                fm.beginTransaction().replace(R.id._frameLayout, randomRestaurantsFragment, "rrf").addToBackStack(null).commit();
         }
 
         return super.onOptionsItemSelected(item);
