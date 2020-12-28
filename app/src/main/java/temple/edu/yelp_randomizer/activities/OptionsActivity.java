@@ -30,8 +30,9 @@ import java.util.HashMap;
 
 /**
  * TODO:
- *      1. implement logic to properly randomize restaurants shown
- *      2. create a refresh menu item to refresh the random restaurants
+ *      1. implement logic to properly randomize restaurants shown (done)
+ *      2. create a refresh menu item to refresh the random restaurants (done)
+ *          => implement a limit of 3 per day
  *      3. firebase for login, also google login auth
  *      4. save restaurants information into database to have restaurants loaded (only unique restaurants)
  *      5. save review button in review activity
