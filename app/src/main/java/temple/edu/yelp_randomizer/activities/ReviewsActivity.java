@@ -73,7 +73,7 @@ public class ReviewsActivity extends AppCompatActivity {
 
     /*@Override  ==> don't need a back button menu because setDisplayHomeAsUpEnabled already has a dedicated item for going to parent activity
     public boolean onPrepareOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.back_menu, menu);
+        getMenuInflater().inflate(R.menu.refresh_menu, menu);
         return true;
     }*/
 }

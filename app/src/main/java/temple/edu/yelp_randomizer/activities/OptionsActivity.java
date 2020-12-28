@@ -70,6 +70,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     int level;
     boolean showBackButton;
     boolean saveMenu;
+    boolean refreshMenu;
 
     /**
      * randomLevel: is currently in random
@@ -111,6 +112,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         randomLevel = false;
         chooseLevel = false;
         saveMenu = false;
+        refreshMenu = false;
 
         Context context = this;
         Thread thread = new Thread(){
@@ -136,6 +138,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 if (tab.getPosition() == 0){ // my restaurant tab
                     showBackButton = false;
                     saveMenu = false;
+                    refreshMenu = false;
 
                     invalidateOptionsMenu();
                     userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentByTag("urf");
@@ -220,6 +223,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 }
                 invalidateOptionsMenu();
                 saveMenu = false; // every time back is clicked saveMenu is not displayed
+                refreshMenu = false;
                 break;
 
             case R.id._saveMenuItem:
@@ -269,6 +273,10 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             if (((level == 2 && randomLevel) || (level == 3 && chooseLevel)) && !saveMenu){
                 getMenuInflater().inflate(R.menu.content_menu, menu);
                 saveMenu = true;
+            }
+            if (level == 1 && randomLevel && !refreshMenu){
+                getMenuInflater().inflate(R.menu.refresh_menu, menu);
+                refreshMenu = true;
             }
         }
         else{
