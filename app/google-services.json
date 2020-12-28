@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "654477093146",
+    "project_id": "first-project-43689",
+    "storage_bucket": "first-project-43689.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654477093146:android:f34362ac47d9adae28e4a3",
+        "android_client_info": {
+          "package_name": "temple.edu.zomato_randomizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654477093146-euq6m7c6v5ne6hgaa2itqlnmhnbe0omi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Ob7vcUBMd7spbkaN00JXVnjRNmOFnQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654477093146-euq6m7c6v5ne6hgaa2itqlnmhnbe0omi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

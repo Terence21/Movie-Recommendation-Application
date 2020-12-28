@@ -2,6 +2,7 @@ package temple.edu.yelp_randomizer.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -9,15 +10,23 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import temple.edu.yelp_randomizer.R;
+import temple.edu.yelp_randomizer.activities.account.LoginActivity;
 import temple.edu.yelp_randomizer.fragments.*;
 import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
@@ -43,6 +52,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     TabLayout tabLayout;
     TabItem myRestaraunts;
     TabItem findRestaraunts;
+    TextView signOutTextView;
 
 
     UserRestarauntsFragment userRestarauntsFragment;
@@ -103,6 +113,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         frame = findViewById(R.id._frameLayout);
         myRestaraunts = findViewById(R.id._tabPreviousRestaraunts);
         findRestaraunts = findViewById(R.id._tabFindRestaraunts);
+        signOutTextView = findViewById(R.id._signOutTextView);
 
         fm = getSupportFragmentManager();
         userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentByTag("urf"); // use tag on replace/add and find by tag to get specific fragment and not detach/garbage them automatically
@@ -129,6 +140,27 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        Intent receiveIntent = getIntent();
+        GoogleSignInAccount account = receiveIntent.getParcelableExtra("google");
+
+        signOutTextView.setPaintFlags(signOutTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        signOutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context,gso);
+                googleSignInClient.signOut();
+                launchLogin();
+
+            }
+
+            private void launchLogin(){
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+                finishAffinity();
+            }
+        });
 
 
 
