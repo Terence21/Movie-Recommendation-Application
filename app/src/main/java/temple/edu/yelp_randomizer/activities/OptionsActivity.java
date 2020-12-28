@@ -2,6 +2,7 @@ package temple.edu.yelp_randomizer.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationListener;
@@ -145,6 +146,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         GoogleSignInAccount account = receiveIntent.getParcelableExtra("google");
 
         signOutTextView.setPaintFlags(signOutTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        signOutTextView.setTextColor(Color.BLUE);
         signOutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
