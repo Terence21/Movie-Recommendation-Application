@@ -413,7 +413,7 @@ public class RestaurantsFinder{
             if (photos_array.size() > 1) {
                 image2 = photos_array.get(1).getAsString();
             }
-            if (photos_array.size() > 3) {
+            if (photos_array.size() > 2) {
                 image3 = photos_array.get(2).getAsString();
             }
 
