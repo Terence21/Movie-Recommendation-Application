@@ -3,11 +3,13 @@ package temple.edu.yelp_randomizer.storage;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class DataFinder {
@@ -87,4 +89,6 @@ public class DataFinder {
             e.printStackTrace();
         }
     }
+
+
 }
