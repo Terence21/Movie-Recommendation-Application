@@ -26,6 +26,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.activities.account.LoginActivity;
 import temple.edu.yelp_randomizer.fragments.*;
@@ -91,6 +93,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     boolean randomLevel;
     boolean chooseLevel;
 
+    FirebaseUser currentUser;
+
     /**
      * Initialize fields; fragments loaded from tab, define primitives for dictating level
      * Pre load categories for ChooseRestaurantsFormFragment
@@ -104,6 +108,8 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
+        currentUser = getIntent().getParcelableExtra("user");
 
         Toolbar toolbar = findViewById(R.id._optionsToolbar);
         setSupportActionBar(toolbar);
@@ -153,6 +159,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
                 GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context,gso);
                 googleSignInClient.signOut();
+                FirebaseAuth.getInstance().signOut();
                 launchLogin();
 
             }

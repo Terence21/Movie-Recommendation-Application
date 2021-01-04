@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button; 
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +19,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import temple.edu.yelp_randomizer.activities.OptionsActivity;
 import temple.edu.yelp_randomizer.R;
 
@@ -28,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private TextView register;
     private Button submitButton;
+    private FirebaseAuth mAuth;
 
     private SignInButton mGoogleSignInButton;
     private GoogleSignInClient mGoogleSignInClient;
@@ -46,11 +53,31 @@ public class LoginActivity extends AppCompatActivity {
         submitButton = findViewById(R.id._registerButton);
 
         checkAlreadyLoggedIn();
+        mAuth = FirebaseAuth.getInstance();
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchOptions(new Bundle());
+                if (username.getText().toString().length() > 0 && password.getText().toString().length() > 0) {
+                    mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString()).addOnCompleteListener(LoginActivity.this,
+                            new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable("user", user);
+                                        launchOptions(bundle);
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                } else{
+                    Toast.makeText(LoginActivity.this, "Email or Password incomplete", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
         
@@ -81,6 +108,19 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("user", currentUser);
+            launchOptions(bundle);
+        }
 
     }
 
