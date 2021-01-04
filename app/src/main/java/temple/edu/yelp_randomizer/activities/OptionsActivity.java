@@ -278,7 +278,9 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
             case R.id._saveMenuItem:
                 savedRestaurants.add(restaurantContentFragment.getCurrentRestaurant());
-                firestore.collection("users").document(currentUser.getUid()).collection("savedRestaurants").document().set(restaurantContentFragment.getCurrentRestaurant(), SetOptions.merge());
+                firestore.collection("users").document(currentUser.getUid()).collection("savedRestaurants").document(
+                        restaurantContentFragment.getCurrentRestaurant().getId()
+                ).set(restaurantContentFragment.getCurrentRestaurant(), SetOptions.merge());
                 break;
 
             case R.id._launchMenuItem:
