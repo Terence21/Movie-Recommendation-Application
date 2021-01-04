@@ -14,8 +14,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import temple.edu.yelp_randomizer.activities.OptionsActivity;
 import temple.edu.yelp_randomizer.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button registerButton;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    assert user != null;
+                                    fireCreateUserObject(user);
                                     Bundle bundle = new Bundle();
                                     bundle.putParcelable("user", user);
                                     launchOptions(bundle);
@@ -57,6 +64,17 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void fireCreateUserObject(FirebaseUser user){
+        firestore = FirebaseFirestore.getInstance();
+        Map<String, String> map = new HashMap<>();
+
+      /*  firestore.collection("users")
+                .document(user.getUid())
+                .collection("savedRestaurants");*/
+        firestore.collection("users")
+                .document(user.getUid()).set(map);
     }
 
     public void launchOptions(Bundle bundle){

@@ -28,6 +28,8 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.activities.account.LoginActivity;
 import temple.edu.yelp_randomizer.fragments.*;
@@ -94,7 +96,11 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     boolean chooseLevel;
 
     FirebaseUser currentUser;
+    FirebaseFirestore firestore;
 
+    public void handleFirestore(){
+        firestore = FirebaseFirestore.getInstance();
+    }
     /**
      * Initialize fields; fragments loaded from tab, define primitives for dictating level
      * Pre load categories for ChooseRestaurantsFormFragment
@@ -109,7 +115,9 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        currentUser = getIntent().getParcelableExtra("user");
+       // currentUser = getIntent().getParcelableExtra("user");
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
 
         Toolbar toolbar = findViewById(R.id._optionsToolbar);
         setSupportActionBar(toolbar);
@@ -270,6 +278,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
             case R.id._saveMenuItem:
                 savedRestaurants.add(restaurantContentFragment.getCurrentRestaurant());
+                firestore.collection("users").document(currentUser.getUid()).collection("savedRestaurants").document().set(restaurantContentFragment.getCurrentRestaurant(), SetOptions.merge());
                 break;
 
             case R.id._launchMenuItem:
