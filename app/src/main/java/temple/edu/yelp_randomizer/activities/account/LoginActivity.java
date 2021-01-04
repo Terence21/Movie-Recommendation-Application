@@ -21,9 +21,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.*;
 import temple.edu.yelp_randomizer.activities.OptionsActivity;
 import temple.edu.yelp_randomizer.R;
 
@@ -133,6 +131,26 @@ public class LoginActivity extends AppCompatActivity {
             launchOptions(bundle);
         }
     }
+
+    private void firebaseGoogleSignIn(String idToken){
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("user",user);
+                            launchOptions(bundle);
+                        }
+                        else{
+                            Log.w("Fail", "loginGoogleFail: " + task.getException().getMessage());
+                            Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     private void googleSignIn(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 10);
@@ -147,9 +165,8 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
         try{
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("google", account);
-            launchOptions(bundle);
+            assert account != null;
+            firebaseGoogleSignIn(account.getIdToken());
         }catch(ApiException e){
             Log.w("handleSignInResultWarning", "handleSignInResult: " + e.getStatusCode() );
         }
