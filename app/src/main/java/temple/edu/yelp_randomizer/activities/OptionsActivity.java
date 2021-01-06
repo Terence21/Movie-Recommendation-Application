@@ -25,11 +25,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import io.grpc.stub.AbstractFutureStub;
 import temple.edu.yelp_randomizer.R;
@@ -44,15 +48,7 @@ import temple.edu.yelp_randomizer.storage.DataFinder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * TODO:
- *      1. implement logic to properly randomize restaurants shown (done)
- *      2. create a refresh menu item to refresh the random restaurants (done)
- *          => implement a limit of 3 per day
- *      3. firebase for login, also google login auth
- *      4. save restaurants information into database to have restaurants loaded (only unique restaurants)
- *      5. save review button in review activity
- */
+
 public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener, RestaurantContentFragment.RestaurantContentListener {
 
     FrameLayout frame;
@@ -125,6 +121,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         setSupportActionBar(toolbar);
 
         savedRestaurants = new ArrayList<>();
+        initializeSavedRestaurants();
 
         tabLayout = findViewById(R.id._tabLayout);
         frame = findViewById(R.id._frameLayout);
@@ -596,6 +593,37 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
             }
         }
         return false;
+    }
+
+    public void initializeSavedRestaurants(){
+        firestore.collection("users").document(currentUser.getUid()).collection("savedRestaurants")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            savedRestaurants = new ArrayList<>();
+                            for (QueryDocumentSnapshot document: task.getResult()){
+                                try {
+                                    RestaurantModel restaurant = new RestaurantModel(
+                                            ((Long) document.get("rating")).intValue(),
+                                            (String) document.get("id"),
+                                            document.getId(),
+                                            (String) document.get("phone"),
+                                            (String) document.get("image"),
+                                            (String) document.get("location"),
+                                            (String) document.get("url")
+                                    );
+                                    restaurant.setReview((String) document.get("review"));
+                                    savedRestaurants.add(restaurant);
+                                }catch (NullPointerException ignored){
+                                    Log.w("nullPointerException", "null rating" );
+                                }
+                            }
+
+                        }
+                    }
+                });
     }
 
 
