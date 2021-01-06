@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener, RestaurantContentFragment.RestaurantContentListener {
+public class OptionsActivity extends AppCompatActivity implements FindRestarauntsFragment.FindRestaurantsChooser, RandomRestaurantsFragment.SavedRestaurantListener, ChooseRestaurantsFormFragment.LaunchChooseRestaurantsListener, SearchedRestaurantsFragment.SavedChooseRestaurantListener, RestaurantContentFragment.RestaurantContentListener, UserRestarauntsFragment.FragmentContentListener {
 
     FrameLayout frame;
     TabLayout tabLayout;
@@ -83,6 +83,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
      * level 3:                         choose=> content
      */
     int level;
+    boolean userTab;
     boolean showBackButton;
     boolean saveMenu;
     boolean refreshMenu;
@@ -152,6 +153,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         findRestarauntsFragment = (FindRestarauntsFragment) fm.findFragmentByTag("frf");
 
         level = 0;
+        userTab = false;
         showBackButton = false;
         randomLevel = false;
         chooseLevel = false;
@@ -572,7 +574,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 400){
+        if (resultCode == 400){
             assert data != null;
             savedRestaurants = data.getParcelableArrayListExtra("savedRestaurants");
         }

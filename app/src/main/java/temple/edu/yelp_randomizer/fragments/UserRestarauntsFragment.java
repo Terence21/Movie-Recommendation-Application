@@ -1,8 +1,11 @@
 package temple.edu.yelp_randomizer.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,7 @@ public class UserRestarauntsFragment extends Fragment {
 
     ListView userRestaurantList;
     ArrayList<RestaurantModel> savedRestaurants;
+    private FragmentContentListener listener;
 
 
     public UserRestarauntsFragment() {
@@ -51,12 +55,32 @@ public class UserRestarauntsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_user_restaraunts, container, false);
         userRestaurantList = (ListView) v.findViewById(R.id._myRestaurantsListView);
         userRestaurantList.setAdapter(new RandomRestaurantsAdapter(getContext(), savedRestaurants));
+        userRestaurantList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                listener.launchRandomContent(savedRestaurants.get(i));
+            }
+        });
 
         return v;
     }
 
     public void notifyDataSetChanged(){
         ((BaseAdapter) userRestaurantList.getAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof  FragmentContentListener){
+            listener = (FragmentContentListener) context;
+        } else{
+            throw new RuntimeException("Calling Activity must implement FragmentChangeListener");
+        }
+    }
+
+    public interface FragmentContentListener extends RandomRestaurantsFragment.SavedRestaurantListener {
+
     }
 
 
