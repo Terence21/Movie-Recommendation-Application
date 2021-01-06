@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import io.grpc.stub.AbstractFutureStub;
 import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.activities.account.LoginActivity;
 import temple.edu.yelp_randomizer.fragments.*;
@@ -277,10 +279,12 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                 break;
 
             case R.id._saveMenuItem:
-                savedRestaurants.add(restaurantContentFragment.getCurrentRestaurant());
-                firestore.collection("users").document(currentUser.getUid()).collection("savedRestaurants").document(
-                        restaurantContentFragment.getCurrentRestaurant().getId()
-                ).set(restaurantContentFragment.getCurrentRestaurant(), SetOptions.merge());
+                if (!OptionsActivity.containsRestaurant(savedRestaurants, restaurantContentFragment.getCurrentRestaurant().getId())) {
+                    savedRestaurants.add(restaurantContentFragment.getCurrentRestaurant());
+                    firestore.collection("users").document(currentUser.getUid()).collection("savedRestaurants").document(
+                            restaurantContentFragment.getCurrentRestaurant().getId()
+                    ).set(restaurantContentFragment.getCurrentRestaurant(), SetOptions.merge());
+                }
                 break;
 
             case R.id._launchMenuItem:
@@ -469,6 +473,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         level = 3;
 
         try{
+
             final ArrayList<ReviewsModel>[] reviews = new ArrayList[]{new ArrayList<>()};
             final DetailsModel[] details = {new DetailsModel()};
             Thread review_thread = new Thread(){
@@ -535,9 +540,22 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
     public void launchReviewActivity(ArrayList<ReviewsModel> reviews) {
         Intent intent = new Intent(this, ReviewsActivity.class);
         intent.putParcelableArrayListExtra("reviews", reviews);
-        startActivity(intent);
+        intent.putParcelableArrayListExtra("savedRestaurants", savedRestaurants);
+        intent.putExtra("restaurant", restaurantContentFragment.getCurrentRestaurant());
+        //startActivity(intent);
+        startActivityForResult(intent, 400);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 400){
+            assert data != null;
+            savedRestaurants = data.getParcelableArrayListExtra("savedRestaurants");
+        }
+    }
 
     /**
      * local class to retrieve current location from gps
@@ -570,5 +588,16 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
 
     }
+
+    public static boolean containsRestaurant(ArrayList<RestaurantModel> restaurants, String resId){
+        for (RestaurantModel restaurant: restaurants) {
+            if (restaurant.getId().equals(resId)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 }
