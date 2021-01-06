@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,10 +109,26 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
      *
      * @param savedInstanceState
      */
+
+    private final Thread task = new Thread() {
+        @Override
+        public void run() {
+            while (userRestarauntsFragment == null){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            initializeSavedRestaurants();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
 
        // currentUser = getIntent().getParcelableExtra("user");
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -121,7 +138,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         setSupportActionBar(toolbar);
 
         savedRestaurants = new ArrayList<>();
-        initializeSavedRestaurants();
+
 
         tabLayout = findViewById(R.id._tabLayout);
         frame = findViewById(R.id._frameLayout);
@@ -131,6 +148,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
         fm = getSupportFragmentManager();
         userRestarauntsFragment = (UserRestarauntsFragment) fm.findFragmentByTag("urf"); // use tag on replace/add and find by tag to get specific fragment and not detach/garbage them automatically
+        initializeSavedRestaurants();
         findRestarauntsFragment = (FindRestarauntsFragment) fm.findFragmentByTag("frf");
 
         level = 0;
@@ -229,6 +247,12 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
             }
         });
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id._tabLayout);
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        tab.select();
+
+
     }
 
     @Override
@@ -608,7 +632,7 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
                                     RestaurantModel restaurant = new RestaurantModel(
                                             ((Long) document.get("rating")).intValue(),
                                             (String) document.get("id"),
-                                            document.getId(),
+                                            (String) document.get("name"),
                                             (String) document.get("phone"),
                                             (String) document.get("image"),
                                             (String) document.get("location"),

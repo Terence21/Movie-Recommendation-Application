@@ -1,6 +1,7 @@
 package temple.edu.yelp_randomizer.fragments;
 
 import android.os.Bundle;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -53,4 +54,10 @@ public class UserRestarauntsFragment extends Fragment {
 
         return v;
     }
+
+    public void notifyDataSetChanged(){
+        ((BaseAdapter) userRestaurantList.getAdapter()).notifyDataSetChanged();
+    }
+
+
 }
