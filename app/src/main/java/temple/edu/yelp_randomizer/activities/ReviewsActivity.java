@@ -74,6 +74,9 @@ public class ReviewsActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         RestaurantModel restaurant = getIntent().getParcelableExtra("restaurant");
+        if (restaurant.getReview().length() >0){
+            personalReviewEditText.setText(restaurant.getReview());
+        }
 
         ArrayList<RestaurantModel> savedRestaurants = getIntent().getParcelableArrayListExtra("savedRestaurants");
         saveReviewButton = findViewById(R.id._saveReviewButton);

@@ -125,6 +125,14 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
         }
     };
 
+    /**
+     * TODO:
+     *      1. fix home button logic for user tab
+     *          => need to create a new content fragment to be displayed
+     *      2. fix pre load of review in saved restaurants tab
+     *          => load into the editText the review from the restaurant in the review activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
