@@ -128,10 +128,10 @@ public class OptionsActivity extends AppCompatActivity implements FindRestaraunt
 
     /**
      * TODO:
-     *      1. fix home button logic for user tab
-     *          => need to create a new content fragment to be displayed
-     *      2. fix pre load of review in saved restaurants tab
-     *          => load into the editText the review from the restaurant in the review activity
+     *      1. Make it look prettier (consistent background and more..)
+     *      2. Clean up Code
+     *      3. app icon and titles
+     *      4. images for blank reivew pp and restaurant pp
      * @param savedInstanceState
      */
     @Override
