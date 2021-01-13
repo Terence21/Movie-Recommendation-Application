@@ -11,6 +11,8 @@ public class RestaurantModel implements Parcelable {
     private String image; // image_url
     private String location; // location has a JSON array
     private String url;
+    private String review;
+
 
     public RestaurantModel(int rating, String id, String name, String phone, String image, String location, String url) {
         this.rating = rating;
@@ -20,6 +22,7 @@ public class RestaurantModel implements Parcelable {
         this.image = image;
         this.location = location;
         this.url = url;
+        this.review = "";
     }
 
     protected RestaurantModel(Parcel in) {
@@ -29,6 +32,7 @@ public class RestaurantModel implements Parcelable {
         image = in.readString();
         location = in.readString();
         url = in.readString();
+        review = in.readString();
     }
 
     public static final Creator<RestaurantModel> CREATOR = new Creator<RestaurantModel>() {
@@ -49,6 +53,14 @@ public class RestaurantModel implements Parcelable {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 
     public String getId() {
@@ -112,5 +124,6 @@ public class RestaurantModel implements Parcelable {
         parcel.writeString(image);
         parcel.writeString(location);
         parcel.writeString(url);
+        parcel.writeString(review);
     }
 }

@@ -14,6 +14,7 @@ import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.restaraunts.RandomRestaurantsAdapter;
 import temple.edu.yelp_randomizer.restaraunts.RestaurantsFinder;
+import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,20 +78,23 @@ public class RandomRestaurantsFragment extends Fragment {
      */
     public void requestRandomYelpNetworkOperation(){
 
-        Map<String, String> selectors = new HashMap<>();
+       /* Map<String, String> selectors = new HashMap<>();
        selectors.put("latitude", "40.050900");
        selectors.put("longitude", "-75.087883");
         //selectors.put("latitude",listener.getLatitude());
        // selectors.put("longitude", listener.getLongitude());
         selectors.put("term", "restaurants+italian");
         selectors.put("radius", "16093");
-        selectors.put("limit","5");
+        selectors.put("limit","5");*/
 
         Thread thread = new Thread() {
             @Override
             public void run() {
-                RestaurantsFinder restaurantsFinder = new RestaurantsFinder(0, selectors);
-                restaurantsList = restaurantsFinder.getRandom();
+                RestaurantsFinder restaurantsFinder = new RestaurantsFinder(0, new HashMap<>());
+                ArrayList<String>categories = new ArrayList<>();
+                DataFinder dataFinder = new DataFinder(getContext());
+                categories = dataFinder.getCategories();
+                restaurantsList = restaurantsFinder.generateRandomRestaurants(categories);
             }
         };
         thread.start();

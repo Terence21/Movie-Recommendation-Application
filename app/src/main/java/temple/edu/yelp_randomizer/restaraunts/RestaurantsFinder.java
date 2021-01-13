@@ -11,6 +11,7 @@ import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.models.ReviewsModel;
 import temple.edu.yelp_randomizer.storage.ApiKeyFinder;
+import temple.edu.yelp_randomizer.storage.DataFinder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 1. base url
@@ -95,6 +97,86 @@ public class RestaurantsFinder{
         return restaurants;
     }
 
+    public ArrayList<RestaurantModel> generateRandomRestaurants(ArrayList<String> categories){
+        ArrayList<String> randomCategories = new ArrayList<>();
+        ArrayList<RestaurantModel> restaurants = new ArrayList<>();
+        int []random_offsets = new int[5];
+        Random randomNum = new Random();
+        for (int i = 0; i<= random_offsets.length-1; i++){
+            randomCategories.add(categories.get(randomNum.nextInt(categories.size())));
+        }
+
+        HashMap<String, String> customSelectors = new HashMap<>();
+        customSelectors.put("latitude", "40.050900"); customSelectors.put("longitude","-75.087883"); customSelectors.put("term", "restaurants");
+        setSelectors(customSelectors);
+        String response = getQueriedResponse();
+
+        int totalRestaurants = 0;
+        if (response != null) {
+            JsonObject businessObject = new JsonParser().parse(response).getAsJsonObject();
+            totalRestaurants = businessObject.get("total").getAsInt();
+        }
+
+
+        for (int i = 0; i<= 4; i++) {
+           /* HashMap<String, String> customSelectors = new HashMap<>();
+            Log.i("ranCategory", "generateRandomRestaurants: " + category);
+            customSelectors.put("latitude", "40.050900"); customSelectors.put("longitude","-75.087883"); customSelectors.put("term", "restaurants");  customSelectors.put("category",category);
+            setSelectors(customSelectors);
+            String response = getQueriedResponse();
+
+            if (response != null){
+                JsonObject businessObject = new JsonParser().parse(response).getAsJsonObject();
+                int totalRestaurants = businessObject.get("total").getAsInt();*/
+
+            HashMap<String, String> offsetSelector = new HashMap<>();
+            offsetSelector.put("latitude", "40.050900");
+            offsetSelector.put("longitude", "-75.087883");
+            offsetSelector.put("term", "restaurants");
+            offsetSelector.put("offset", String.valueOf(offset(randomNum.nextInt(totalRestaurants))));
+            offsetSelector.put("limit", "1");
+            setSelectors(offsetSelector);
+
+            String offsetResponse = getQueriedResponse();
+
+            if (offsetResponse != null) {
+                JsonObject businessObject = new JsonParser().parse(offsetResponse).getAsJsonObject();
+
+                Log.i("ranTotal", "generateRandomRestaurants: " + totalRestaurants);
+                Random random = new Random();
+                int offset = random.nextInt(totalRestaurants);
+                offset = (offset >= 1000) ? offset % 1000 : offset; // yelp limits total to 1000
+
+                JsonArray businessArray = businessObject.getAsJsonArray("businesses");
+                int counter = 0;
+                for (JsonElement element : businessArray) {
+                    Log.i("counter", "generateRandomRestaurants: " + counter);
+                    counter++;
+                }
+                JsonElement element = businessArray.get(0);
+                JsonObject individualObject = element.getAsJsonObject();
+
+                int rating = individualObject.get("rating").getAsInt();
+                String id = individualObject.get("id").getAsString();
+                String name = individualObject.get("name").getAsString();
+                String phone = individualObject.get("phone").getAsString();
+                String url = individualObject.get("url").getAsString();
+                String image = individualObject.get("image_url").getAsString();
+                JsonObject location_object = (JsonObject) individualObject.get("location");
+                String location = location_object.get("address1").getAsString() + ", " + location_object.get("zip_code").getAsString() + " " + location_object.get("city").getAsString() + location_object.get("country").getAsString();
+                restaurants.add(new RestaurantModel(rating, id, name, phone, image, location, url));
+
+            }
+        }
+        return restaurants;
+
+
+    }
+
+    private int offset(int offset) {
+        return (offset >= 1000)? offset % 1000: offset;
+    }
+
     public ArrayList<RestaurantModel> getQueried(){
         ArrayList<RestaurantModel> restaurants = new ArrayList<>();
         String response = getQueriedResponse();
@@ -144,7 +226,7 @@ public class RestaurantsFinder{
                 reader.close();
 
             }
-            Log.i("READER: ", "getQueriedResponse: " + response);
+           // Log.i("READER: ", "getQueriedResponse: " + response);
             return response.toString();
 
         }catch (Exception e){
@@ -331,7 +413,7 @@ public class RestaurantsFinder{
             if (photos_array.size() > 1) {
                 image2 = photos_array.get(1).getAsString();
             }
-            if (photos_array.size() > 3) {
+            if (photos_array.size() > 2) {
                 image3 = photos_array.get(2).getAsString();
             }
 
