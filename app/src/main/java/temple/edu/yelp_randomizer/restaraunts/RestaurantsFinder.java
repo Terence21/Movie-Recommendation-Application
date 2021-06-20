@@ -5,12 +5,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
-import temple.edu.yelp_randomizer.View.DetailsView;
+import temple.edu.yelp_randomizer.R;
 import temple.edu.yelp_randomizer.models.DetailsModel;
 import temple.edu.yelp_randomizer.models.RestaurantModel;
 import temple.edu.yelp_randomizer.models.ReviewsModel;
-import temple.edu.yelp_randomizer.storage.ApiKeyFinder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -33,7 +31,7 @@ public class RestaurantsFinder{
     HashMap<String, String> selectors;
     private final String BASE_YELP_URL = "https://api.yelp.com/v3/businesses/search";
     private String business_id;
-    private static final String API_KEY = ApiKeyFinder.API_KEY;
+    private String API_KEY = "MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx";
 
 
     public RestaurantsFinder(int option_choice, Map<String, String> selectors){
@@ -42,6 +40,7 @@ public class RestaurantsFinder{
     }
 
     public RestaurantsFinder(){
+
     }
 
     public RestaurantsFinder(String business_id){
