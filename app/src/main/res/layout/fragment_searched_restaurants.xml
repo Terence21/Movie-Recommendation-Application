@@ -3,7 +3,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context="temple.edu.yelp_randomizer.fragments.SearchedRestaurantsFragment">
+                                                   tools:context="temple.edu.random.fragments.SearchedRestaurantsFragment">
     <TextView
             android:layout_width="225dp"
             android:layout_height="100dp" android:id="@+id/_alertUserTextVeiw"

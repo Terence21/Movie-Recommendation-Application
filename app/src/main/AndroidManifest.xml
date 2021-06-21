@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="temple.edu.yelp_randomizer">
+          package="temple.edu.random">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -18,7 +18,7 @@
             android:theme="@style/AppTheme"
 
             android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ReviewsActivity" android:windowSoftInputMode="adjustPan" android:parentActivityName=".activities.OptionsActivity">
+        <activity android:name=".activities.ReviewsActivity" android:windowSoftInputMode="adjustPan" android:parentActivityName="temple.edu.random.activities.OptionsActivity">
         </activity>
         <activity android:name=".activities.OptionsActivity" android:launchMode="singleTop">
         </activity>
@@ -30,8 +30,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".activities.MainActivity">
         </activity>
     </application>
 
