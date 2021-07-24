@@ -23,10 +23,10 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         username = findViewById(R.id._username)
         password = findViewById(R.id._password)
-        register = findViewById(R.id._register)
+        register = findViewById(R.id.registerButton)
         register?.paintFlags = register!!.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         register?.setTextColor(Color.BLUE)
-        submitButton = findViewById(R.id._registerButton)
+        submitButton = findViewById(R.id.submitButton)
         submitButton?.setOnClickListener(View.OnClickListener { launchOptions() })
         register?.setOnClickListener(View.OnClickListener { launchRegister() })
     }

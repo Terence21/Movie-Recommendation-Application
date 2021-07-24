@@ -2,5 +2,34 @@
     <string name="app_name">Zomato-Randomizer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="API_KEY">MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx</string>
+    <string name="API_KEY">
+        MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx
+    </string>
+
+    // LOGIN
+    <string name="fragment_login_username_prompt">Username</string>
+    <string name="fragment_login_password_prompt">*****</string>
+    <string name="fragment_login_username">Username</string>
+    <string name="fragment_login_password">Password</string>
+    <string name="fragment_login_register_prompt">No username or password?</string>
+    <string name="fragment_login_register">register</string>
+    <string name="fragment_login_submit">submit</string>
+
+    // REGISTER
+    <string name="fragment_register_username_prompt">username</string>
+    <string name="fragment_register_password_prompt">*****</string>
+    <string name="fragment_register_username">Username</string>
+    <string name="fragment_register_password">Password</string>
+    <string name="fragment_register_submit">Register</string>
+
+    // SPLASH SIGN IN
+    <string name="fragment_sign_in_splash_welcome">Welcome!</string>
+    <string name="fragment_sign_in_splash_prompt_text">Login using email or username\n\nUse any of the associated accounts</string>
+    <string name="fragment_sign_in_splash_email">Email Sign In</string>
+    <string name="fragment_sign_in_splash_google">Google Sign In</string>
+    <string name="fragment_sign_in_splash_register">Register Here</string>
+
+    // SPLASH SCREEN
+
+
 </resources>

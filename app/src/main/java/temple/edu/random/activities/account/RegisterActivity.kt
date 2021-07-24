@@ -18,7 +18,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         username = findViewById(R.id._username)
         password = findViewById(R.id._password)
-        registerButton = findViewById(R.id._registerButton)
+        registerButton = findViewById(R.id.submitButton)
         registerButton?.setOnClickListener(View.OnClickListener { launchOptions() })
     }
 

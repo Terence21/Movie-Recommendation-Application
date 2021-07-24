@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -15,6 +17,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,11 +34,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    buildFeatures {
-        viewBinding true
-    }
-
 }
+
 
 dependencies {
 
@@ -50,7 +54,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation( group: 'com.google.code.gson', name: 'gson', version: '2.8.6')
+    implementation(group: 'com.google.code.gson', name: 'gson', version: '2.8.6')
     // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
@@ -99,4 +103,20 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     // For control over item selection of both touch and mouse driven selection
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+
+    // --------------- GOOGLE SIGN IN -----------------
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+// Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+
+
+    //  FIREBASE
+    implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
