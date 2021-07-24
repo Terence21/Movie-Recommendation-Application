@@ -16,7 +16,7 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var username: String
     private lateinit var password: String
-    
+
     private val signInHelper by lazy {
         this.activity?.let {
             SignInHelper(it).EmailHelper(
