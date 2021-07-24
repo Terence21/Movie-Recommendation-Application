@@ -25,7 +25,7 @@
                 android:name=".activities.OptionsActivity"
                 android:launchMode="singleTop"/>
 
-        <activity android:name=".activities.account.HomeActivity"
+        <activity android:name=".HomeActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

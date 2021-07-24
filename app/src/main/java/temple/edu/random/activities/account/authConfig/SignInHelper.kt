@@ -1,7 +1,6 @@
-package temple.edu.random.activities.account
+package temple.edu.random.activities.account.authConfig
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -11,31 +10,23 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import temple.edu.random.config.AuthConfig.ACCOUNT
-
-data class AccountModel(val userName: String, val password: String)
-
-class VerifyWithCredentials(val userName: String, val password: String, context: Context) {
-    private val account: AccountModel = AccountModel(userName, password)
-
-}
-
+import temple.edu.random.activities.account.authConfig.AuthConfig.ACCOUNT
 
 class SignInHelper(val activity: Activity) {
 
-    private val auth = FirebaseAuth.getInstance()
-
+    private val auth by lazy { FirebaseAuth.getInstance() }
     private val gso: GoogleSignInOptions =
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
     private val client: GoogleSignInClient = GoogleSignIn.getClient(activity, gso)
-    private val gAccount = GoogleSignIn.getLastSignedInAccount(activity)
 
-    fun alreadySignedIn() = gAccount == null
-    inner class Email(val account: AccountModel) {
+
+    inner class EmailHelper(private val userName: String, private val password: String) {
+        private val account = AccountModel(userName, password)
+
         fun emailSignIn(): FirebaseUser? {
             var user: FirebaseUser? = null
             auth.createUserWithEmailAndPassword(account.userName, account.password)
-                .addOnCompleteListener(activity) { task ->
+                .addOnCompleteListener(activity) {
                     user = auth.currentUser
                 }
             return user
@@ -44,7 +35,7 @@ class SignInHelper(val activity: Activity) {
         fun emailRegister(): FirebaseUser? {
             var user: FirebaseUser? = null
             auth.createUserWithEmailAndPassword(account.userName, account.password)
-                .addOnCompleteListener(activity) { task ->
+                .addOnCompleteListener(activity) {
                     user = auth.currentUser
                 }
             return user
@@ -86,7 +77,24 @@ class SignInHelper(val activity: Activity) {
         }
     }
 
-    inner class Google {
+    /**
+     * 1. GOOGLE SIGN IN INTENT LAUNCHER
+     * 2. RESPONSE TO TASK RESULT OF INTENT RESULT CODE
+     * 3. AUTHENTICATE WITH CREDENTIALS PROVIDED AFTER SIGN IN SUCCESS
+     */
+    inner class GoogleHelper {
+
+        fun signInIntent() {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //     .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            val googleSignInClient = GoogleSignIn.getClient(activity, gso)
+            val signInIntent = googleSignInClient.signInIntent
+            activity.startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
         fun googleSignInHelper(requestCode: Int, resultCode: Int, data: Intent?): FirebaseUser? {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             var user: FirebaseUser? = null
@@ -99,7 +107,7 @@ class SignInHelper(val activity: Activity) {
             return user
         }
 
-        fun firebaseAuthWithGoogle(id: String): FirebaseUser? {
+        private fun firebaseAuthWithGoogle(id: String): FirebaseUser? {
             var user: FirebaseUser? = null
             val credential = GoogleAuthProvider.getCredential(id, null)
             auth.signInWithCredential(credential)
@@ -112,17 +120,6 @@ class SignInHelper(val activity: Activity) {
                 }
             return user
         }
-
-        fun signInIntent() {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                //     .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-
-            var googleSignInClient = GoogleSignIn.getClient(activity, gso)
-            val signInIntent = googleSignInClient.signInIntent
-            activity.startActivityForResult(signInIntent, RC_SIGN_IN)
-        }
     }
 
 
@@ -131,25 +128,3 @@ class SignInHelper(val activity: Activity) {
         private const val TAG = "GOOGLE-SIGN-IN-HELPER"
     }
 }
-
-
-class AuthHelper {
-    companion object {
-        fun confirmHardPassword(password: String, password2: String) = password == password2
-        fun countPasswordSize(password: String) = password.length
-        fun isEmail(email: String) {
-            // [anything num-letter]@[anything num-letter].com
-            fun validEmailFormat(email: String) =
-                email.matches(Regex("([a-zA-Z0-9])\\w+\\@([a-zA-Z0-9])\\w+.com"))
-
-            // 5+ characters long
-            // both numbers and characters
-            fun validPasswordFormat(password: String) {
-
-            }
-        }
-    }
-}
-
-
-

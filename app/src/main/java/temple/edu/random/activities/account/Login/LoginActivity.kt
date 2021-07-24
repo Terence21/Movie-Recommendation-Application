@@ -1,4 +1,4 @@
-package temple.edu.random.activities.account
+package temple.edu.random.activities.account.Login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
@@ -11,6 +11,7 @@ import android.graphics.Paint
 import android.view.View
 import android.widget.Button
 import temple.edu.random.activities.OptionsActivity
+import temple.edu.random.activities.account.Register.RegisterActivity
 
 // restore reviewRecycleView
 class LoginActivity : AppCompatActivity() {

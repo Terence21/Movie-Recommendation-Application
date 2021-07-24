@@ -1,4 +1,4 @@
-package temple.edu.random.activities.account
+package temple.edu.random.activities.account.Register
 
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText

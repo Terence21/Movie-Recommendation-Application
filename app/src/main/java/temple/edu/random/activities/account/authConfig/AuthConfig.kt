@@ -1,4 +1,4 @@
-package temple.edu.random.config
+package temple.edu.random.activities.account.authConfig
 
 class AuthConfig {
 

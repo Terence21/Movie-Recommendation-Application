@@ -10,13 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import temple.edu.random.R
+import temple.edu.random.activities.account.authConfig.SignInHelper
 import temple.edu.random.databinding.FragmentSignInSplashBinding
 
 class SignInSplash : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentSignInSplashBinding
     private lateinit var controller: NavController
-    private val signInHelper by lazy { this.activity?.let { SignInHelper(it).Google() } }
+    private val signInHelper by lazy { this.activity?.let { SignInHelper(it).GoogleHelper() } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

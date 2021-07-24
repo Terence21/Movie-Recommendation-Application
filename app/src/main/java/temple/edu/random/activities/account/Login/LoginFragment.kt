@@ -1,4 +1,4 @@
-package temple.edu.random.activities.account
+package temple.edu.random.activities.account.Login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import temple.edu.random.Global.Companion.safeNotNull
 import temple.edu.random.R
+import temple.edu.random.activities.account.AbstractAuthFragment
+import temple.edu.random.activities.account.authConfig.SignInHelper
 import temple.edu.random.databinding.FragmentLoginBinding
 
 
@@ -14,8 +16,15 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var username: String
     private lateinit var password: String
-    private val accountModel by lazy { AccountModel(username, password) }
-    private val signInHelper by lazy { this.activity?.let { SignInHelper(it).Email(accountModel) } }
+    
+    private val signInHelper by lazy {
+        this.activity?.let {
+            SignInHelper(it).EmailHelper(
+                username,
+                password
+            )
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

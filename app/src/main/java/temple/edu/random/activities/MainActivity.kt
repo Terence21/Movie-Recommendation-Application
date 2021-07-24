@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import temple.edu.random.R
 
+// remove??
 class MainActivity : AppCompatActivity() {
     var isSavedLogin = false
     override fun onCreate(savedInstanceState: Bundle?) {
