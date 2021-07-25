@@ -11,10 +11,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import temple.edu.random.R
+import temple.edu.random.activities.home.bottomnav.BottomNavView
 import temple.edu.random.databinding.FragmentOpenBinding
 
 
-class OpenFragment : Fragment(), View.OnClickListener {
+class OpenFragment : Fragment(), View.OnClickListener{
     private lateinit var binding: FragmentOpenBinding
     private lateinit var asParentController: NavController
     private lateinit var config: AppBarConfiguration

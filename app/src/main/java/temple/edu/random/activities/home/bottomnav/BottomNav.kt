@@ -19,7 +19,7 @@ class BottomNavView(ctx: Context, attrs: AttributeSet?) :
 
     init {
         // maybe change from null??
-        binding = BottomNavigationBinding.inflate(LayoutInflater.from(ctx), this, false)
+        binding = BottomNavigationBinding.inflate(LayoutInflater.from(ctx), this, true)
         binding.bottomNavigationView.menu.forEach {
             //    it.setOnMenuItemClickListener(menuItemClickListener)
         }
@@ -103,6 +103,16 @@ class BottomNavView(ctx: Context, attrs: AttributeSet?) :
                 MenuItemDestinationEnum.BAD_DESTINATION
             }
         }
+
+    interface BottomNavListeners{
+        interface MenuSetUpListener{
+            fun setBottomNavMenu()
+        }
+        interface SetControllerListener{
+            fun setNavigationController()
+        }
+
+    }
 }
 
 
