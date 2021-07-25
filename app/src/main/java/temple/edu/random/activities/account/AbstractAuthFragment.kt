@@ -10,7 +10,7 @@ import temple.edu.random.Global.Companion
 import temple.edu.random.Global.Companion.safeNotNull
 
 abstract class AbstractAuthFragment: Fragment() {
-    protected val controller by lazy { findNavController() }
+
     protected lateinit var auth: FirebaseAuth
     protected lateinit var currentUser: FirebaseUser
 

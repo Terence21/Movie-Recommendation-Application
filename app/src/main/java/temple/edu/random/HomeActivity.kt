@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import temple.edu.random.R
@@ -21,9 +23,11 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val controller = binding.navHostFragment.findNavController()
-        val config = AppBarConfiguration.Builder(controller.graph).build()
-        NavigationUI.setupActionBarWithNavController(this, controller, config)
+        val navHostFragment = checkNotNull(supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+        controller = navHostFragment.navController
+        config = AppBarConfiguration.Builder(controller.graph).build()
+       // NavigationUI.setupActionBarWithNavController(this, controller, config)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

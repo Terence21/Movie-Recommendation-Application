@@ -34,7 +34,7 @@
     </fragment>
     <fragment
             android:id="@+id/signInSplash"
-            android:name="temple.edu.random.activities.account.SignInSplash"
+            android:name="temple.edu.random.activities.account.SignInSplash.SignInSplash"
             android:label="fragment_sign_in_splash"
             tools:layout="@layout/fragment_sign_in_splash">
         <action

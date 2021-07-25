@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import temple.edu.random.R
@@ -18,6 +19,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var asParentController: NavController
     private lateinit var config: AppBarConfiguration
+    private lateinit var controller: NavController
 
     init {
     }
@@ -39,6 +41,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val navHostFragment =
+            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        controller = navHostFragment.navController
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 

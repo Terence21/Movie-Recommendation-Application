@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import temple.edu.random.Global.Companion.safeNotNull
 import temple.edu.random.R
@@ -16,6 +19,8 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var username: String
     private lateinit var password: String
+    private lateinit var controller: NavController
+
 
     private val signInHelper by lazy {
         this.activity?.let {
@@ -44,12 +49,16 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+       /* val navHostFragment =
+            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        controller = navHostFragment.navController */
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        controller = findNavController()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentLoginBinding.inflate(layoutInflater)
         binding.submitButton.setOnClickListener(this)
         binding.registerButton.setOnClickListener(this)
 
@@ -69,9 +78,9 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        username = binding.username.text.toString()
-        password = binding.password.text.toString()
         if (v != null) {
+            /*username = binding.username.text.toString()
+            password = binding.password.text.toString()*/
             when (v.id) {
                 R.id.EmailSignInButton -> {
                     val user = signInHelper?.emailSignIn()
