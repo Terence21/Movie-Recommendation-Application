@@ -10,18 +10,24 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import temple.edu.random.R
 import temple.edu.random.activities.account.authConfig.AuthConfig.ACCOUNT
 
 class SignInHelper(val activity: Activity) {
 
     private val auth by lazy { FirebaseAuth.getInstance() }
     private val gso: GoogleSignInOptions =
-        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(activity.getString(R.string.client_id)).requestEmail().build()
     private val client: GoogleSignInClient = GoogleSignIn.getClient(activity, gso)
+
+    init {
+
+    }
 
 
     inner class EmailHelper(private val userName: String, private val password: String) {
         private val account = AccountModel(userName, password)
+        private var user: FirebaseUser? = null
 
         fun emailSignIn(): FirebaseUser? {
             var user: FirebaseUser? = null
@@ -33,12 +39,14 @@ class SignInHelper(val activity: Activity) {
         }
 
         fun emailRegister(): FirebaseUser? {
-            var user: FirebaseUser? = null
             auth.createUserWithEmailAndPassword(account.userName, account.password)
                 .addOnCompleteListener(activity) {
-                    user = auth.currentUser
+                    if (it.isSuccessful){
+                    }else {
+                        Log.i(TAG, "emailRegister: failed to create user ${it.exception}")
+                    }
                 }
-            return user
+            return auth.currentUser
         }
 
         private fun handleEmail(

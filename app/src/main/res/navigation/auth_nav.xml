@@ -13,24 +13,22 @@
                 android:id="@+id/action_loginFragment_to_registerFragment"
                 app:destination="@id/registerFragment" />
         <action
-                android:id="@+id/action_loginFragment_to_homeFragment"
-                app:destination="@id/homeFragment" />
+                android:id="@+id/action_loginFragment_to_openFragment"
+                app:destination="@id/openFragment" />
     </fragment>
     <fragment
             android:id="@+id/registerFragment"
             android:name="temple.edu.random.activities.account.Register.RegisterFragment"
             android:label="fragment_register"
             tools:layout="@layout/fragment_register">
+
         <action
-                android:id="@+id/action_registerFragment_to_homeFragment"
-                app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-            android:id="@+id/homeFragment"
-            android:name="temple.edu.random.activities.account.HomeFragment"
-            android:label="fragment_home"
-            tools:layout="@layout/fragment_home">
-        <action android:id="@+id/action_homeFragment_to_navigation4" />
+                android:id="@+id/action_registerFragment_to_signInSplash"
+                app:destination="@id/signInSplash" />
+        <action
+                android:id="@+id/action_registerFragment_to_openFragment"
+                app:destination="@id/openFragment" />
+
     </fragment>
     <fragment
             android:id="@+id/signInSplash"
@@ -44,9 +42,14 @@
                 android:id="@+id/action_signInSplash_to_registerFragment"
                 app:destination="@id/registerFragment" />
         <action
-                android:id="@+id/action_signInSplash_to_homeFragment"
-                app:destination="@id/homeFragment" />
+                android:id="@+id/action_signInSplash_to_openFragment"
+                app:destination="@id/openFragment" />
     </fragment>
+    <fragment
+            android:id="@+id/openFragment"
+            android:name="temple.edu.random.activities.home.OpenFragment"
+            android:label="fragment_open"
+            tools:layout="@layout/fragment_open" />
 
 
 </navigation>

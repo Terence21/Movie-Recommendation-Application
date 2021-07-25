@@ -2,28 +2,32 @@ package temple.edu.random.activities.home.bottomnav
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.navigation.NavController
 import temple.edu.random.R
 import temple.edu.random.databinding.BottomNavigationBinding
 
-class BottomNavView(ctx: Context, attrs: AttributeSet?, var controller: NavController) :
-    View(ctx, attrs) {
+class BottomNavView(ctx: Context, attrs: AttributeSet?) :
+    LinearLayout(ctx, attrs) {
+
+    var controller : NavController? = null
     private val binding: BottomNavigationBinding
 
     init {
         // maybe change from null??
-        inflate(ctx, R.layout.bottom_navigation, null)
-        binding = BottomNavigationBinding.bind(this)
+        binding = BottomNavigationBinding.inflate(LayoutInflater.from(ctx), this, false)
         binding.bottomNavigationView.menu.forEach {
-        //    it.setOnMenuItemClickListener(menuItemClickListener)
+            //    it.setOnMenuItemClickListener(menuItemClickListener)
         }
     }
 
     //need current destination
-    private inner class MenuItemClickListener(val current: MenuItemEnum) : MenuItem.OnMenuItemClickListener {
+    private inner class MenuItemClickListener(val current: MenuItemEnum) :
+        MenuItem.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             val destination = item?.let {
                 when (item.itemId) {
@@ -42,7 +46,7 @@ class BottomNavView(ctx: Context, attrs: AttributeSet?, var controller: NavContr
                 }
             }
             if (destination != null) {
-                controller.navigate(destination.destination)
+                controller?.navigate(destination.destination)
             }
             return true
         }

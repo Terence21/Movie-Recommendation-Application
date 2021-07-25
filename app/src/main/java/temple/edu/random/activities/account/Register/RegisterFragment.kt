@@ -1,12 +1,13 @@
 package temple.edu.random.activities.account.Register
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import temple.edu.random.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.activities.account.AbstractAuthFragment
 import temple.edu.random.activities.account.authConfig.SignInHelper
@@ -18,14 +19,14 @@ class RegisterFragment : AbstractAuthFragment(), View.OnClickListener {
     private lateinit var password: String
     private lateinit var controller: NavController
 
-    private val signInHelper by lazy {
+    /*  private val signInHelper by lazy {
         this.activity?.let {
             SignInHelper(it).EmailHelper(
                 username,
                 password
             )
         }
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +39,17 @@ class RegisterFragment : AbstractAuthFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       /* val navHostFragment =
+        /* val navHostFragment =
             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         controller = navHostFragment.navController*/
-        controller = findNavController()
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        controller = findNavController()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRegisterBinding.inflate(layoutInflater)
-        binding.submitButton.setOnClickListener(this)
+        binding.registerSubmitButton.setOnClickListener(this)
     }
 
     companion object {
@@ -63,13 +63,20 @@ class RegisterFragment : AbstractAuthFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-       /* username = binding.username.text.toString()
-        password = binding.password.text.toString()*/
+        username = binding.registerUsernameEditText.text.toString()
+        password = binding.registerPasswordEditText.text.toString()
         if (v != null) {
             when (v.id) {
-                R.id.submitButton -> {
+                R.id.register_submit_button -> {
+                    val signInHelper =
+                        activity?.let { SignInHelper(it).EmailHelper(username, password) }
+                    Log.i(TAG, "onClick: register $username , $password")
                     val user = signInHelper?.emailRegister()
-                    user?.let { controller.navigate(R.id.action_registerFragment_to_homeFragment) }
+                    user?.let {
+                        Log.i(TAG, "onClick: navigating to home")
+                        controller.navigate(R.id.action_registerFragment_to_openFragment)
+                    }
+
                 }
             }
         }

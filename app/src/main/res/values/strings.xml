@@ -5,6 +5,7 @@
     <string name="API_KEY">
         MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx
     </string>
+    <string name="client_id">811133277753-u2rbflo57k0ptrepkaj1a46ejov1r0q4.apps.googleusercontent.com</string>
 
     // LOGIN
     <string name="fragment_login_username_prompt">Username</string>

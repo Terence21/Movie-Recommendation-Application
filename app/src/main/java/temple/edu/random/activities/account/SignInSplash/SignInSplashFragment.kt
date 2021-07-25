@@ -2,6 +2,7 @@ package temple.edu.random.activities.account.SignInSplash
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import temple.edu.random.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.activities.account.authConfig.SignInHelper
 import temple.edu.random.databinding.FragmentSignInSplashBinding
@@ -77,9 +79,10 @@ class SignInSplash : Fragment(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             SignInHelper.RC_SIGN_IN -> {
-                var user = signInHelper?.googleSignInHelper(requestCode, resultCode, data)
+                val user = signInHelper?.googleSignInHelper(requestCode, resultCode, data)
+                Log.i(TAG, "onActivityResult: $user")
                 if (user != null) {
-                    controller.navigate(R.id.action_signInSplash_to_homeFragment)
+          //          controller.navigate(R.id.action_signInSplash_to_homeFragment)
                 }
             }
         }

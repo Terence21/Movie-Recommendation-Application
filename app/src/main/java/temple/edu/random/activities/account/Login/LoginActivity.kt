@@ -22,12 +22,12 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        username = findViewById(R.id._username)
+        username = findViewById(R.id.register_username_edit_text)
         password = findViewById(R.id._password)
         register = findViewById(R.id.registerButton)
         register?.paintFlags = register!!.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         register?.setTextColor(Color.BLUE)
-        submitButton = findViewById(R.id.submitButton)
+        submitButton = findViewById(R.id.register_submit_button)
         submitButton?.setOnClickListener(View.OnClickListener { launchOptions() })
         register?.setOnClickListener(View.OnClickListener { launchRegister() })
     }

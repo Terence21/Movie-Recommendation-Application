@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/home_nav">
+        android:id="@+id/home_nav"
+        app:startDestination="@id/landingFragment">
         <fragment
                 android:id="@+id/favoritesFragment"
                 android:name="temple.edu.random.activities.home.favorite.FavoritesFragment"

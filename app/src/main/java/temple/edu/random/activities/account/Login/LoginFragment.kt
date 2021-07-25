@@ -59,7 +59,7 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.submitButton.setOnClickListener(this)
+        binding.loginSubmitButton.setOnClickListener(this)
         binding.registerButton.setOnClickListener(this)
 
     }
@@ -85,7 +85,7 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
                 R.id.EmailSignInButton -> {
                     val user = signInHelper?.emailSignIn()
                     user?.let {
-                        controller.navigate(R.id.action_loginFragment_to_homeFragment)
+                  //      controller.navigate(R.id.action_loginFragment_to_landingFragment2)
                     }
                 }
                 R.id.splashRegisterButton -> {
