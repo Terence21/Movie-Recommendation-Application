@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -48,9 +49,11 @@ class OpenFragment : Fragment(), View.OnClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fragmentHomeBottomNav.controller = binding.navHostFragment.findNavController()
-     //   binding.fragmentHomeBottomNav.controller = asParentController
-    }
+
+     //   binding.fragmentHomeBottomNav.controller = binding.nestedNavHost.findNavController()
+        val nestedNavHostFragment  = childFragmentManager.findFragmentById(R.id.nested_nav_host) as? NavHostFragment
+        nestedNavHostFragment?.navController?.let { controller = it }
+        }
 
     companion object {
 
