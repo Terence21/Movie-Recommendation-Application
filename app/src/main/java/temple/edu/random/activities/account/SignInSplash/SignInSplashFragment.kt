@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import temple.edu.random.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.activities.account.authConfig.SignInHelper
@@ -33,17 +34,19 @@ class SignInSplash : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       /* binding = FragmentSignInSplashBinding.inflate(inflater, container, false)
-        val navHostFragment =
-            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        controller = navHostFragment.navController*/
-        binding =  FragmentSignInSplashBinding.inflate(inflater, container, false)
+        /* binding = FragmentSignInSplashBinding.inflate(inflater, container, false)
+         val navHostFragment =
+             activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+         controller = navHostFragment.navController*/
+        binding = FragmentSignInSplashBinding.inflate(inflater, container, false)
         controller = findNavController()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val auth = FirebaseAuth.getInstance()
+        auth.let { controller.navigate(R.id.action_signInSplash_to_openFragment) }
         binding.EmailSignInButton.setOnClickListener(this)
         binding.GoogleSignInButton.setOnClickListener(this)
         binding.splashRegisterButton.setOnClickListener(this)
@@ -82,7 +85,7 @@ class SignInSplash : Fragment(), View.OnClickListener {
                 val user = signInHelper?.googleSignInHelper(requestCode, resultCode, data)
                 Log.i(TAG, "onActivityResult: $user")
                 if (user != null) {
-          //          controller.navigate(R.id.action_signInSplash_to_homeFragment)
+                    controller.navigate(R.id.action_signInSplash_to_openFragment)
                 }
             }
         }

@@ -37,5 +37,11 @@
     <string name="bottom_nav_menu_home">Home</string>
     <string name="bottom_nav_menu_search">Search</string>
 
+    // SEARCH
+    <string name="search_tab_query">query</string>
+    <string name="search_tab_random">random</string>
 
+    // FAVORITES
+    <string name="favorite_tab_starred">starred</string>
+    <string name="favorite_tab_review">review</string>
 </resources>

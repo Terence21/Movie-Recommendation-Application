@@ -5,10 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import temple.edu.random.R
+import temple.edu.random.databinding.FragmentFavoritesBinding
 
 
 class FavoritesFragment : Fragment() {
+    private lateinit var binding: FragmentFavoritesBinding
+    private lateinit var controller: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +27,9 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        controller = findNavController()
+        return binding.root
     }
 
     companion object {

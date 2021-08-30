@@ -85,7 +85,7 @@ class LoginFragment : AbstractAuthFragment(), View.OnClickListener {
                 R.id.EmailSignInButton -> {
                     val user = signInHelper?.emailSignIn()
                     user?.let {
-                  //      controller.navigate(R.id.action_loginFragment_to_landingFragment2)
+                        controller.navigate(R.id.action_loginFragment_to_openFragment)
                     }
                 }
                 R.id.splashRegisterButton -> {
