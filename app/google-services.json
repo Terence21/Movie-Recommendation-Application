@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "654477093146",
-    "project_id": "first-project-43689",
-    "storage_bucket": "first-project-43689.appspot.com"
+    "project_number": "811133277753",
+    "project_id": "rand-rest-suggestor",
+    "storage_bucket": "rand-rest-suggestor.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:654477093146:android:f34362ac47d9adae28e4a3",
+        "mobilesdk_app_id": "1:811133277753:android:deef56691b92fb95835fe8",
         "android_client_info": {
-          "package_name": "temple.edu.zomato_randomizer"
+          "package_name": "temple.edu.random"
         }
       },
       "oauth_client": [
         {
-          "client_id": "654477093146-euq6m7c6v5ne6hgaa2itqlnmhnbe0omi.apps.googleusercontent.com",
+          "client_id": "811133277753-u2rbflo57k0ptrepkaj1a46ejov1r0q4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "temple.edu.random",
+            "certificate_hash": "7ccc6cd909bba8bed83ee20b4207e9ddc515a329"
+          }
+        },
+        {
+          "client_id": "811133277753-jf77ajutq06genhds3afvpvivrfbfuv5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4Ob7vcUBMd7spbkaN00JXVnjRNmOFnQg"
+          "current_key": "AIzaSyAaH6FZlJ_xeeUOkEWqYlGOM0PrJIqJsNA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "654477093146-euq6m7c6v5ne6hgaa2itqlnmhnbe0omi.apps.googleusercontent.com",
+              "client_id": "811133277753-jf77ajutq06genhds3afvpvivrfbfuv5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
