@@ -7,11 +7,11 @@
             android:text="TextView"
             android:layout_width="100dp"
             android:layout_height="29dp" android:id="@+id/_reviewNameTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="30dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="25dp" app:layout_constraintEnd_toStartOf="@+id/_reviewRatingTextView"
-            android:layout_marginEnd="40dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/_reviewProfilePictureImageView"/>
+            android:layout_marginEnd="40dp"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"/>
     <ImageView
             android:layout_width="103dp"
             android:layout_height="101dp" tools:srcCompat="@tools:sample/avatars"
@@ -19,21 +19,21 @@
             app:layout_constraintEnd_toStartOf="@+id/_reviewTextTextView"
             android:layout_marginEnd="45dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="25dp"
-            app:layout_constraintHorizontal_bias="0.8" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="62dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/_reviewNameTextView"/>
+            app:layout_constraintHorizontal_bias="0.562"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/_reviewNameTextView"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="45dp"/>
     <TextView
             android:text="TextView"
             android:layout_width="216dp"
             android:layout_height="114dp" android:id="@+id/_reviewTextTextView"
-            android:layout_marginEnd="30dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="50dp"
-            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/_reviewRatingTextView"/>
+            android:layout_marginEnd="20dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/_reviewRatingTextView"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="33dp"/>
     <TextView
             android:text="TextView"
             android:layout_width="91dp"
             android:layout_height="20dp" android:id="@+id/_reviewRatingTextView"
-            android:layout_marginEnd="155dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="30dp" android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/_reviewTextTextView"/>
+            android:layout_marginEnd="148dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
