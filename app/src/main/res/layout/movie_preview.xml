@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,19 +17,59 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_height="0dp"
                 android:layout_width="match_parent"
-                android:layout_weight=".95" >
+                android:layout_weight=".95">
+
             <ImageView
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:id="@+id/movie_preview_imageView"
-                    android:contentDescription="@string/movie_preview_image"/>
+                    android:contentDescription="@string/movie_preview_image" />
 
             <TextView
                     android:background="@drawable/ic_right_triangle"
                     android:layout_width="224dp"
                     android:layout_height="181dp"
-                    tools:layout_editor_absoluteY="482dp"
-                    tools:layout_editor_absoluteX="187dp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:id="@+id/textView" />
+
+            <LinearLayout
+                    android:layout_width="193dp"
+                    android:layout_height="81dp"
+                    app:layout_constraintTop_toTopOf="@+id/textView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textView"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    android:orientation="vertical"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintVertical_bias="0.72">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/movie_rating_tools_text"
+                        android:textColor="#FFFF00"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/movie_director_tools_text"
+                        android:textColor="#FFFF00"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center" />
+
+
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -41,8 +82,7 @@
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:lines="1"
-                android:scrollbars="horizontal">
-        </TextView>
+                android:scrollbars="horizontal" />
     </LinearLayout>
 
 
