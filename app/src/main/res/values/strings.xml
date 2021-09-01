@@ -44,4 +44,10 @@
     // FAVORITES
     <string name="favorite_tab_starred">starred</string>
     <string name="favorite_tab_review">review</string>
+
+   // MOVE PREVIEW
+    <string name="movie_title_tools_text">movie title</string>
+    <string name="movie_director_tools_text">director</string>
+    <string name="movie_rating_tools_text">rating</string>
+    <string name="movie_preview_image">MOVIE IMAGE</string>
 </resources>

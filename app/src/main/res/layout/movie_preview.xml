@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1.0"
+        tools:parentTag="android.widget.LinearLayout"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1.0"
+            android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight=".95" >
+            <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:id="@+id/movie_preview_imageView"
+                    android:contentDescription="@string/movie_preview_image"/>
+
+            <TextView
+                    android:background="@drawable/ic_right_triangle"
+                    android:layout_width="224dp"
+                    android:layout_height="181dp"
+                    tools:layout_editor_absoluteY="482dp"
+                    tools:layout_editor_absoluteX="187dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+                android:layout_weight=".05"
+                android:id="@+id/movie_preview_title_textView"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                tools:text="@string/movie_title_tools_text"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:lines="1"
+                android:scrollbars="horizontal">
+        </TextView>
+    </LinearLayout>
+
+
+</merge>
