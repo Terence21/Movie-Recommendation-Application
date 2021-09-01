@@ -20,10 +20,24 @@
                 android:layout_weight=".95">
 
             <ImageView
+                    android:id="@+id/movie_preview_info_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:src="@drawable/info_black_24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/movie_preview_imageView"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                    android:id="@+id/movie_preview_imageView"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
-                    android:id="@+id/movie_preview_imageView"
-                    android:contentDescription="@string/movie_preview_image" />
+                    android:contentDescription="@string/movie_preview_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                     android:background="@drawable/ic_right_triangle"
@@ -35,20 +49,21 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    android:id="@+id/textView" />
+                    android:id="@+id/movie_preview_50_percent_holster" />
 
             <LinearLayout
                     android:layout_width="193dp"
                     android:layout_height="81dp"
-                    app:layout_constraintTop_toTopOf="@+id/textView"
+                    app:layout_constraintTop_toTopOf="@+id/movie_preview_50_percent_holster"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/textView"
-                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintEnd_toEndOf="@+id/movie_preview_50_percent_holster"
+                    app:layout_constraintStart_toStartOf="@+id/movie_preview_50_percent_holster"
                     android:orientation="vertical"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintVertical_bias="0.72">
 
                 <TextView
+                        android:id="@+id/movie_preview_rating_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="@string/movie_rating_tools_text"
@@ -59,6 +74,7 @@
                         android:gravity="center" />
 
                 <TextView
+                        android:id="@+id/movie_preview_director_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="@string/movie_director_tools_text"

@@ -17,7 +17,7 @@ class RestaurantView(context: Context, attributeSet: AttributeSet?) : Constraint
     }
 
     fun setImageView(image_uri: String?) {
-        if (image_uri != null && image_uri.length > 0) {
+        if (image_uri != null && image_uri.isNotEmpty()) {
             Picasso.with(context).load(image_uri).into(imageView)
         }
     }
