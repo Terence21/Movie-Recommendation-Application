@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import temple.edu.random.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.databinding.BottomNavigationBinding
@@ -31,27 +30,28 @@ class BottomNavView(ctx: Context, attrs: AttributeSet?) :
         MenuItem.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             val destination = item?.let {
-                val current = findCurrentItem(binding.bottomNavigationView.selectedItemId)
                 when (item.itemId) {
                     R.id.bottom_nav_menu_favorite -> {
-                        menuItemDestinationHelper(current, MenuItemEnum.FAVORITES)
+                        MenuItemEnum.FAVORITES
                     }
                     R.id.bottom_nav_menu_landing -> {
-                        menuItemDestinationHelper(current, MenuItemEnum.LANDING)
+                        MenuItemEnum.LANDING
                     }
                     R.id.bottom_nav_menu_search -> {
-                        menuItemDestinationHelper(current, MenuItemEnum.SEARCH)
+                        MenuItemEnum.SEARCH
                     }
                     else -> {
-                        menuItemDestinationHelper(current, MenuItemEnum.BAD)
+                        MenuItemEnum.BAD
                         return false
                     }
                 }
             }
-            item.isChecked = true
+            if (item != null) {
+                item.isChecked = true
+            }
             if (destination != null) {
-                Log.i(TAG, "onMenuItemClick: ${destination.destination}")
-                controller?.navigate(destination.destination)
+                Log.i(TAG, "onMenuItemClick: ${destination.id}")
+                controller?.navigate(destination.id)
             }
             return true
         }

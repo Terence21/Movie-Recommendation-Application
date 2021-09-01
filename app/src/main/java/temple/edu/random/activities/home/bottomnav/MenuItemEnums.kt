@@ -1,8 +1,9 @@
 package temple.edu.random.activities.home.bottomnav
+
 import temple.edu.random.R
 
-enum class MenuItemEnum {
-    FAVORITES, LANDING, SEARCH, BAD
+enum class MenuItemEnum(val id: Int) {
+    FAVORITES(R.id.favoritesFragment), LANDING(R.id.landingFragment), SEARCH(R.id.searchFragment), BAD(-1)
 }
 
 enum class MenuItemDestinationEnum(val destination: Int) {

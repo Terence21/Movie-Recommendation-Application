@@ -6,20 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import temple.edu.random.R
-import temple.edu.random.activities.home.bottomnav.BottomNavView
 import temple.edu.random.databinding.FragmentOpenBinding
 
 
-class OpenFragment : Fragment(), View.OnClickListener{
+class OpenFragment : Fragment(), View.OnClickListener {
+
     private lateinit var binding: FragmentOpenBinding
-    private lateinit var asParentController: NavController
-    private lateinit var config: AppBarConfiguration
     private lateinit var controller: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +22,6 @@ class OpenFragment : Fragment(), View.OnClickListener{
         arguments?.let {
 
         }
-        // asParentController = binding.navHostFragment.findNavController()
-
-/*        val navHostFragment = checkNotNull(fragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
-        asParentController = navHostFragment.navController
-        config = AppBarConfiguration.Builder(asParentController.graph).build()*/
-        // check that this casting is legal
-        // maybe have another Activity like home activity that serves no purpose but to navHost?? (if this doesn't work)
-        // NavigationUI.setupActionBarWithNavController(activity as AppCompatActivity, asParentController, config)
     }
 
     override fun onCreateView(
@@ -49,14 +36,15 @@ class OpenFragment : Fragment(), View.OnClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-     //   binding.fragmentHomeBottomNav.controller = binding.nestedNavHost.findNavController()
-        val nestedNavHostFragment  = childFragmentManager.findFragmentById(R.id.nested_nav_host) as? NavHostFragment
-        nestedNavHostFragment?.navController?.let { controller = it }
+        val nestedNavHostFragment =
+            childFragmentManager.findFragmentById(R.id.nested_nav_host) as? NavHostFragment
+        nestedNavHostFragment?.navController?.let {
+            controller = it
+            binding.fragmentHomeBottomNav.controller = controller
         }
+    }
 
     companion object {
-
         @JvmStatic
         fun newInstance() =
             OpenFragment().apply {
@@ -68,5 +56,4 @@ class OpenFragment : Fragment(), View.OnClickListener{
     override fun onClick(v: View?) {
 
     }
-
 }
