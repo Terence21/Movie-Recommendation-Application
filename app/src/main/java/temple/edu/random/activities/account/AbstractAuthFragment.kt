@@ -2,12 +2,9 @@ package temple.edu.random.activities.account
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import temple.edu.random.Global
-import temple.edu.random.Global.Companion
-import temple.edu.random.Global.Companion.safeNotNull
+import temple.edu.random.globals.Global.Companion.safeNotNull
 
 abstract class AbstractAuthFragment: Fragment() {
 

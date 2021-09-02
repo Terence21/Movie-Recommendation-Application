@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import temple.edu.random.Global.Companion.TAG
+import temple.edu.random.globals.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.activities.account.AbstractAuthFragment
 import temple.edu.random.activities.account.authConfig.SignInHelper

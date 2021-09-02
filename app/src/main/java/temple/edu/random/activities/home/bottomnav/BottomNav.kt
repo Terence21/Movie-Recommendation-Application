@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.navigation.NavController
-import temple.edu.random.Global.Companion.TAG
+import temple.edu.random.globals.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.databinding.BottomNavigationBinding
 
