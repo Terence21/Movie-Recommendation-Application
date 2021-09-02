@@ -16,7 +16,9 @@ class MoviePreview(context: Context) : LinearLayout(context), View.OnClickListen
     private lateinit var iconListener: InfoIconFragment
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.movie_preview, this, true)
+        // attachToRoot set to false because used in onCreateViewHolder ?? or needs to be true.. test this
+        // may cause error here
+        LayoutInflater.from(context).inflate(R.layout.movie_preview, this, false)
         binding = MoviePreviewBinding.bind(this)
     }
 
@@ -24,20 +26,20 @@ class MoviePreview(context: Context) : LinearLayout(context), View.OnClickListen
         this.iconListener = infoIconFragment
     }
 
-    fun updateDirectorsText(text: String) {
+    private fun updateDirectorsText(text: String) {
         binding.moviePreviewDirectorTextView.text = text
     }
 
-    fun updateMovieTitle(text: String) {
+    private fun updateMovieTitle(text: String) {
         binding.moviePreviewTitleTextView.text = text
     }
 
     // update to emoji stars -> inclusive of half stars
-    fun updateRating(rating: Double) {
+    private fun updateRating(rating: Double) {
         binding.moviePreviewRatingTextView.text = rating.toString()
     }
 
-    fun updateImage(imageURL: String) {
+    private fun updateImage(imageURL: String) {
         Picasso.with(context).load(imageURL).into(binding.moviePreviewImageView)
     }
 
