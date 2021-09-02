@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "movie-recommendation-system"
+rootProject.name = "Zomato-Randomizer"

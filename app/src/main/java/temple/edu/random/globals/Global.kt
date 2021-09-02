@@ -10,6 +10,13 @@ class Global : Application() {
     override fun onCreate() {
         super.onCreate()
         application = this
+        movieManager.initializeLandingMovies().runCatching {
+            if (this) Log.i("MOVIES", "onCreate: COMPLETED") else Log.i(
+                "MOVIES",
+                "onCreate: FAILED"
+            )
+        }
+        Log.i("MOVIES", "onCreate: calling")
     }
 
     companion object {
@@ -35,6 +42,23 @@ class Global : Application() {
             } catch (e: Exception) {
                 Log.i(TAG, "safeNotNull: ${e.printStackTrace()}")
             }
+        }
+
+        fun tryNotError(block: () -> Unit) {
+            try {
+                block.invoke()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        fun tryNotErrorExpression(block: () -> Any): Any? {
+            try {
+                return block.invoke()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return null
         }
 
     }
