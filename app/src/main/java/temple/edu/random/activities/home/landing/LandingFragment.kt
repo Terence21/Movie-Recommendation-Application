@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import temple.edu.random.activities.home.landing.recycler.MoviePreviewAdapter
 import temple.edu.random.activities.home.movies.PreviewMovie
 import temple.edu.random.databinding.FragmentLandingBinding
+import temple.edu.random.globals.Global
 
 class LandingFragment : Fragment() {
     private lateinit var binding: FragmentLandingBinding
     private val nowPlayingMovies by lazy { listOf<PreviewMovie>() }
     private val topRatedMovies by lazy { mutableListOf<PreviewMovie>() }
     private val popularMovies by lazy { listOf<PreviewMovie>() }
+    private val movieManager by lazy { Global.application.movieManager }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -2,17 +2,23 @@ package temple.edu.random.globals
 
 import android.util.Log
 import com.google.gson.Gson
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import okhttp3.*
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import temple.edu.random.activities.home.movies.PreviewMovie
 import temple.edu.random.globals.MovieManager.MOVIES_TYPE.*
-import java.io.IOException
 
 class MovieManager : EventManager<MovieEventListener>() {
+
     private val movieListeners by lazy { mutableListOf<MovieEventListener>() }
+    private val client by lazy { OkHttpClient() }
+    val nowPlayingMovies by lazy { mutableListOf<PreviewMovie>() }
+    val topRatedMovies by lazy { mutableListOf<PreviewMovie>() }
+    val popularMovies by lazy { mutableListOf<PreviewMovie>() }
+
     lateinit var currentPreviewMovie: PreviewMovie
 
     override fun subscribeToEvent(subscriber: MovieEventListener) {
@@ -28,92 +34,113 @@ class MovieManager : EventManager<MovieEventListener>() {
         movieListeners.forEach { it.handleMovieUpdate(movie) }
     }
 
-    fun initializeLandingMovies() = runBlocking<Boolean> {
-        var result = true
-        try {
-            val nowPlayingJob = launch { initializeNowPlayingMovies() }
-            val topRatedJob = launch { initializeTopRatedMovies() }
-            val popularJob = launch { initializePopularMovies() }
-            nowPlayingJob.start()
-            topRatedJob.start()
-            popularJob.start()
-            joinAll(nowPlayingJob, topRatedJob, popularJob)
-        } catch (e: Exception){
-            e.printStackTrace()
-            result = false
-        }
-        result
+    fun initializeLandingMovies() {
+        initializeNowPlayingMovies()
+        initializeTopRatedMovies()
+        initializePopularMovies()
     }
 
-    private suspend fun initializeNowPlayingMovies() = coroutineScope {
+    private fun initializeNowPlayingMovies() {
         val url = "$BASE_MOVIE_URL${NOW_PLAYING.param}$PAGE1"
-        fetchMovieSet(url, NOW_PLAYING)
+        requestLandingPreviewMoviesList(url, NOW_PLAYING)
     }
 
-    private suspend fun initializeTopRatedMovies() = coroutineScope {
+    private fun initializeTopRatedMovies() {
         val url = "$BASE_MOVIE_URL${TOP_RATED.param}$PAGE1"
-        fetchMovieSet(url, TOP_RATED)
+        requestLandingPreviewMoviesList(url, TOP_RATED)
     }
 
-    private suspend fun initializePopularMovies() = coroutineScope {
+    private fun initializePopularMovies() {
         val url = "$BASE_MOVIE_URL${POPULAR.param}$PAGE1"
-        fetchMovieSet(url, POPULAR)
+        requestLandingPreviewMoviesList(url, POPULAR)
     }
 
-    private suspend fun fetchMovieSet(url: String, type: MOVIES_TYPE) = coroutineScope {
-        Log.i("Movies", "fetchMovieSet: running")
-        launch {
-            val client = OkHttpClient()
-            var gson = Gson()
-            val request = Request.Builder()
-                .url(url)
-                .addHeader(
-                    AUTHORIZATION,
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmU1NTRhMzBhMzRkNGJlY2FmYjZmNGY3Y2ZkNzZmYyIsInN1YiI6IjYxMmU2NzRjMjIzZTIwMDAyZmRlMDgxZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.O4SmPGWsWkF-6nr_AtEZ_DRDwCd9tvkR5V7DSC94Zoo"
-                )
-                .addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
-                .build()
-            val call = client.newCall(request)
-            call.enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
+    /**
+     * For endpoints that directly extend movies/
+     * Endpoints must have the following attributes: results -> title, vote_average, poster_path
+     *
+     */
+    private fun requestLandingPreviewMoviesList(url: String, type: MOVIES_TYPE) {
+        val request = Request.Builder()
+            .url(url)
+            .addHeader(
+                AUTHORIZATION,
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmU1NTRhMzBhMzRkNGJlY2FmYjZmNGY3Y2ZkNzZmYyIsInN1YiI6IjYxMmU2NzRjMjIzZTIwMDAyZmRlMDgxZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.O4SmPGWsWkF-6nr_AtEZ_DRDwCd9tvkR5V7DSC94Zoo"
+            )
+            .addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+            .build()
 
-                }
+        val response = client.newCall(request).execute()
+        val previewMovies = mutableListOf<PreviewMovie>()
+        // get respective response map { .. , .. , ..} => json starts as map/dict
+        var jsonMap: Map<String, Any> = HashMap<String, Any>()
+        val gson = Gson()
+        Log.i("MOVIES", "json: $response ")
 
-                override fun onResponse(call: Call, response: Response) = Global.tryNotError {
-                    var jsonMap: Map<String, Any> = HashMap<String, Any>()
-                    val gson = Gson()
-                    Log.i("MOVIES", "json: $response ")
-                    jsonMap = gson.fromJson(
-                        response.body.toString().trim(),
-                        jsonMap.javaClass
-                    ) as Map<String, Any>
-                    Log.i("MOVIES:", "onResponse: ")
-                    jsonMap.forEach {
-                        Log.i("MOVIES", "onResponse: ${it.key} : ${it.value}")
+        response.body?.let {
+            jsonMap = gson.fromJson(
+                suspendResponseBodyOutput(response),
+                jsonMap.javaClass
+            ) as Map<String, Any>
+
+            // results is an array of objects => response : [ { .. }, { .. },]
+            val results = jsonMap["results"] as ArrayList<*>
+
+            // convert each result object into a Preview Movie
+            results.forEach { resultsIndex ->
+                val entry = resultsIndex as? Map<*, *>
+                entry?.let {
+                    val movie = Global.tryNotErrorExpression {
+                        val mov = PreviewMovie(
+                            it["title"] as String,
+                            "",
+                            it["vote_average"] as Double,
+                            it["poster_path"] as String
+                        )
+                        mov
                     }
+                    movie?.let { previewMovies.add(movie) }
                 }
-            })
-        }.start()
+            }
+        }
+        setMovieType(type, previewMovies)
+
     }
 
+    private fun setMovieType(type: MOVIES_TYPE, previewMovies: MutableList<PreviewMovie>) =
+        when (type) {
+            NOW_PLAYING -> {
+                nowPlayingMovies.clear()
+                nowPlayingMovies.addAll(previewMovies)
+            }
+            TOP_RATED -> {
+                topRatedMovies.clear()
+                topRatedMovies.addAll(previewMovies)
+            }
+            POPULAR -> {
+                popularMovies.clear()
+                popularMovies.addAll(previewMovies)
+            }
+        }
 
-    interface MovieLandingUpdater {
-        fun moviesSucessfullyLoaded()
-        fun moviesFailedLoaded()
+    private fun suspendResponseBodyOutput(response: Response): String? = runBlocking {
+        withContext(Dispatchers.IO) {
+            return@withContext response.body?.string()
+        }
     }
 
     private enum class MOVIES_TYPE(val param: String) {
         NOW_PLAYING(NOW_PLAYING_PARAM), TOP_RATED(TOP_RATED_PARAM), POPULAR(POPULAR_PARAM)
     }
 
-    private companion object {
-        const val AUTHORIZATION = "Authorization"
-        const val CONTENT_TYPE = "Content-Type"
-        const val CONTENT_TYPE_VALUE = "application/json;charset=utf-8"
-        const val BASE_MOVIE_URL = "https://api.themoviedb.org/3/movie/"
-        const val NOW_PLAYING_PARAM = "now_playing"
-        const val TOP_RATED_PARAM = "top_rated"
-        const val POPULAR_PARAM = "popular"
-        const val PAGE1 = "?page=1"
+    companion object {
+        private const val AUTHORIZATION = "Authorization"
+        private const val CONTENT_TYPE = "Accept"
+        private const val CONTENT_TYPE_VALUE = "application/json"
+        private const val BASE_MOVIE_URL = "https://api.themoviedb.org/3/movie/"
+        private const val NOW_PLAYING_PARAM = "now_playing"
+        private const val TOP_RATED_PARAM = "top_rated"
+        private const val POPULAR_PARAM = "popular"
+        private const val PAGE1 = "?page=1"
     }
 }

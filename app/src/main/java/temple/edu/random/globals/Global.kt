@@ -2,21 +2,24 @@ package temple.edu.random.globals
 
 import android.app.Application
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Global : Application() {
 
-    private val movieManager: MovieManager by lazy { MovieManager() }
+    val movieManager: MovieManager = MovieManager()
 
     override fun onCreate() {
         super.onCreate()
         application = this
-        movieManager.initializeLandingMovies().runCatching {
-            if (this) Log.i("MOVIES", "onCreate: COMPLETED") else Log.i(
-                "MOVIES",
-                "onCreate: FAILED"
-            )
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i(TAG, "BEGIN REQUESTING LANDING PREVIEW MOVIES")
+            movieManager.initializeLandingMovies()
+            Log.i(TAG, "NOW PLAYING PREVIEW MOVIES: ${movieManager.nowPlayingMovies}")
+            Log.i(TAG, "TOP RATED PREVIEW MOVIES: ${movieManager.topRatedMovies}")
+            Log.i(TAG, "POPULAR PREVIEW MOVIES: ${movieManager.popularMovies}")
         }
-        Log.i("MOVIES", "onCreate: calling")
     }
 
     companion object {
@@ -52,14 +55,15 @@ class Global : Application() {
             }
         }
 
-        fun tryNotErrorExpression(block: () -> Any): Any? {
+        fun <T> tryNotErrorExpression(block: () -> T?): T? {
+            var output: T? = null
             try {
-                return block.invoke()
+                output = block.invoke()
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.i("MOVIES", "tryNotErrorExpression: failed: ${e.message}")
             }
-            return null
+            return output
         }
-
     }
 }
