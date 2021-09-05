@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zomato-Randomizer</string>
+    <string name="app_name">Movie-Suggestion-Randomizer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="client_id">811133277753-u2rbflo57k0ptrepkaj1a46ejov1r0q4.apps.googleusercontent.com</string>
