@@ -7,24 +7,36 @@
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/drawable/ic_right_triangle.xml" value="0.252" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/drawable/info_black_24dp.xml" value="0.1805" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_home.xml" value="0.1" />
-        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_login.xml" value="0.1" />
-        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_options.xml" value="0.16" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_register.xml" value="0.152" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/activity_reviews.xml" value="0.14791666666666667" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/bottom_navigation.xml" value="0.24394463667820068" />
-        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/details_view.xml" value="0.152" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_choose_restaurants.xml" value="0.12760416666666666" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_favorites.xml" value="0.16" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_find_restaraunts.xml" value="0.12760416666666666" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_home2.xml" value="0.2115036231884058" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_landing.xml" value="0.28229166666666666" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_open.xml" value="0.2" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_random_restaurants.xml" value="0.12760416666666666" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_register.xml" value="0.1" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_restaurant_content.xml" value="0.16893115942028986" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_search.xml" value="0.2" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_searched_restaurants.xml" value="0.14791666666666667" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_sign_in_splash.xml" value="0.1" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/fragment_user_restaraunts.xml" value="0.12760416666666666" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/movie_preview.xml" value="0.264" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/restaurant_view.xml" value="0.12760416666666666" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/layout/reviews_view.xml" value="0.2" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2864583333333333" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/menu/content_menu.xml" value="0.146875" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/menu/multi_tabs_toolbar.xml" value="0.146875" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/menu/refresh_menu.xml" value="0.146875" />
+        <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/menu/regular_menu.xml" value="0.146875" />
       </map>
     </option>
   </component>

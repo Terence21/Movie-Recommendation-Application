@@ -2,9 +2,6 @@
     <string name="app_name">Zomato-Randomizer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="API_KEY">
-        MnFTntDNgS4Tc11ChaXiyOWro6tm2wNp8h8KctuqooZtkvVM3cW5v9s9Bu9OfWZiUvw2_-uvhKMh2AFiiYuztU6TRyk6KezRRIUG9fFF2VhrIiiO_2hIEvKKPfPTX3Yx
-    </string>
     <string name="client_id">811133277753-u2rbflo57k0ptrepkaj1a46ejov1r0q4.apps.googleusercontent.com</string>
 
     // LOGIN
@@ -45,12 +42,12 @@
     <string name="favorite_tab_starred">starred</string>
     <string name="favorite_tab_review">review</string>
 
-   // MOVE PREVIEW
+    // MOVE PREVIEW
     <string name="movie_title_tools_text">movie title</string>
     <string name="movie_director_tools_text">date</string>
     <string name="movie_rating_tools_text">rating</string>
     <string name="movie_preview_image">MOVIE IMAGE</string>
-    
+
     // LANDING
     <string name="landing_now_playing_header">Now Playing:</string>
     <string name="landing_top_rated_header">Top Rated:</string>

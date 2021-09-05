@@ -19,14 +19,7 @@
             android:usesCleartextTraffic="true"
             android:name=".globals.Global">
         <activity
-                android:name=".activities.ReviewsActivity"
-                android:parentActivityName=".activities.OptionsActivity"
-                android:windowSoftInputMode="adjustPan"/>
-        <activity
-                android:name=".activities.OptionsActivity"
-                android:launchMode="singleTop"/>
-
-        <activity android:name=".HomeActivity"
+                android:name=".HomeActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
