@@ -41,6 +41,7 @@ class OpenFragment : Fragment(), View.OnClickListener {
         nestedNavHostFragment?.navController?.let {
             controller = it
             binding.fragmentHomeBottomNav.controller = controller
+            binding.fragmentHomeBottomNav.setCurrentMenuItem(R.id.bottom_nav_menu_landing)
         }
     }
 

@@ -8,17 +8,19 @@ import kotlinx.coroutines.launch
 
 class Global : Application() {
 
-    val movieManager: MovieManager = MovieManager()
+    val movieManager: MovieManager by lazy { MovieManager() }
 
     override fun onCreate() {
         super.onCreate()
         application = this
         CoroutineScope(Dispatchers.IO).launch {
-            Log.i(TAG, "BEGIN REQUESTING LANDING PREVIEW MOVIES")
-            movieManager.initializeLandingMovies()
-            Log.i(TAG, "NOW PLAYING PREVIEW MOVIES: ${movieManager.nowPlayingMovies}")
-            Log.i(TAG, "TOP RATED PREVIEW MOVIES: ${movieManager.topRatedMovies}")
-            Log.i(TAG, "POPULAR PREVIEW MOVIES: ${movieManager.popularMovies}")
+            with(movieManager) {
+                Log.i(TAG, "BEGIN REQUESTING LANDING PREVIEW MOVIES")
+                initializeLandingMovies()
+                Log.i(TAG, "NOW PLAYING PREVIEW MOVIES: $nowPlayingMovies")
+                Log.i(TAG, "TOP RATED PREVIEW MOVIES: $topRatedMovies")
+                Log.i(TAG, "POPULAR PREVIEW MOVIES: $popularMovies")
+            }
         }
     }
 

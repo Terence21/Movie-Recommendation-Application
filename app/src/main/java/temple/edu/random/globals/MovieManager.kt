@@ -58,7 +58,6 @@ class MovieManager : EventManager<MovieEventListener>() {
     /**
      * For endpoints that directly extend movies/
      * Endpoints must have the following attributes: results -> title, vote_average, poster_path
-     *
      */
     private fun requestLandingPreviewMoviesList(url: String, type: MOVIES_TYPE) {
         val request = Request.Builder()
@@ -93,7 +92,7 @@ class MovieManager : EventManager<MovieEventListener>() {
                     val movie = Global.tryNotErrorExpression {
                         val mov = PreviewMovie(
                             it["title"] as String,
-                            "",
+                            it["release_date"] as String,
                             it["vote_average"] as Double,
                             it["poster_path"] as String
                         )
