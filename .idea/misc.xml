@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/Movie-Suggestion-Randomizer/app/src/main/res/drawable/ic_divider.xml" value="0.2865" />
+        <entry key="..\:/Projects/Movie-Suggestion-Randomizer/app/src/main/res/layout/expanded_movie.xml" value="0.28229166666666666" />
+        <entry key="..\:/Projects/Movie-Suggestion-Randomizer/app/src/main/res/layout/fragment_landing.xml" value="0.2558876811594203" />
+        <entry key="..\:/Projects/Movie-Suggestion-Randomizer/app/src/main/res/layout/movie_preview.xml" value="0.28229166666666666" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/drawable/divider.xml" value="0.1565" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/drawable/ic_right_triangle.xml" value="0.252" />
         <entry key="..\:/Projects/Yelp-Restaurant-Randomizer/app/src/main/res/drawable/info_black_24dp.xml" value="0.1805" />

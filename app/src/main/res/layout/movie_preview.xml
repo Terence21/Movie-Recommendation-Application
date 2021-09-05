@@ -83,7 +83,7 @@
                         android:id="@+id/movie_preview_release_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="@string/movie_director_tools_text"
+                        tools:text="@string/movie_date_tools_text"
                         android:textSize="11sp"
                         android:textColor="#FFFF00"
                         android:textStyle="bold"

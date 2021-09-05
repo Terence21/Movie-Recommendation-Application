@@ -26,7 +26,7 @@ class MoviePreview(context: Context) : LinearLayout(context), View.OnClickListen
         this.iconListener = infoIconFragment
     }
 
-    fun setIconOnClickListener(onClickListener: OnClickListener) {
+    fun setIconOnClickListener(onClickListener: View.OnClickListener) {
         binding.moviePreviewInfoImage.setOnClickListener(onClickListener)
     }
 
@@ -63,6 +63,10 @@ class MoviePreview(context: Context) : LinearLayout(context), View.OnClickListen
 
     interface InfoIconFragment {
         fun launchInfoIcon()
+    }
+
+    interface BottomModalListener {
+        fun displayBottomModal(previewMovie: PreviewMovie)
     }
 
     override fun handleMovieUpdate(movie: PreviewMovie) = with(movie) {

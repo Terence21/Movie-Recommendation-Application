@@ -31,6 +31,7 @@
                     android:layout_margin="15dp" />
 
             <View
+                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_divider" />
@@ -51,6 +52,7 @@
                     android:layout_margin="15dp" />
 
             <View
+                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_divider" />

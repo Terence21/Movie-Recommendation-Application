@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import temple.edu.random.activities.home.landing.recycler.MoviePreviewAdapter
+import temple.edu.random.activities.home.movies.ExpandedMovie
+import temple.edu.random.activities.home.movies.MoviePreview
+import temple.edu.random.activities.home.movies.PreviewMovie
 import temple.edu.random.databinding.FragmentLandingBinding
 import temple.edu.random.globals.Global
 
-class LandingFragment : Fragment() {
+class LandingFragment : Fragment(), MoviePreview.BottomModalListener {
     private lateinit var binding: FragmentLandingBinding
     private val movieManager by lazy { Global.application.movieManager }
 
@@ -31,12 +34,21 @@ class LandingFragment : Fragment() {
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.landingPopularRecycler.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            binding.landingNowPlayingRecycler.adapter = MoviePreviewAdapter(nowPlayingMovies)
-            binding.landingTopRatedRecycler.adapter = MoviePreviewAdapter(topRatedMovies)
-            binding.landingPopularRecycler.adapter = MoviePreviewAdapter(popularMovies)
+            binding.landingNowPlayingRecycler.adapter =
+                MoviePreviewAdapter(nowPlayingMovies, this@LandingFragment)
+            binding.landingTopRatedRecycler.adapter =
+                MoviePreviewAdapter(topRatedMovies, this@LandingFragment)
+            binding.landingPopularRecycler.adapter =
+                MoviePreviewAdapter(popularMovies, this@LandingFragment)
         }
 
+    override fun displayBottomModal(previewMovie: PreviewMovie) {
+        val modalBottomSheet = ExpandedMovie(previewMovie)
+        modalBottomSheet.show(childFragmentManager, TAG)
+    }
+
     companion object {
+        const val TAG = "ModalBottomSheet"
 
         fun newInstance() =
             LandingFragment().apply {
