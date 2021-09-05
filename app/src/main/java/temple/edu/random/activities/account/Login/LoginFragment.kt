@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import temple.edu.random.Global.Companion.safeNotNull
+import temple.edu.random.globals.Global.Companion.safeNotNull
 import temple.edu.random.R
 import temple.edu.random.activities.account.AbstractAuthFragment
 import temple.edu.random.activities.account.authConfig.SignInHelper

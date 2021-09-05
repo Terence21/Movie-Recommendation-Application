@@ -8,9 +8,9 @@ import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.navigation.NavController
-import temple.edu.random.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.databinding.BottomNavigationBinding
+import temple.edu.random.globals.Global.Companion.TAG
 
 class BottomNavView(ctx: Context, attrs: AttributeSet?) :
     LinearLayout(ctx, attrs) {
@@ -24,6 +24,10 @@ class BottomNavView(ctx: Context, attrs: AttributeSet?) :
         binding.bottomNavigationView.menu.forEach {
             it.setOnMenuItemClickListener(menuItemClickListener)
         }
+    }
+
+    fun setCurrentMenuItem(bottomNavId: Int) {
+        binding.bottomNavigationView.selectedItemId = bottomNavId
     }
 
     private inner class MenuItemClickListener :
@@ -46,10 +50,9 @@ class BottomNavView(ctx: Context, attrs: AttributeSet?) :
                     }
                 }
             }
-            if (item != null) {
+
+            if (destination != null && !item.isChecked) {
                 item.isChecked = true
-            }
-            if (destination != null) {
                 Log.i(TAG, "onMenuItemClick: ${destination.id}")
                 controller?.navigate(destination.id)
             }

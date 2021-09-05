@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import temple.edu.random.Global.Companion.TAG
+import temple.edu.random.globals.Global.Companion.TAG
 import temple.edu.random.R
 import temple.edu.random.activities.account.authConfig.SignInHelper
 import temple.edu.random.databinding.FragmentSignInSplashBinding

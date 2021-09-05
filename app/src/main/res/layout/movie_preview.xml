@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1.0"
+        tools:parentTag="android.widget.LinearLayout"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="250dp"
+            android:weightSum="1.0"
+            android:orientation="vertical"
+            android:layout_marginEnd="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight=".95">
+
+            <ImageView
+                    android:id="@+id/movie_preview_imageView"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:contentDescription="@string/movie_preview_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                    android:id="@+id/movie_preview_info_image"
+                    android:background="#FFFFFF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:src="@drawable/info_black_24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/movie_preview_imageView"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                    android:background="@drawable/ic_right_triangle"
+                    android:layout_width="58dp"
+                    android:layout_height="54dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:id="@+id/movie_preview_50_percent_holster" />
+
+            <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="47dp"
+                    app:layout_constraintTop_toTopOf="@+id/movie_preview_50_percent_holster"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/movie_preview_50_percent_holster"
+                    app:layout_constraintStart_toStartOf="@+id/movie_preview_50_percent_holster"
+                    android:orientation="vertical"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintVertical_bias="0.72">
+
+                <TextView
+                        android:id="@+id/movie_preview_rating_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/movie_rating_tools_text"
+                        android:textColor="#FFFF00"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:textSize="11sp"
+                        android:gravity="center" />
+
+                <TextView
+                        android:id="@+id/movie_preview_release_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/movie_director_tools_text"
+                        android:textSize="11sp"
+                        android:textColor="#FFFF00"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center" />
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+                android:background="#2b2b2a"
+                android:layout_weight=".05"
+                android:id="@+id/movie_preview_title_textView"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                tools:text="@string/movie_title_tools_text"
+                android:textColor="#FFFF00"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:lines="1"
+                android:scrollbars="horizontal" />
+    </LinearLayout>
+
+
+</merge>
