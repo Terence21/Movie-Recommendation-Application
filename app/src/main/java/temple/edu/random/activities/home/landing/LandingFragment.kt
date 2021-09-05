@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import temple.edu.random.activities.home.landing.recycler.MoviePreviewAdapter
 import temple.edu.random.activities.home.movies.ExpandedMovie
+import temple.edu.random.activities.home.movies.ExpandedMovieModel
 import temple.edu.random.activities.home.movies.MoviePreview
-import temple.edu.random.activities.home.movies.PreviewMovie
 import temple.edu.random.databinding.FragmentLandingBinding
 import temple.edu.random.globals.Global
 
@@ -42,8 +42,8 @@ class LandingFragment : Fragment(), MoviePreview.BottomModalListener {
                 MoviePreviewAdapter(popularMovies, this@LandingFragment)
         }
 
-    override fun displayBottomModal(previewMovie: PreviewMovie) {
-        val modalBottomSheet = ExpandedMovie(previewMovie)
+    override fun displayBottomModal(expandedMovieModel: ExpandedMovieModel) {
+        val modalBottomSheet = ExpandedMovie(expandedMovieModel)
         modalBottomSheet.show(childFragmentManager, TAG)
     }
 

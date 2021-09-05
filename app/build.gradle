@@ -121,4 +121,7 @@ dependencies {
 
     // OKHTTP
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
+
+    // GOOGLE FLEXBOX
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

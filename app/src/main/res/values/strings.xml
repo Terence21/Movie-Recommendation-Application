@@ -58,4 +58,9 @@
     <string name="expanded_movie_director_text">director</string>
     <string name="expanded_movie_description_text">	"A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."</string>
 
+
+    // CAST MEMBER
+    <string name="cast_member_full_name_text">Last, First\nAs</string>
+    <string name="cast_member_character_name_text">FIRST LAST</string>
+
 </resources>

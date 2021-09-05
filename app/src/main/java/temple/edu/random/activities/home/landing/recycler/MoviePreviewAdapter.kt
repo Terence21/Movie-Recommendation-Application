@@ -3,6 +3,8 @@ package temple.edu.random.activities.home.landing.recycler
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import temple.edu.random.activities.home.movies.CastMemberModel
+import temple.edu.random.activities.home.movies.ExpandedMovieModel
 import temple.edu.random.activities.home.movies.MoviePreview
 import temple.edu.random.activities.home.movies.PreviewMovie
 
@@ -32,7 +34,7 @@ class MoviePreviewAdapter(
         holder.moviePreview?.let {
             it.handleMovieUpdate(dataset[position])
             it.setIconOnClickListener {
-                bottomModalListener.displayBottomModal(dataset[position])
+                bottomModalListener.displayBottomModal(ExpandedMovieModel( dataset[position], "director", "description", listOf<CastMemberModel>()))
             }
         }
     }

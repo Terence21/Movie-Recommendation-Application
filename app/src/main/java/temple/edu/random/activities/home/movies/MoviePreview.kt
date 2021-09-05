@@ -66,7 +66,7 @@ class MoviePreview(context: Context) : LinearLayout(context), View.OnClickListen
     }
 
     interface BottomModalListener {
-        fun displayBottomModal(previewMovie: PreviewMovie)
+        fun displayBottomModal(expandedMovieModel: ExpandedMovieModel)
     }
 
     override fun handleMovieUpdate(movie: PreviewMovie) = with(movie) {
