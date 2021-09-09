@@ -26,7 +26,6 @@ class ExpandedMovie(private val expandedMovieModel: ExpandedMovieModel) :
         super.onViewCreated(view, savedInstanceState)
         binding = ExpandedMovieBinding.bind(view)
         with(binding) {
-            expandedMovieDirectorTextView.text = expandedMovieModel.director
             expandedMovieTitleTextView.text = expandedMovieModel.previewMovie.title
             expandedMovieCastRecycler.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

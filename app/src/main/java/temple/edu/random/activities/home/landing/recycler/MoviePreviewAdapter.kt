@@ -34,7 +34,7 @@ class MoviePreviewAdapter(
         holder.moviePreview?.let {
             it.handleMovieUpdate(dataset[position])
             it.setIconOnClickListener {
-                bottomModalListener.displayBottomModal(ExpandedMovieModel( dataset[position], "director", "description", listOf<CastMemberModel>()))
+                bottomModalListener.displayBottomModal(dataset[position])
             }
         }
     }

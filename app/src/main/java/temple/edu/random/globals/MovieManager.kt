@@ -36,8 +36,8 @@ class MovieManager : EventManager<MovieEventListener>() {
         movieListeners.forEach { it.handleMovieUpdate(movie) }
     }
 
-    fun getExpandedMovieResponse(previewMovie: PreviewMovie, movieId: String) {
-        val url = "$BASE_MOVIE_URL$movieId"
+    fun getExpandedMovieResponse(previewMovie: PreviewMovie): ExpandedMovieModel? {
+        val url = "$BASE_MOVIE_URL${previewMovie.id}"
         val request = Request.Builder()
             .url(url)
             .addHeader(
@@ -70,8 +70,9 @@ class MovieManager : EventManager<MovieEventListener>() {
                 val genreObject = it as? Map<*, *>
                 genreObject?.let { genreName = genreObject["name"] as String }
             }
-            ExpandedMovieModel(previewMovie, description, genreName, cast)
+            return ExpandedMovieModel(previewMovie, description, genreName, cast)
         }
+        return null
     }
 
     private fun getCastMemberResponse(movieId: Int): List<CastMemberModel> {
