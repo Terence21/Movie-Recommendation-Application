@@ -29,7 +29,7 @@ class ExpandedMovie(private val expandedMovieModel: ExpandedMovieModel) :
             expandedMovieDirectorTextView.text = expandedMovieModel.director
             expandedMovieTitleTextView.text = expandedMovieModel.previewMovie.title
             expandedMovieCastRecycler.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             expandedMovieCastRecycler.adapter = CastMemberAdapter(expandedMovieModel.cast)
             expandedMovieDescriptionTextView.text = expandedMovieModel.synopsis
         }

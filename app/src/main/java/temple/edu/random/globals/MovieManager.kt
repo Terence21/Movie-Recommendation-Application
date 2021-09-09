@@ -8,6 +8,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import temple.edu.random.activities.home.movies.CastMemberModel
+import temple.edu.random.activities.home.movies.ExpandedMovieModel
 import temple.edu.random.activities.home.movies.PreviewMovie
 import temple.edu.random.globals.MovieManager.MOVIES_TYPE.*
 
@@ -32,6 +34,89 @@ class MovieManager : EventManager<MovieEventListener>() {
     fun updateCurrentPreviewMovie(movie: PreviewMovie) {
         currentPreviewMovie = movie
         movieListeners.forEach { it.handleMovieUpdate(movie) }
+    }
+
+    fun getExpandedMovieResponse(previewMovie: PreviewMovie, movieId: String) {
+        val url = "$BASE_MOVIE_URL$movieId"
+        val request = Request.Builder()
+            .url(url)
+            .addHeader(
+                AUTHORIZATION,
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmU1NTRhMzBhMzRkNGJlY2FmYjZmNGY3Y2ZkNzZmYyIsInN1YiI6IjYxMmU2NzRjMjIzZTIwMDAyZmRlMDgxZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.O4SmPGWsWkF-6nr_AtEZ_DRDwCd9tvkR5V7DSC94Zoo"
+            )
+            .addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+            .build()
+
+        val response = client.newCall(request).execute()
+        var genreName: String? = null
+        var description: String
+        var cast = listOf<CastMemberModel>()
+        // get respective response map { .. , .. , ..} => json starts as map/dict
+        var jsonMap: Map<String, Any> = HashMap<String, Any>()
+        val gson = Gson()
+        Log.i("EXPANDED MOVIES", "json: $response ")
+
+        response.body?.let {
+            jsonMap = gson.fromJson(
+                suspendResponseBodyOutput(response),
+                jsonMap.javaClass
+            ) as Map<String, Any>
+            description = jsonMap["overview"] as String
+            cast = getCastMemberResponse(previewMovie.id) // make into coroutine job??
+
+            // results is an array of objects => response : [ { .. }, { .. },]
+            val genresArray = jsonMap["genres"] as ArrayList<*>
+            genresArray[0].also {
+                val genreObject = it as? Map<*, *>
+                genreObject?.let { genreName = genreObject["name"] as String }
+            }
+            ExpandedMovieModel(previewMovie, description, genreName, cast)
+        }
+    }
+
+    private fun getCastMemberResponse(movieId: Int): List<CastMemberModel> {
+        val url = "$BASE_MOVIE_URL$movieId$CREDITS_PARAM"
+        val output = mutableListOf<CastMemberModel>()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader(
+                AUTHORIZATION,
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmU1NTRhMzBhMzRkNGJlY2FmYjZmNGY3Y2ZkNzZmYyIsInN1YiI6IjYxMmU2NzRjMjIzZTIwMDAyZmRlMDgxZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.O4SmPGWsWkF-6nr_AtEZ_DRDwCd9tvkR5V7DSC94Zoo"
+            )
+            .addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+            .build()
+        val response = client.newCall(request).execute()
+        var jsonMap: Map<String, Any> = HashMap<String, Any>()
+        val gson = Gson()
+        Log.i("CREDITS MOVIES", "json: $response ")
+        var fullName: String
+        var character: String
+        var imageUrl: String
+        response.body?.let {
+            jsonMap = gson.fromJson(
+                suspendResponseBodyOutput(response),
+                jsonMap.javaClass
+            ) as Map<String, Any>
+
+            // results is an array of objects => response : [ { .. }, { .. },]
+            val castArray = jsonMap["cast"] as ArrayList<*>
+
+            // convert each result object into a Preview Movie
+            castArray.forEach { castObject ->
+                val castMemberObject = castObject as? Map<*, *>
+                castMemberObject?.let { movie ->
+                    Global.tryNotErrorExpression {
+                        with(movie) {
+                            fullName = movie["name"] as String
+                            character = movie["character"] as String
+                            imageUrl = movie["profile_path"] as String
+                            CastMemberModel(fullName, character, imageUrl)
+                        }
+                    }?.let { output.add(it) }
+                }
+            }
+        }
+        return output
     }
 
     fun initializeLandingMovies() {
@@ -76,7 +161,7 @@ class MovieManager : EventManager<MovieEventListener>() {
         val gson = Gson()
         Log.i("MOVIES", "json: $response ")
 
-        response.body?.let {
+        response.body.let {
             jsonMap = gson.fromJson(
                 suspendResponseBodyOutput(response),
                 jsonMap.javaClass
@@ -91,6 +176,7 @@ class MovieManager : EventManager<MovieEventListener>() {
                 entry?.let {
                     val movie = Global.tryNotErrorExpression {
                         val mov = PreviewMovie(
+                            it["id"] as Int,
                             it["title"] as String,
                             it["release_date"] as String,
                             it["vote_average"] as Double,
@@ -141,5 +227,7 @@ class MovieManager : EventManager<MovieEventListener>() {
         private const val TOP_RATED_PARAM = "top_rated"
         private const val POPULAR_PARAM = "popular"
         private const val PAGE1 = "?page=1"
+        private const val CREDITS_PARAM = "/credits"
+        const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original/"
     }
 }
