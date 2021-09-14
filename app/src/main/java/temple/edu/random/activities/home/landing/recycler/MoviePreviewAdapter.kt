@@ -1,24 +1,24 @@
 package temple.edu.random.activities.home.landing.recycler
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import temple.edu.random.activities.home.movies.CastMemberModel
-import temple.edu.random.activities.home.movies.ExpandedMovieModel
-import temple.edu.random.activities.home.movies.MoviePreview
+import temple.edu.random.activities.home.movies.CurrentMoviePreview
 import temple.edu.random.activities.home.movies.PreviewMovie
 
 class MoviePreviewAdapter(
-    private val dataset: List<PreviewMovie>,
-    private val bottomModalListener: MoviePreview.BottomModalListener
+    private var dataset: List<PreviewMovie>,
+    private val bottomModalListener: CurrentMoviePreview.BottomModalListener
 ) :
     RecyclerView.Adapter<MoviePreviewAdapter.MoviePreviewViewHolder>() {
 
     class MoviePreviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var moviePreview: MoviePreview? = null
+        var moviePreview: CurrentMoviePreview? = null
 
         init {
-            (view as? MoviePreview)?.let {
+            (view as? CurrentMoviePreview)?.let {
                 moviePreview = it
             }
 
@@ -26,7 +26,7 @@ class MoviePreviewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviePreviewViewHolder {
-        val view = MoviePreview(parent.context)
+        val view = CurrentMoviePreview(parent.context)
         return MoviePreviewViewHolder(view)
     }
 
@@ -37,6 +37,13 @@ class MoviePreviewAdapter(
                 bottomModalListener.displayBottomModal(dataset[position])
             }
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun swapDataSet(dataSet: List<PreviewMovie>) {
+        Log.i("MoviePreviewAdapter", "swapDataSet: updating data")
+        dataset = dataSet
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = dataset.size

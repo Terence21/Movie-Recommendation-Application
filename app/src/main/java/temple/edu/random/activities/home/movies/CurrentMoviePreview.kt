@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import com.squareup.picasso.Picasso
 import temple.edu.random.R
 import temple.edu.random.databinding.MoviePreviewBinding
-import temple.edu.random.globals.MovieEventListener
+import temple.edu.random.globals.CurrentMovieUpdateListener
 
-class MoviePreview(context: Context) : LinearLayout(context), View.OnClickListener,
-    MovieEventListener {
+class CurrentMoviePreview(context: Context) : LinearLayout(context), View.OnClickListener,
+    CurrentMovieUpdateListener {
     private val binding: MoviePreviewBinding
     private lateinit var iconListener: InfoIconFragment
 

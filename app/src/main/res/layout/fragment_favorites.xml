@@ -15,11 +15,11 @@
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/favorite_tab_starred" />
+                android:text="@string/favorite_tab_movies" />
 
         <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/favorite_tab_review" />
+                android:text="@string/favorite_tab_collections" />
     </com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

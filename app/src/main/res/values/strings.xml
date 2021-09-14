@@ -39,8 +39,8 @@
     <string name="search_tab_random">random</string>
 
     // FAVORITES
-    <string name="favorite_tab_starred">starred</string>
-    <string name="favorite_tab_review">review</string>
+    <string name="favorite_tab_movies">Movies</string>
+    <string name="favorite_tab_collections">Collections</string>
 
     // MOVE PREVIEW
     <string name="movie_title_tools_text">movie title</string>
@@ -52,8 +52,10 @@
     <string name="landing_now_playing_header">Now Playing:</string>
     <string name="landing_top_rated_header">Top Rated:</string>
     <string name="landing_popular_header">Popular:</string>
+    <string name="landing_recently_visited_header">Recently Visited</string>
 
     // EXPANDED MOVIE
+    <string name="expanded_movie_as_prompt_text">\nAs</string>
     <string name="expanded_movie_title_text">TITLE (genre)</string>
     <string name="expanded_movie_director_text">director</string>
     <string name="expanded_movie_description_text">	"A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."</string>

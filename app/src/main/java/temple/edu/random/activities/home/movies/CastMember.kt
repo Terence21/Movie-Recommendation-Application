@@ -16,7 +16,9 @@ class CastMember(context: Context) : FlexboxLayout(context) {
     }
 
     private fun setFullNameText(full_name: String) {
-        binding.castMemberFullNameTextView.text = full_name
+        val text =
+            "$full_name${context.resources.getString(R.string.expanded_movie_as_prompt_text)}"
+        binding.castMemberFullNameTextView.text = text
     }
 
     private fun setCharacterNameText(character: String) {
@@ -31,6 +33,7 @@ class CastMember(context: Context) : FlexboxLayout(context) {
     fun handleCastMemberUpdate(castMember: CastMemberModel) = with(castMember) {
         setFullNameText(name)
         setCharacterNameText(character)
+        setCharacterProfilePhoto(imageUrl)
     }
 
 

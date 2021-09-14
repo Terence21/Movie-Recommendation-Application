@@ -4,6 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Animation.Design.BottomSheetDialog"
+        android:padding="5dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
@@ -16,6 +18,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:text="@string/expanded_movie_title_text"
                 tools:text="@string/expanded_movie_title_text" />
 
@@ -23,11 +29,11 @@
                 android:id="@+id/expanded_movie_director_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/expanded_movie_director_text"
-                tools:text="@string/expanded_movie_director_text"
+                android:layout_margin="10dp"
                 android:lines="1" />
 
         <androidx.recyclerview.widget.RecyclerView
+                android:layout_margin="10dp"
                 android:id="@+id/expanded_movie_cast_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

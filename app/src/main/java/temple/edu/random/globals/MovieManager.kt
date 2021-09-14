@@ -15,25 +15,49 @@ import temple.edu.random.globals.MovieManager.MOVIES_TYPE.*
 
 class MovieManager : EventManager<MovieEventListener>() {
 
-    private val movieListeners by lazy { mutableListOf<MovieEventListener>() }
+    private val recentMovieListeners by lazy { mutableListOf<RecentMovieListener>() }
+    private val movieListeners by lazy { mutableListOf<CurrentMovieUpdateListener>() }
     private val client by lazy { OkHttpClient() }
     val nowPlayingMovies by lazy { mutableListOf<PreviewMovie>() }
     val topRatedMovies by lazy { mutableListOf<PreviewMovie>() }
     val popularMovies by lazy { mutableListOf<PreviewMovie>() }
+    val recentMovies by lazy { mutableSetOf<PreviewMovie>() }
 
     lateinit var currentPreviewMovie: PreviewMovie
 
     override fun subscribeToEvent(subscriber: MovieEventListener) {
-        movieListeners.add(subscriber)
+        when (subscriber) {
+            is CurrentMovieUpdateListener -> movieListeners.add(subscriber)
+            is RecentMovieListener -> recentMovieListeners.add(subscriber)
+        }
     }
 
     override fun unsubscribeToEvent(unsubscriber: MovieEventListener) {
-        movieListeners.remove(unsubscriber)
+        when (unsubscriber) {
+            is CurrentMovieUpdateListener -> movieListeners.remove(unsubscriber)
+            is RecentMovieListener -> recentMovieListeners.remove(unsubscriber)
+        }
     }
 
     fun updateCurrentPreviewMovie(movie: PreviewMovie) {
         currentPreviewMovie = movie
-        movieListeners.forEach { it.handleMovieUpdate(movie) }
+        movieListeners.forEach {
+            it.handleMovieUpdate(movie)
+        }
+    }
+
+    fun updateRecentVisitedMovies(movie: PreviewMovie) {
+        recentMovies.add(movie)
+        recentMovieListeners.forEach { it.handleRecentMovies(recentMovies) }
+    }
+
+
+    enum class REQUEST_TYPE {
+        EXPANDED, PREVIEW, CAST_MEMBER
+    }
+
+    fun handleMovieResponse(requestType: REQUEST_TYPE) {
+
     }
 
     fun getExpandedMovieResponse(previewMovie: PreviewMovie): ExpandedMovieModel? {
@@ -75,7 +99,7 @@ class MovieManager : EventManager<MovieEventListener>() {
         return null
     }
 
-    private fun getCastMemberResponse(movieId: Int): List<CastMemberModel> {
+    private fun getCastMemberResponse(movieId: Double): List<CastMemberModel> {
         val url = "$BASE_MOVIE_URL$movieId$CREDITS_PARAM"
         val output = mutableListOf<CastMemberModel>()
         val request = Request.Builder()
@@ -102,8 +126,9 @@ class MovieManager : EventManager<MovieEventListener>() {
             // results is an array of objects => response : [ { .. }, { .. },]
             val castArray = jsonMap["cast"] as ArrayList<*>
 
+
             // convert each result object into a Preview Movie
-            castArray.forEach { castObject ->
+            castArray.forEachIndexed { index, castObject ->
                 val castMemberObject = castObject as? Map<*, *>
                 castMemberObject?.let { movie ->
                     Global.tryNotErrorExpression {
@@ -111,9 +136,10 @@ class MovieManager : EventManager<MovieEventListener>() {
                             fullName = movie["name"] as String
                             character = movie["character"] as String
                             imageUrl = movie["profile_path"] as String
+                            imageUrl = "https://image.tmdb.org/t/p/original$imageUrl"
                             CastMemberModel(fullName, character, imageUrl)
                         }
-                    }?.let { output.add(it) }
+                    }?.takeIf { index <= 2 }?.let { output.add(it) }
                 }
             }
         }
@@ -177,7 +203,7 @@ class MovieManager : EventManager<MovieEventListener>() {
                 entry?.let {
                     val movie = Global.tryNotErrorExpression {
                         val mov = PreviewMovie(
-                            it["id"] as Int,
+                            it["id"] as Double,
                             it["title"] as String,
                             it["release_date"] as String,
                             it["vote_average"] as Double,
